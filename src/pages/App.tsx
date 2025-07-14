@@ -1,7 +1,14 @@
+import { Route, BrowserRouter as Router, Routes } from "react-router"
+import LaunchingSoon from "./LaunchingSoon"
+
 function App() {
   return (
     <>
-      <h1>Hope Medicos</h1>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LaunchingSoon />} />
+        </Routes>
+      </Router>
     </>
   )
 }
