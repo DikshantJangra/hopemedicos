@@ -105,7 +105,7 @@ const LaunchingSoon = () => {
                   <a target="_blank" href="https://www.facebook.com/profile.php?id=61556652516460" className="transform hover:translate-y-[-12px] hover:cursor-pointer transition-all duration-500"><BsFacebook /></a>
                   <a target="_blank" href="https://x.com/HopeMedicos" className="transform hover:translate-y-[-12px] hover:cursor-pointer transition-all duration-500"><BsTwitterX /></a>
                   <a target="_blank" href="https://www.instagram.com/hope.medicos/" className="transform hover:translate-y-[-12px] hover:cursor-pointer transition-all duration-500"><BsInstagram /></a>
-                  <a target="_blank" href="https://www.instagram.com/hope.medicos/" className="transform hover:translate-y-[-12px] hover:cursor-pointer transition-all duration-500"><BsWhatsapp /></a>
+                  <a target="_blank" href="https://wa.me/919812080390?text=Hey%2C%20thanks%20for%20contacting%20Hope%20Medicos%2C%20we're%20here%20at%20your%20service..." rel="noopener noreferrer" className="transform hover:translate-y-[-12px] hover:cursor-pointer transition-all duration-500"><BsWhatsapp /></a>
                 </div>
               <p className="py-3">admin@hopemedicos.org</p>
               </div>
