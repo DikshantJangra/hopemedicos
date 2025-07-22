@@ -1,8 +1,8 @@
 // src/pages/LandingPage/Footer.tsx
 // This file contains the Footer component for the landing page.
-
 import React from 'react'; // Importing React library
 import { BsFacebook, BsTwitterX, BsInstagram, BsWhatsapp } from 'react-icons/bs'; // Importing social media icons
+import { Link } from 'react-router';
 
 // Footer component definition
 const Footer: React.FC = () => {
@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
           <h4 className="text-lg font-bold">Quick Links</h4>
           <ul className="mt-4 space-y-2">
             <li><a href="#home" className="hover:text-blue-500">Home</a></li>
-            <li><a href="/about" className="hover:text-blue-500">About Us</a></li> {/* Updated link to About Us page */}
+            <li><Link to="/about" className="hover:text-blue-500">About Us</Link></li> {/* Updated link to About Us page */}
             <li><a href="tel:+919812080390" className="hover:text-blue-500">Contact</a></li>
           </ul>
         </div>
