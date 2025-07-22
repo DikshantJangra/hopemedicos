@@ -10,8 +10,7 @@ const AboutUs: React.FC = () => {
   const founderImage = "kkj.svg"; // Placeholder for founder's image
 
   const handleGetDirections = () => {
-    const address = "NEAR SARVODAYA HOSPITAL OPP. RED CROSS DELHI ROAD, Bank Colony, Urban Estate II, Hisar, Haryana 125001";
-    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=Hope+Medicos,+opp.+Red+Cross+Delhi+Road,+Bank+Colony,+Urban+Estate+II,+Hisar,+Haryana`;
     window.open(mapsUrl, "_blank");
   };
 
