@@ -21,8 +21,8 @@ const Footer: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
         {/* Logo and contact info */}
         <div className="footer-section">
-          <div className="text-2xl font-bold">Hope Medico</div>
-          <p className="mt-4">near Sarvodaya Hospital, opp. Red Cross Delhi Road, Bank Colony, Urban Estate II, Hisar, Haryana 125001</p>
+          <div className="text-2xl font-bold">Hope Medicos</div>
+          <p className="mt-4">Near Sarvodaya Hospital, opposite Red Cross Delhi Road, Bank Colony, Urban Estate II, Hisar, Haryana 125001</p>
           <p>admin@hopemedicos.com</p>
         </div>
         {/* Quick links */}
@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
           <h4 className="text-lg font-bold">Contact Info</h4>
           <p className="mt-4">Phone: <a href="tel:+919812080390" className="hover:text-blue-500">098120 80390</a></p>
           <p>Email: admin@hopemedicos.com</p>
-          <p>Address: near Sarvodaya Hospital, opp. Red Cross Delhi Road, Bank Colony, Urban Estate II, Hisar, Haryana 125001</p>
+          <p>Address: Near Sarvodaya Hospital, opposite Red Cross Delhi Road, Bank Colony, Urban Estate II, Hisar, Haryana 125001</p>
         </div>
       </div>
       {/* Social Media Icons */}
@@ -54,7 +54,7 @@ const Footer: React.FC = () => {
       </div>
       {/* Copyright information */}
       <div className="text-center mt-8 border-t border-gray-700 pt-4">
-        <p>&copy; 2025 Hope Medico. All rights reserved.</p>
+        <p>&copy; 2025 Hope Medicos. All rights reserved.</p>
       </div>
     </footer>
   );
