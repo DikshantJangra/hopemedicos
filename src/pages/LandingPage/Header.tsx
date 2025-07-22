@@ -10,12 +10,12 @@ const Header: React.FC = () => {
   const [scrolled, setScrolled] = useState(false); // State to track scroll position
 
   // Coordinates for Hope Medicos
-  const destination = "29.141003,75.733547";
+  // const destination = "29.141003,75.733547";
 
   // Function to handle Locate Us button click
   const handleLocateClick = () => {
     // Build the Google Maps navigation URL
-    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=Hope+Medicos,+opp.+Red+Cross+Delhi+Road,+Bank+Colony,+Urban+Estate+II,+Hisar,+Haryana`;
     
     // Open it in a new tab (or app on mobile)
     window.open(mapsUrl, "_blank");
