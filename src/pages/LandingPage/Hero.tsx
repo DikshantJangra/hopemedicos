@@ -24,7 +24,7 @@ const Hero: React.FC = () => {
       </div>
       {/* Right side placeholder for image or video */}
       <div className="w-full md:w-1/2 h-96 flex justify-center items-center">
-        <img src={hmicon} alt="Hope Medico Icon" className="h-full w-full object-contain" />
+        <img src={hmicon} alt="Hope Medicos Icon" className="h-full w-full object-contain" />
       </div>
     </section>
   );

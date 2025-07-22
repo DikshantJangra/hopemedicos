@@ -10,7 +10,7 @@ const AboutUs: React.FC = () => {
   const founderImage = "kkj.svg"; // Placeholder for founder's image
 
   const handleGetDirections = () => {
-    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=Hope+Medicos,+opp.+Red+Cross+Delhi+Road,+Bank+Colony,+Urban+Estate+II,+Hisar,+Haryana`;
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=Hope+Medicoss,+opp.+Red+Cross+Delhi+Road,+Bank+Colony,+Urban+Estate+II,+Hisar,+Haryana`;
     window.open(mapsUrl, "_blank");
   };
 
@@ -28,7 +28,7 @@ const AboutUs: React.FC = () => {
       <section className="relative bg-gradient-to-r from-blue-500 to-blue-700 text-white py-20 text-center">
         <h1 className="text-5xl font-bold mb-4">Our Journey: Dedicated to Your Well-being</h1>
         <p className="text-xl max-w-3xl mx-auto mb-6">
-          At Hope Medico, we believe in a healthier tomorrow for everyone. Since our inception, we have been committed to providing premium pharmaceutical care, leveraging cutting-edge technology, and delivering compassionate service. We are more than just a pharmacy; we are your trusted partner in health and wellness.
+          At Hope Medicos, we believe in a healthier tomorrow for everyone. Since our inception, we have been committed to providing premium pharmaceutical care, leveraging cutting-edge technology, and delivering compassionate service. We are more than just a pharmacy; we are your trusted partner in health and wellness.
         </p>
         <p className="text-2xl font-semibold">Your Health, Our Hope.</p>
       </section>
@@ -85,10 +85,10 @@ const AboutUs: React.FC = () => {
             <h3 className="text-3xl font-bold">Krishan Kumar Jangra</h3>
             <p className="text-xl text-gray-700 mb-4">Founder</p>
             <blockquote className="text-lg italic text-gray-800 border-l-4 border-blue-500 pl-4 mb-4">
-              "At Hope Medico, my vision was to create a place where health is nurtured with genuine care and accessible solutions. We are committed to being more than just a pharmacy; we are a pillar of health and hope for our community."
+              "At Hope Medicos, my vision was to create a place where health is nurtured with genuine care and accessible solutions. We are committed to being more than just a pharmacy; we are a pillar of health and hope for our community."
             </blockquote>
             <p className="text-gray-600">
-              Krishan Kumar Jangra established Hope Medico with a profound commitment to revolutionizing pharmaceutical care in Hisar and beyond. His leadership has fostered a culture of excellence, innovation, and unwavering dedication to patient well-being.
+              Krishan Kumar Jangra established Hope Medicos with a profound commitment to revolutionizing pharmaceutical care in Hisar and beyond. His leadership has fostered a culture of excellence, innovation, and unwavering dedication to patient well-being.
             </p>
           </div>
         </div>
@@ -99,10 +99,10 @@ const AboutUs: React.FC = () => {
         <h2 className="text-4xl font-bold text-center mb-12">Your Local Partner in Health</h2>
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-lg text-gray-700 mb-8">
-            Strategically located at the heart of Hisar, Hope Medico is designed to be easily accessible, providing a welcoming and efficient environment for all your healthcare needs.
+            Strategically located at the heart of Hisar, Hope Medicos is designed to be easily accessible, providing a welcoming and efficient environment for all your healthcare needs.
           </p>
           <p className="text-xl font-semibold mb-4">
-            Hope Medico<br/>
+            Hope Medicos<br/>
             NEAR SARVODAYA HOSPITAL OPP. RED CROSS DELHI ROAD,<br/>
             Hisar-125001, Haryana, India
           </p>
