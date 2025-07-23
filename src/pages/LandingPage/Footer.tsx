@@ -9,14 +9,6 @@ const Footer: React.FC = () => {
   return (
     // Footer container with Tailwind CSS classes, updated background color
     <footer className="bg-black text-white p-8">
-      {/* Pre-footer call to action */}
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold">Ready to Start Your Health Journey?</h2>
-        <p className="mt-4 text-lg">Visit our store or shop online for premium pharmaceutical care</p>
-        <div className="mt-8">
-          <a href="tel:+919812080390" className="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">Call us now</a>
-        </div>
-      </div>
       {/* Main footer content */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
         {/* Logo and contact info */}

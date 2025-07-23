@@ -8,6 +8,7 @@ import { FaBars, FaTimes } from 'react-icons/fa'; // Importing icons from react-
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false); // State for hamburger menu
   const [scrolled, setScrolled] = useState(false); // State to track scroll position
+  const [activeSection, setActiveSection] = useState('home'); // State for active nav link
 
   // Coordinates for Hope Medicos
   // const destination = "29.141003,75.733547";
@@ -21,7 +22,7 @@ const Header: React.FC = () => {
     window.open(mapsUrl, "_blank");
   };
 
-  // Effect to handle scroll event for blur effect
+  // Effect to handle scroll event for blur effect and active nav link
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
@@ -30,26 +31,54 @@ const Header: React.FC = () => {
       } else {
         setScrolled(false);
       }
+      // Scrollspy logic
+      const sections = [
+        { id: 'home', offset: 0 },
+        { id: 'initiatives', offset: 0 },
+        { id: 'offers', offset: 0 },
+        { id: 'shop', offset: 0 },
+      ];
+      sections.forEach((section) => {
+        const el = document.getElementById(section.id);
+        if (el) {
+          section.offset = el.offsetTop;
+        }
+      });
+      const scrollPos = window.scrollY + 80; // 80px offset for header height
+      let current = 'home';
+      for (let i = 0; i < sections.length; i++) {
+        if (scrollPos >= sections[i].offset) {
+          current = sections[i].id;
+        }
+      }
+      setActiveSection(current);
     };
 
     window.addEventListener('scroll', handleScroll);
-
+    // Run on mount
+    handleScroll();
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   return (
-    // Header container with Tailwind CSS classes, fixed position, and conditional blur
-    <header className={`fixed top-0 left-0 w-full z-50 p-4 flex justify-between items-center transition-all duration-300 ${scrolled ? 'bg-[#F6ECDD] backdrop-blur-md bg-opacity-80 shadow-md' : 'bg-[#F6ECDD]'}`}>
+    <header
+      className={`fixed top-0 left-0 w-full z-50 px-6 py-3 flex justify-between items-center transition-all duration-300 border-b
+        ${scrolled
+          ? 'bg-white/60 backdrop-blur-md shadow-md border-[#e0d3c2]'
+          : 'bg-[#f0f6ff] border-transparent'}
+      `}
+      style={{backdropFilter: scrolled ? 'blur(12px)' : 'none'}}
+    >
       {/* Logo */}
-      <div className="text-2xl font-bold">Hope Medico</div>
+      <div className="text-2xl font-bold">Hope Medicos</div>
       {/* Desktop Navigation */}
       <nav className="hidden md:flex space-x-4">
-        <a href="#home" className="text-gray-700 hover:text-blue-500">Home</a>
-        <a href="#initiatives" className="text-gray-700 hover:text-blue-500">Initiatives</a>
-        <a href="#offers" className="text-gray-700 hover:text-blue-500">Offers</a>
-        <a href="#shop" className="text-gray-700 hover:text-blue-500">Shop Now</a>
+        <a href="#home" className={`text-gray-700 hover:text-blue-500 ${activeSection === 'home' ? 'text-blue-500' : ''}`}>Home</a>
+        <a href="#initiatives" className={`text-gray-700 hover:text-blue-500 ${activeSection === 'initiatives' ? 'text-blue-500' : ''}`}>Initiatives</a>
+        <a href="#offers" className={`text-gray-700 hover:text-blue-500 ${activeSection === 'offers' ? 'text-blue-500' : ''}`}>Offers</a>
+        <a href="#shop" className={`text-gray-700 hover:text-blue-500 ${activeSection === 'shop' ? 'text-blue-500' : ''}`}>Shop Now</a>
       </nav>
       {/* CTA Button */}
       <button onClick={handleLocateClick} className="hidden md:block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Locate Us</button>
@@ -61,11 +90,11 @@ const Header: React.FC = () => {
       </div>
       {/* Mobile Navigation */}
       {isOpen && (
-        <nav className={`absolute top-full left-0 w-full flex flex-col items-center md:hidden transition-all duration-300 ${scrolled ? 'bg-[#F6ECDD] backdrop-blur-md bg-opacity-80 shadow-md' : 'bg-[#F6ECDD]'}`}>
-          <a href="#home" className="py-2 text-gray-700 hover:text-blue-500" onClick={() => setIsOpen(false)}>Home</a>
-          <a href="#initiatives" className="py-2 text-gray-700 hover:text-blue-500" onClick={() => setIsOpen(false)}>Initiatives</a>
-          <a href="#offers" className="py-2 text-gray-700 hover:text-blue-500" onClick={() => setIsOpen(false)}>Offers</a>
-          <a href="#shop" className="py-2 text-gray-700 hover:text-blue-500" onClick={() => setIsOpen(false)}>Shop Now</a>
+        <nav className={`absolute top-full left-0 w-full flex flex-col items-center md:hidden transition-all duration-300 ${scrolled ? 'bg-white/60 backdrop-blur-md shadow-md' : 'bg-[#f0f6ff]'}`}>
+          <a href="#home" className={`py-2 text-gray-700 hover:text-blue-500 ${activeSection === 'home' ? 'text-blue-500' : ''}`} onClick={() => setIsOpen(false)}>Home</a>
+          <a href="#initiatives" className={`py-2 text-gray-700 hover:text-blue-500 ${activeSection === 'initiatives' ? 'text-blue-500' : ''}`} onClick={() => setIsOpen(false)}>Initiatives</a>
+          <a href="#offers" className={`py-2 text-gray-700 hover:text-blue-500 ${activeSection === 'offers' ? 'text-blue-500' : ''}`} onClick={() => setIsOpen(false)}>Offers</a>
+          <a href="#shop" className={`py-2 text-gray-700 hover:text-blue-500 ${activeSection === 'shop' ? 'text-blue-500' : ''}`} onClick={() => setIsOpen(false)}>Shop Now</a>
           <button onClick={handleLocateClick} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Locate Us</button>
         </nav>
       )}
