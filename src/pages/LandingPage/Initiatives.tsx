@@ -14,24 +14,56 @@ const Initiatives: React.FC = () => {
       {/* Section description */}
       <p className="mt-4 text-lg text-gray-600">Pioneering healthcare solutions for a better tomorrow.</p>
       {/* Initiatives grid */}
-      <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Community Health initiative */}
-        <div className="p-8 border rounded-lg">
-          <div className="text-4xl flex justify-center"><FaHeartbeat /></div> {/* Using FaHeartbeat icon */}
-          <h3 className="mt-4 text-2xl font-bold">Community Health</h3>
-          <p className="mt-2 text-gray-600">Focuses on health challenges and initiatives.</p>
+      <div className="mt-12 flex flex-col md:flex-row flex-wrap justify-center gap-8">
+        {/* SwasthyaSync Initiative */}
+        <div className="relative group flex flex-row items-center bg-white rounded-2xl shadow p-6 md:p-8 max-w-md w-full overflow-hidden">
+          <div className="flex-1">
+            <h3 className="font-bold text-2xl md:text-3xl mb-2 text-left">Swāsthya Sync</h3>
+            <div className="text-gray-600 text-base md:text-lg leading-tight text-left">
+              <div>A health initiative -</div>
+              <div>Launching an intelligence platform</div>
+              <div>SwasthyaSync – an initiative by Hope Medicos</div>
+              <div>To track, sync and optimise your health!</div>
+            </div>
+          </div>
+          <div className="ml-4 flex-shrink-0 flex items-center justify-center">
+            <FaHeartbeat className="text-blue-500 text-7xl drop-shadow-lg" />
+          </div>
+          {/* Hover overlay */}
+          <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 cursor-pointer">
+            <span className="text-white text-2xl font-bold mb-4">Coming soon</span>
+            <a href="https://swasthyasync.vercel.app/" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-600 font-semibold px-4 py-2 rounded shadow hover:bg-blue-600 hover:text-white transition">Visit SwasthyaSync</a>
+          </div>
         </div>
         {/* Eco-friendly initiative */}
-        <div className="p-8 border rounded-lg">
-          <div className="text-4xl flex justify-center"><FaLeaf /></div> {/* Using FaLeaf icon */}
-          <h3 className="mt-4 text-2xl font-bold">Eco-friendly</h3>
-          <p className="mt-2 text-gray-600">Suggests a commitment to sustainability and responsible practices.</p>
+        <div className="flex flex-row items-center bg-white rounded-2xl shadow p-6 md:p-8 max-w-md w-full">
+          <div className="flex-1">
+            <h3 className="font-bold text-2xl md:text-3xl mb-2 text-left">Eco-friendly</h3>
+            <div className="text-gray-600 text-base md:text-lg leading-tight text-left">
+              <div>Committed to sustainability -</div>
+              <div>Launching green pharmacy practices</div>
+              <div>Hope Medicos leads with eco-friendly initiatives</div>
+              <div>For a healthier you and a greener planet!</div>
+            </div>
+          </div>
+          <div className="ml-4 flex-shrink-0 flex items-center justify-center">
+            <FaLeaf className="text-blue-500 text-7xl drop-shadow-lg" />
+          </div>
         </div>
         {/* Education initiative */}
-        <div className="p-8 border rounded-lg">
-          <div className="text-4xl flex justify-center"><FaGraduationCap /></div> {/* Using FaGraduationCap icon */}
-          <h3 className="mt-4 text-2xl font-bold">Education</h3>
-          <p className="mt-2 text-gray-600">Implies providing health-related information or resources.</p>
+        <div className="flex flex-row items-center bg-white rounded-2xl shadow p-6 md:p-8 max-w-md w-full">
+          <div className="flex-1">
+            <h3 className="font-bold text-2xl md:text-3xl mb-2 text-left">Education</h3>
+            <div className="text-gray-600 text-base md:text-lg leading-tight text-left">
+              <div>Empowering through knowledge -</div>
+              <div>Launching health awareness programs</div>
+              <div>Hope Medicos educates for better wellness</div>
+              <div>Stay informed, stay healthy with us!</div>
+            </div>
+          </div>
+          <div className="ml-4 flex-shrink-0 flex items-center justify-center">
+            <FaGraduationCap className="text-blue-500 text-7xl drop-shadow-lg" />
+          </div>
         </div>
       </div>
     </section>

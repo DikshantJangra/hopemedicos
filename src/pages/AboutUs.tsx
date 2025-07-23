@@ -15,7 +15,7 @@ const AboutUs: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F6ECDD] pt-2">
+    <div className="min-h-screen bg-[#f0f6ff] pt-2">
       {/* Back to Home Button - Fixed on top left */}
       <div className="fixed top-4 left-4 z-50">
         <Link to="/" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Back to Home</Link>
@@ -75,7 +75,7 @@ const AboutUs: React.FC = () => {
       </section>
 
       {/* Meet Our Founder: Krishan Kumar Jangra */}
-      <section className="py-16 px-4 bg-[#F6ECDD]">
+      <section className="py-16 px-4 bg-[#f0f6ff]">
         <h2 className="text-4xl font-bold text-center mb-12">About Krishan Kumar Jangra</h2>
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center md:space-x-8">
           <div className="flex-shrink-0 mb-8 md:mb-0">
@@ -95,7 +95,7 @@ const AboutUs: React.FC = () => {
       </section>
 
       {/* Our Facility & Reach */}
-      <section className="py-16 px-4 bg-[#F6ECDD]">
+      <section className="py-16 px-4 bg-[#f0f6ff]">
         <h2 className="text-4xl font-bold text-center mb-12">Your Local Partner in Health</h2>
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-lg text-gray-700 mb-8">

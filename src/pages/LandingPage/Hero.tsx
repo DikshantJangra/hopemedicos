@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'; // Importing Link for navigation
 const Hero: React.FC = () => {
   return (
     // Hero section container with Tailwind CSS classes, updated background color and id
-    <section id="home" className="bg-[#F6ECDD] mt-4 pt-20 p-8 md:p-16 flex flex-col md:flex-row justify-between items-center">
+    <section id="home" className="bg-[#f0f6ff] mt-4 pt-20 p-8 md:p-16 flex flex-col md:flex-row justify-between items-center">
       {/* Left side content */}
       <div className="max-w-lg text-center md:text-left">
         {/* Headline */}
