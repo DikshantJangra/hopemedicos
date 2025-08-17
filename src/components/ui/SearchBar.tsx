@@ -15,7 +15,7 @@ export default function SearchBar() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<string[]>([]);
 
-  const handleChange = (e:any) => {
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
 
