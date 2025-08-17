@@ -1,5 +1,6 @@
 import Image from "next/image"
-import { AiOutlineShop } from "react-icons/ai"
+import { AiOutlineShop } from "react-icons/ai"  
+import SearchBar from "../ui/SearchBar"
 
 export default function Hope() {
     // const [imgSrc, setImgSrc] = useState("/initial.webp");
@@ -21,7 +22,9 @@ export default function Hope() {
                     <AiOutlineShop />
                     <p>Hope Medicos</p>
                 </div>
-                <p className="pt-3 text-[#1AAB86] font-black text-5xl">Search for your prescribed medicine right away -</p>
+                <p className="pt-3 text-[#1AAB86] font-black text-6xl">Search for your prescribed medicine right away -</p>
+
+                <SearchBar />
             </div>
             <div className="flex flex-col justify-end items-end">
                 {/* Radiating green circle | bg-[#0C101D]/90 */}
@@ -46,7 +49,7 @@ export default function Hope() {
                     className="w-full h-auto rounded-lg"
                     > */}
                     {/* True fallback for very old browsers */}            
-                    <Image src={'/hopemedicosshopgraphic.svg'} alt="Hope Medicos" height={510} width={510} priority={true} />
+                    <Image src={'/hopemedicosshopgraphic.svg'} alt="Hope Medicos" height={500} width={500} priority={true} />
                 {/* </video> */}
 
             </div>
