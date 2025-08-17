@@ -48,7 +48,7 @@ export default function Navbar(){
 
     
     return(
-        <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4">
+        <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 backdrop-blur-xl">
             <h1 className="text-[#1DAA85] font-bold text-3xl">hope medicos</h1>
             <div className="flex gap-8">
                 {sections.map((section, idx)=>(
