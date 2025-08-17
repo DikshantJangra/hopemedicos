@@ -1,7 +1,7 @@
 export default function ShopNow() {
     return(
-        <>
-        ShopNow
-        </>
+        <section id="shopnow" className="h-screen">
+            Shop Now
+        </section>
     )
 }

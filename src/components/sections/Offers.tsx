@@ -1,7 +1,7 @@
 export default function Offers() {
     return(
-        <>
-        Offer
-        </>
+        <section id="offers" className="h-screen">
+            Offers
+        </section>
     )
 }

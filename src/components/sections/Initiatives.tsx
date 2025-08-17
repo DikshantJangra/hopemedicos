@@ -1,7 +1,7 @@
 export default function Initiatives() {
     return(
-        <>
-        Initiative
-        </>
+        <section id="initiatives" className="h-screen">
+            Initiatives
+        </section>
     )
 }
