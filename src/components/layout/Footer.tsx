@@ -1,7 +1,7 @@
 export default function Footer(){
     return(
-        <footer>
-        Footer
+        <footer className="bg-white">
+        Footer 
         </footer>
     )
 }

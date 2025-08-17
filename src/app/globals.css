@@ -20,10 +20,11 @@
 
 body {
   background: var(--background);
+  background-color: #abecdd;
   color: var(--foreground);
   font-family: var(--font-poppins);
   margin: 0;
-  padding: 1%;
+  padding: 0;
 }
 html {
   scroll-behavior: smooth;
