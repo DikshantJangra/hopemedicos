@@ -12,6 +12,9 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Hope Medicos",
   description: "Hope Medicos - Pharmacy Store",
+  icons: {
+    icon: "/hmLogo.svg",
+  },
 };
 
 export default function RootLayout({
