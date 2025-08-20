@@ -23,7 +23,7 @@ export default function ShopNow() {
 
 			{/* Subheading */}
 			<p className="mt-3 sm:mt-4 max-w-7xl text-center text-black/70 text-lg sm:text-xl lg:text-2xl leading-7 sm:leading-8 relative z-10 px-4">
-				Whether you're a customer seeking trusted over-the-counter medicines or a business in need of reliable wholesale supply, Hope Medicos is here to serve. Quality, affordability, and care — all under one roof.
+				Whether you&apos;re a customer seeking trusted over-the-counter medicines or a business in need of reliable wholesale supply, Hope Medicos is here to serve. Quality, affordability, and care — all under one roof.
 			</p>
 
 			{/* CTAs */}

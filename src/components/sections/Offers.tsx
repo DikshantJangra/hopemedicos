@@ -1,18 +1,11 @@
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import { MdOutlineDiscount } from "react-icons/md";
-import { TbLocation } from "react-icons/tb";
 import LocateUs from "../ui/LocateUs";
 import { BsTwitterX } from "react-icons/bs";
 import { AiOutlineInstagram, AiOutlineLink, AiOutlineLinkedin, AiOutlineWhatsApp } from "react-icons/ai";
 
 export default function Offers() {
-    const handleLocateClick = () => {
-        // Build the Google Maps navigation URL
-        const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=Hope+Medicos,+opp.+Red+Cross+Delhi+Road,+Bank+Colony,+Urban+Estate+II,+Hisar,+Haryana`;
-        // Open it in a new tab (or app on mobile)
-        window.open(mapsUrl, "_blank");
-      };
     return(
         <section id="offers" className="min-h-screen bg-white relative pt-5">
             <div className="absolute flex gap-2 items-center text-black/80 py-1 px-2 bg-[#E7E7E7] rounded-lg w-fit z-20 top-6 sm:top-10 left-4 sm:left-15 text-sm sm:text-base">
@@ -53,7 +46,7 @@ export default function Offers() {
 
                 {/* Title */}
                 <div className="pt-4 sm:pt-5 pb-4 sm:pb-6 px-4 sm:px-0">
-                    <h2 className="text-center text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-[#1AAB86] font-extrabold tracking-wide px-4">THIS WEEK'S EXCLUSIVE OFFER!</h2>
+                    <h2 className="text-center text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-[#1AAB86] font-extrabold tracking-wide px-4">THIS WEEK&apos;S EXCLUSIVE OFFER!</h2>
                 </div>
 
                 {/* Content grid */}
@@ -61,10 +54,11 @@ export default function Offers() {
                     {/* Product visual */}
                     <div className="flex justify-center">
                         <div className="relative w-full max-w-[260px] sm:w-[260px] md:w-[320px] lg:w-[360px]">
-                            {/* Using a regular img so we don't need remote domain config */}
-                            <img
+                            <Image
                                 src="/egoffer.svg"
                                 alt="Beetroot face wash"
+                                width={360}
+                                height={360}
                                 className="w-full h-auto object-contain select-none"
                             />
                         </div>
