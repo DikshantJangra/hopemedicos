@@ -91,7 +91,29 @@ html {
   animation-delay: 1.5s;
 }
 
-
+.red-ripple-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background-color: #de0c0c;
+  animation: ripple-ring 2s ease-out infinite;
+  pointer-events: none;
+}
+.red-ripple-circle:nth-child(1) {
+  animation-delay: 0s;
+}
+.red-ripple-circle:nth-child(2) {
+  animation-delay: 0.5s;
+}
+.red-ripple-circle:nth-child(3) {
+  animation-delay: 1s;
+}
+.red-ripple-circle:nth-child(4) {
+  animation-delay: 1.5s;
+}
 
 /* Search bar animation */
 @layer utilities {

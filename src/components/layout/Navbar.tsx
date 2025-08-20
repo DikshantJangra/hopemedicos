@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { AiOutlineShop, AiTwotoneBulb } from "react-icons/ai";
 import { BiShoppingBag } from "react-icons/bi";
 import { MdOutlineDiscount } from "react-icons/md";
-import { TbLocation } from "react-icons/tb";
+import LocateUs from "../ui/LocateUs";
 
 export default function Navbar(){
     const sections = [
@@ -14,12 +14,6 @@ export default function Navbar(){
         {name: "Shop Now", path:"#shopnow", icon:<BiShoppingBag className="inline text-lg" />},
     ]
     const [activeSection, setActiveSection] = useState("#hope");
-    const handleLocateClick = () => {
-        // Build the Google Maps navigation URL
-        const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=Hope+Medicos,+opp.+Red+Cross+Delhi+Road,+Bank+Colony,+Urban+Estate+II,+Hisar,+Haryana`;
-        // Open it in a new tab (or app on mobile)
-        window.open(mapsUrl, "_blank");
-      };
 
     useEffect(() => {
       const observer = new IntersectionObserver(
@@ -55,7 +49,7 @@ export default function Navbar(){
                     <Link className={`${activeSection == section.path ? "text-[#1DAA85] font-semibold": "hover:text-[#1DAA85]"}`} key={idx} href={section.path}>{section.icon} {section.name}</Link>
                 ))}
             </div>
-            <button onClick={handleLocateClick} className="bg-[#838383]/8 px-3 py-2 rounded-lg cursor-pointer hover:scale-105 hover:text-[#1DAA85] hover:border-[#1DAA85] border-[#838383]/10 hover:bg-white/0 hover:font-medium border transition-all duration-400">Locate Us  <TbLocation className="inline text-lg" /></button>
+            <LocateUs />
         </nav>
     )
 }
