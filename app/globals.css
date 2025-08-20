@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary-color: #1AAB86;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+body {
+  background: var(--background);
+  background-color: #abecdd;
+  color: var(--foreground);
+  font-family: var(--font-poppins);
+  margin: 0;
+  padding: 0;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  animation: gradient 3s ease infinite;
+}
+
+
+/* Shop Open */
+@keyframes ripple-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.ripple-container {
+  position: relative;
+  width: 12px;
+  height: 12px;
+}
+
+.ripple-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background-color: #1daa84b9;
+  animation: ripple-ring 2s ease-out infinite;
+  pointer-events: none;
+}
+
+.ripple-circle:nth-child(1) {
+  animation-delay: 0s;
+}
+.ripple-circle:nth-child(2) {
+  animation-delay: 0.5s;
+}
+.ripple-circle:nth-child(3) {
+  animation-delay: 1s;
+}
+.ripple-circle:nth-child(4) {
+  animation-delay: 1.5s;
+}
+
+.red-ripple-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background-color: #de0c0c;
+  animation: ripple-ring 2s ease-out infinite;
+  pointer-events: none;
+}
+.red-ripple-circle:nth-child(1) {
+  animation-delay: 0s;
+}
+.red-ripple-circle:nth-child(2) {
+  animation-delay: 0.5s;
+}
+.red-ripple-circle:nth-child(3) {
+  animation-delay: 1s;
+}
+.red-ripple-circle:nth-child(4) {
+  animation-delay: 1.5s;
+}
+
+/* Search bar animation */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
