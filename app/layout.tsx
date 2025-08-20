@@ -15,6 +15,18 @@ export const metadata: Metadata = {
   icons: {
     icon: "/hmLogo.svg",
   },
+  openGraph: {
+    title: "Hope Medicos",
+    description: "Your trusted online pharmacy",
+    images: [
+      {
+        url: "/hmLogo.svg",
+        width: 1200,
+        height: 630,
+        alt: "Hope Medicos Preview",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
