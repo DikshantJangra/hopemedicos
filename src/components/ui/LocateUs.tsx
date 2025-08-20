@@ -8,6 +8,6 @@ export default function LocateUs(){
         window.open(mapsUrl, "_blank");
       };
     return(
-    <button onClick={handleLocateClick} className="bg-[#838383]/8 px-3 py-2 rounded-lg cursor-pointer hover:scale-105 hover:text-[#1DAA85] hover:border-[#1DAA85] border-[#838383]/10 hover:bg-white/0 hover:font-medium border transition-all duration-400">Locate Us  <TbLocation className="inline text-lg" /></button>
+    <button onClick={handleLocateClick} className="bg-[#838383]/8 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg cursor-pointer hover:scale-105 hover:text-[#1DAA85] hover:border-[#1DAA85] border-[#838383]/10 hover:bg-white/0 hover:font-medium border transition-all duration-400 text-sm sm:text-base">Locate Us  <TbLocation className="inline text-base sm:text-lg" /></button>
     )
 }

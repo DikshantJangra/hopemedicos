@@ -39,34 +39,41 @@ export default function Initiatives() {
         }
       ];
     return(
-        <section id="initiatives" className="h-screen bg-white px-6 pt-4">
-            <div className="flex gap-2 items-center text-black/80 py-1 px-2 bg-[#E7E7E7] rounded-lg w-fit">
+        <section id="initiatives" className="min-h-screen bg-white px-4 sm:px-6 pt-4">
+            <div className="flex gap-2 items-center text-black/80 py-1 px-2 bg-[#E7E7E7] rounded-lg w-fit text-sm sm:text-base">
                     <AiTwotoneBulb />
                     <p>Initiatives</p>
             </div>
-            <div className="flex justify-between items-center h-full">
+            {/* Cards container */}
+            <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start h-full gap-8 lg:gap-4 pt-10 md:pt-12 lg:pt-8">
                 {
                     hopeMedicosInitiatives.map((initiative,idx)=>(
-                        <SpotlightCard key={idx} spotlightColor = "rgba(27, 171, 133, 0.75)" className="bg-white w-110">
-                            <div className="flex justify-center items-center gap-5 pb-2">
-                                {typeof initiative.iconName == 'string'? (
-                                    <Image src={initiative.iconName} width={50} height={50} alt={initiative.title} />
-                                ):(
-                                    <span className="text-6xl text-[#1AAB86]">{initiative.iconName}</span>
-                                )}
-                                <p className="text-3xl text-[#1AAB86] font-bold">{initiative.title}</p>
-                            </div>
-                            <p className="text-xl text-center text-black/70 font-bold leading-6 border-b-1 pb-2 border-[#1BAB85]">{initiative.tagline}</p>
+                        <SpotlightCard key={idx} spotlightColor = "rgba(27, 171, 133, 0.75)" className="bg-white w-full max-w-sm lg:w-80 xl:w-110 h-[30rem]">
+                            <div className="flex flex-col justify-between h-full">
+                                <div>
+                                    <div className="flex flex-col sm:flex-row lg:flex-col justify-center items-center gap-3 sm:gap-5 pb-2">
+                                        {typeof initiative.iconName == 'string'? (
+                                            <Image src={initiative.iconName} width={50} height={50} alt={initiative.title} />
+                                        ):(
+                                            <span className="text-4xl sm:text-5xl lg:text-6xl text-[#1AAB86]">{initiative.iconName}</span>
+                                        )}
+                                        <p className="text-2xl sm:text-3xl text-[#1AAB86] font-bold text-center sm:text-left lg:text-center">{initiative.title}</p>
+                                    </div>
+                                    <p className="text-lg sm:text-xl text-center text-black/70 font-bold leading-6 border-b-1 pb-2 border-[#1BAB85]">{initiative.tagline}</p>
 
-                            <p className="text-center text-lg">
-                                <span className="text-[#1AAB86] font-bold">{initiative.initiativeType}</span> <br />
-                                <span>{initiative.description}</span>
-                            </p>
-                            <Link href={initiative.ctaLink} className="text-center block w-full bg-[#1AAB86] text-white py-2 mt-5 cursor-pointer rounded-sm">{initiative.ctaText}</Link>
+                                    <p className="text-center text-base sm:text-lg">
+                                        <span className="text-[#1AAB86] font-bold">{initiative.initiativeType}</span> <br />
+                                        <span>{initiative.description}</span>
+                                    </p>
+                                </div>
+                                <Link href={initiative.ctaLink} className="text-center block w-full bg-[#1AAB86] text-white py-2 mt-2 cursor-pointer rounded-sm text-sm sm:text-base">{initiative.ctaText}</Link>
+                            </div>
                         </SpotlightCard>
                     ))
                 }
             </div>
+            {/* Bottom tagline */}
+            <p className="text-center text-gray-600 mt-15 px-4 max-w-5xl mx-auto">We go beyond the counter — building awareness, supporting wellness, and making healthcare more accessible to all.</p>
         </section>
     )
 }
