@@ -1,8 +1,0 @@
-/* src/index.css */
-/* This file contains global styles for the application. */
-
-html {
-  scroll-behavior: smooth; /* Enables smooth scrolling for anchor links */
-}
-
-@import "tailwindcss";
