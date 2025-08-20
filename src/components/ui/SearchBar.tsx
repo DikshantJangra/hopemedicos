@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { BiSearch } from "react-icons/bi";
+import { BiSearch, BiBadgeCheck } from "react-icons/bi";
 
 const demoMeds:string[] = [
     "Paracetamol",
@@ -31,43 +31,87 @@ export default function SearchBar() {
     setResults(filtered);
   };
 
+  // Determine border color based on search state
+  const getBorderColor = () => {
+    if (!query) return "border-gray-200";
+    if (results.length > 0) return "border-[#1BAB85]";
+    return "border-[#637887]";
+  };
 
   return (
     <div className="w-full mt-5">
-      {/* Search Input */}
-      <div className="bg-white h-10 rounded-lg flex justify-start items-center gap-2 pl-4 text-black/40 border border-gray-200 shadow-sm">
-        <BiSearch className="text-2xl" />
-        <input
-          type="search"
-          value={query}
-          onChange={handleChange}
-          className="w-full h-10 pr-4 rounded-md focus:outline-none text-black placeholder:text-black/30"
-          placeholder="Search medicine availability right from your home"
-        />
-      </div>
-      
-        <div className="mt-3 space-y-3">
-            {query && results.length > 0 && (
-                <div className="flex flex-wrap gap-3">
-                    {results.map((med) => (
-                    <div
-                        key={med}
-                        className="bg-green-100 text-green-800 px-4 py-2 rounded-full shadow-sm flex items-center gap-2 cursor-pointer hover:bg-green-200 transition"
-                        title={`Check availability for ${med}`}
-                    >
-                        ✅ {med}
-                    </div>
-                    ))}
-                </div>
-                )}
-
-            {/* Message Box (conditionally rendered) */}
-            {query && results.length === 0 && (
-                <div className="mt-3 w-full bg-yellow-100 border border-yellow-300 text-yellow-800 px-5 py-4 rounded-lg text-center font-medium transition-all animate-fade-in">
-                💡 We may have it... Try <a href="#contact" className="underline font-semibold text-yellow-900">contacting us</a> to confirm availability!
-                </div>
-            )}
+      {/* Search Input with attached results */}
+      <div className={`bg-white rounded-lg border-2 ${getBorderColor()} shadow-sm overflow-hidden transition-all duration-300`}>
+        {/* Search Input */}
+        <div className="h-10 flex justify-start items-center gap-2 pl-4 text-black/40">
+          <BiSearch className="text-2xl" />
+          <input
+            type="search"
+            value={query}
+            onChange={handleChange}
+            className="w-full h-10 pr-4 focus:outline-none text-black placeholder:text-black/30"
+            placeholder="Search medicine availability right from your home"
+          />
         </div>
+        
+        {/* Results Section - attached to search bar */}
+        {query && (
+          <div className="border-t border-gray-100">
+            {/* Product Found - Green theme */}
+            {results.length > 0 && (
+              <div className="p-5">
+                <div className="flex items-center gap-3 mb-4">
+                  <BiBadgeCheck className="text-3xl text-[#1BAB85]" />
+                  <span className="text-xl font-bold text-[#1BAB85]">Found {results.length} result{results.length > 1 ? 's' : ''}</span>
+                </div>
+                <div className="space-y-4">
+                  {results.slice(0, 3).map((med) => (
+                    <div key={med} className="flex items-center justify-between p-4 bg-white rounded-lg border-2 border-[#1BAB85] shadow-sm">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-[#1BAB85] rounded-full flex items-center justify-center">
+                          <BiBadgeCheck className="text-white text-xl" />
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-bold text-[#1BAB85]">{med}</h3>
+                          <p className="text-gray-600">Medicine found. Ready when you are!</p>
+                        </div>
+                      </div>
+                      <div className="w-20 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
+                        <div className="w-16 h-10 bg-gray-400 rounded-sm relative">
+                          <div className="absolute -right-2 top-1/2 transform -translate-y-1/2 bg-blue-400 text-white text-xs px-2 py-1 rounded-r-md font-medium">
+                            {med.slice(0, 6).toUpperCase()}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Product Not Found - Gray theme */}
+            {results.length === 0 && (
+              <div className="p-5">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <p className="text-gray-800 text-lg">
+                      We may have it,{" "}
+                      <a href="#contact" className="text-[#1BAB85] underline font-semibold">
+                        try contacting us.
+                      </a>
+                    </p>
+                    <p className="text-gray-600 mt-1">Let's see what we can do to get this to you</p>
+                  </div>
+                  <div className="w-16 h-16 bg-[#637887] rounded-full flex items-center justify-center ml-4">
+                    <BiSearch className="text-2xl text-white" />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
+

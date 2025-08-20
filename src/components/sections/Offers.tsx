@@ -14,7 +14,7 @@ export default function Offers() {
         window.open(mapsUrl, "_blank");
       };
     return(
-        <section id="offers" className="h-screen bg-white relative pt-5">
+        <section id="offers" className="min-h-screen bg-white relative pt-5">
             <div className="absolute flex gap-2 items-center text-black/80 py-1 px-2 bg-[#E7E7E7] rounded-lg w-fit z-20 top-10 left-15">
                     <MdOutlineDiscount />
                     <p>Offers</p>
