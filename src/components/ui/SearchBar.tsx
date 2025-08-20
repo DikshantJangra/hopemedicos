@@ -100,7 +100,7 @@ export default function SearchBar() {
                         try contacting us.
                       </a>
                     </p>
-                    <p className="text-gray-600 mt-1 text-sm sm:text-base">Let's see what we can do to get this to you</p>
+                    <p className="text-gray-600 mt-1 text-sm sm:text-base">Let&apos;s see what we can do to get this to you</p>
                   </div>
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-[#637887] rounded-full flex items-center justify-center flex-shrink-0">
                     <BiSearch className="text-lg sm:text-2xl text-white" />

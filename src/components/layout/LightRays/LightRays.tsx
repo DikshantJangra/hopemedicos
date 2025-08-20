@@ -28,6 +28,25 @@ interface LightRaysProps {
   className?: string;
 }
 
+// Define the precise uniform set we use to avoid any
+interface Uniforms {
+  iTime: { value: number };
+  iResolution: { value: [number, number] };
+  rayPos: { value: [number, number] };
+  rayDir: { value: [number, number] };
+  raysColor: { value: [number, number, number] };
+  raysSpeed: { value: number };
+  lightSpread: { value: number };
+  rayLength: { value: number };
+  pulsating: { value: number };
+  fadeDistance: { value: number };
+  saturation: { value: number };
+  mousePos: { value: [number, number] };
+  mouseInfluence: { value: number };
+  noiseAmount: { value: number };
+  distortion: { value: number };
+}
+
 const DEFAULT_COLOR = "#ffffff";
 
 const hexToRgb = (hex: string): [number, number, number] => {
@@ -83,12 +102,12 @@ const LightRays: React.FC<LightRaysProps> = ({
   className = "",
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const uniformsRef = useRef<Record<string, any> | null>(null);
+  const uniformsRef = useRef<Uniforms | null>(null);
   const rendererRef = useRef<Renderer | null>(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const smoothMouseRef = useRef({ x: 0.5, y: 0.5 });
   const animationIdRef = useRef<number | null>(null);
-  const meshRef = useRef<{ geometry: any; program: any } | null>(null);
+  const meshRef = useRef<Mesh | null>(null);
   const cleanupFunctionRef = useRef<(() => void) | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -246,7 +265,7 @@ void main() {
   gl_FragColor  = color;
 }`;
 
-      const uniforms = {
+      const uniforms: Uniforms = {
         iTime: { value: 0 },
         iResolution: { value: [1, 1] },
 
@@ -274,7 +293,7 @@ void main() {
         uniforms,
       });
       const mesh = new Mesh(gl, { geometry, program });
-      meshRef.current = { geometry, program };
+      meshRef.current = mesh;
 
       const updatePlacement = () => {
         if (!containerRef.current || !renderer) return;
