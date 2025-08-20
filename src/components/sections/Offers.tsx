@@ -48,7 +48,7 @@ export default function Offers() {
                         ))}
                         <div className="w-3 h-3 rounded-full bg-[#ff0000]" style={{ boxShadow: "0 0 12px rgba(34, 255, 0, 0.5)" }}></div>
                     </div>
-                    <p className="font-semibold">Live Sale</p>
+                    <p className="font-semibold">Live now</p>
                 </div>
 
                 {/* Title */}
