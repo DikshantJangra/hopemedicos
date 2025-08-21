@@ -42,7 +42,7 @@ export default function Navbar(){
     
     return(
         <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 sm:px-6 py-3 sm:py-4 backdrop-blur-lg">
-            <h1 className="text-[#1DAA85] font-bold text-2xl sm:text-3xl">hope medicos</h1>
+            <h1 className="text-[#1DAA85] font-bold text-2xl sm:text-3xl">Hope Medicos</h1>
             
             {/* Desktop Navigation */}
             <div className="hidden lg:flex gap-6 xl:gap-8">

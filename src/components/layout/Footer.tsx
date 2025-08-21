@@ -12,17 +12,17 @@ const Footer = () => {
 						<div className="flex flex-col lg:flex-row justify-between items-start gap-8 sm:gap-12">
 							{/* Left - Brand and Social */}
 							<div className="w-full lg:w-auto">
-								<h3 className="text-[#1AAB86] text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-6 sm:mb-8 lg:mb-10 leading-none">hope medicos</h3>
+								<h3 className="text-[#1AAB86] text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-6 sm:mb-8 lg:mb-10 leading-none">Hope Medicos</h3>
 
 								<div className="flex items-center gap-6 sm:gap-8 mb-6 sm:mb-8 text-black">
 									{/* Social icons */}
-									<a href="https://x.com" target="_blank" rel="noopener noreferrer">
+									<a href="https://x.com/HopeMedicos" target="_blank" rel="noopener noreferrer">
 										<BsTwitterX className="w-5 h-5 sm:w-6 sm:h-6" />
 									</a>
-									<a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+									<a href="https://www.instagram.com/hope.medicos/" target="_blank" rel="noopener noreferrer">
 										<FaInstagram className="w-6 h-6 sm:w-8 sm:h-8" />
 									</a>
-									<a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+									<a href="https://www.linkedin.com/in/krishan-kumar-jangra-609ab615/" target="_blank" rel="noopener noreferrer">
 										<AiOutlineLinkedin className="w-6 h-6 sm:w-8 sm:h-8" />
 									</a>
 								</div>
