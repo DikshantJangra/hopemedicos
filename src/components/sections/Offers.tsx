@@ -56,7 +56,6 @@ export default function Offers() {
 
         try {
             const canvas = await html2canvas(offerContentRef.current);
-            const image = canvas.toDataURL('image/png');
             const offerText = "Check out this exclusive offer from Hopemedicos!"; // Customize this text
 
             switch (platform) {
@@ -132,7 +131,7 @@ export default function Offers() {
 
                         {/* Title */}
                         <div className="pt-4 sm:pt-5 pb-4 sm:pb-6 px-4 sm:px-0">
-                            <h2 className="text-center text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-[#1AAB86] font-extrabold tracking-wide px-4">THIS WEEK'S EXCLUSIVE OFFER!</h2>
+                            <h2 className="text-center text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-[#1AAB86] font-extrabold tracking-wide px-4">THIS WEEK&apos;S EXCLUSIVE OFFER!</h2>
                         </div>
 
                         {/* Content grid */}
