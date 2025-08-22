@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Hope Medicos",
-    description: "Your trusted online pharmacy",
+    description: "Your Trusted Pharmacy in Hisar",
     images: [
       {
         url: "/hmLogo.svg",
