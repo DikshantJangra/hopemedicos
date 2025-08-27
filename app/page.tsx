@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Hope Medicos - Leading Pharmacy Store in Hisar | Quality Medicines & Healthcare",
     description: "Discover Hope Medicos, the premier pharmacy store in Hisar, Haryana. We offer a wide range of medicines, healthcare products, and professional pharmaceutical services.",
-    url: 'https://hopemedicos.com',
+    url: 'https://hopemedicos.org',
     siteName: 'Hope Medicos',
     images: [
       {

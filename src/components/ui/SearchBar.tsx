@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { BiSearch, BiBadgeCheck } from "react-icons/bi";
+import Link from "next/link";
 
 const demoMeds:string[] = [
     "Paracetamol",
@@ -96,9 +97,14 @@ export default function SearchBar() {
                   <div className="flex-1 text-center sm:text-left">
                     <p className="text-gray-800 text-base sm:text-lg">
                       We may have it,{" "}
-                      <a href="#contact" className="text-[#1AAB85] underline font-semibold">
-                        try contacting us.
-                      </a>
+                      <Link 
+                        href={`https://wa.me/919812080390?text=Hello%20Hope%20Medicos%20team%2C%0A%0AI%20was%20searching%20for%20${encodeURIComponent(query)}%20on%20your%20website%20but%20couldn%27t%20find%20it.%20Could%20you%20please%20check%20if%20you%20have%20it%20available%3F%0A%0AThank%20you!`}
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-[#1AAB85] underline font-semibold"
+                      >
+                        try contacting us on WhatsApp.
+                      </Link>
                     </p>
                     <p className="text-gray-600 mt-1 text-sm sm:text-base">Let&apos;s see what we can do to get this to you</p>
                   </div>

@@ -71,6 +71,7 @@ const Footer = () => {
 											{col.links.map((link, j) => (
 												<a
 													key={j}
+													href={link.href || "#"}
 													onClick={(e) => {
 														e.preventDefault();
 														if (link.href?.startsWith("#")) {

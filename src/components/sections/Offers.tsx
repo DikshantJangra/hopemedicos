@@ -92,7 +92,14 @@ export default function Offers() {
                     <MdOutlineDiscount />
                     <p>Offers</p>
             </div>
-            <Image src={"offerBoard.svg"} alt="" height={200} width={200} className="absolute z-[1] top-0 w-32 sm:w-40 md:w-48 lg:w-52" />
+            <Image 
+                src={"offerBoard.svg"} 
+                alt="Special offers and discounts banner" 
+                height={200} 
+                width={200} 
+                priority
+                className="absolute z-[1] top-0 w-32 sm:w-40 md:w-48 lg:w-52" 
+            />
 
             {loading && <p className="text-center mt-20">Loading latest offer...</p>}
             {error && <p className="text-center mt-20 text-red-500">Error: {error}</p>}
@@ -145,6 +152,7 @@ export default function Offers() {
                                             alt={latestOffer.title}
                                             width={360}
                                             height={360}
+                                            loading="lazy"
                                             className="w-full h-auto object-contain select-none"
                                         />
                                     )}
