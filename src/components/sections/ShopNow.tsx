@@ -28,14 +28,24 @@ export default function ShopNow() {
 
 			{/* CTAs */}
 			<div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 relative z-10 px-4">
-				<a href="#footer" className="inline-flex items-center gap-1 bg-[#1AAB86] text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-base sm:text-[18px] font-semibold shadow w-full sm:w-auto justify-center">
+				<a 
+					href="https://wa.me/919812080390?text=Hello%20Hope%20Medicos%20team%2C%0A%0AI%E2%80%99m%20interested%20in%20purchasing%20medicines%20in%20wholesale.%20Could%20you%20please%20share%20the%20available%20products%2C%20pricing%2C%20and%20the%20process%20for%20placing%20a%20bulk%20order%3F%0A%0ALooking%20forward%20to%20your%20response.%20Thank%20you!" 
+					target="_blank" 
+					rel="noopener noreferrer"
+					className="inline-flex items-center gap-1 bg-[#1AAB86] text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-base sm:text-[18px] font-semibold shadow w-full sm:w-auto justify-center hover:bg-[#169a75] transition-colors"
+				>
 					<span className="text-white rounded-md p-1 sm:p-1.5">
 						<AiFillShop className="text-lg sm:text-xl" />
 					</span>
 					Wholesale Enquiries
 				</a>
 				<div className="hidden sm:block h-10 w-px bg-[#1AAB86]/50"></div>
-				<a href="#offers" className="inline-flex items-center gap-1 bg-[#1AAB86] text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-base sm:text-[18px] font-semibold shadow w-full sm:w-auto justify-center">
+				<a 
+					href="https://maps.google.com/?q=Hope+Medicos+Hisar+Haryana" 
+					target="_blank" 
+					rel="noopener noreferrer"
+					className="inline-flex items-center gap-1 bg-[#1AAB86] text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-base sm:text-[18px] font-semibold shadow w-full sm:w-auto justify-center hover:bg-[#169a75] transition-colors"
+				>
 					<span className="text-white rounded-md p-1 sm:p-1.5">
 						<CgShoppingBag className="text-lg sm:text-xl" />
 					</span>
