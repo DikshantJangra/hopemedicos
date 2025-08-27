@@ -25,7 +25,7 @@ export default function Initiatives() {
           initiativeType: 'A care initiative -',
           description: 'Health Camps by Hope Medicos. Free check-ups, doctor consultations, and awareness sessions—taking healthcare to underserved communities.',
           ctaText: 'Support Our Camps',
-          ctaLink: '/initiatives/health-camps'
+          ctaLink: 'https://wa.me/919812080390?text=Hello%20Hope%20Medicos%20team%2C%0A%0AI%E2%80%99d%20like%20to%20confirm%20the%20details%20about%20your%20upcoming%20Health%20Bootcamp.%20Could%20you%20please%20share%20the%20date%2C%20location%2C%20and%20how%20I%20can%20participate%20or%20register%3F%0A%0AThank%20you!'
         },
         {
           id: 'affordable-meds',
@@ -35,7 +35,7 @@ export default function Initiatives() {
           initiativeType: 'An access initiative -',
           description: 'Affordable Medicine Program by Hope Medicos. Genuine medicines at fair prices, with generics and discounts—so no one compromises on care.',
           ctaText: 'Start Saving on Health',
-          ctaLink: '/offers/affordable-medicines'
+          ctaLink: 'https://wa.me/919812080390?text=Hello%20Hope%20Medicos%20team%2C%0A%0AI%20wanted%20to%20ask%20if%20there%20are%20any%20current%20discounts%20or%20affordable%20options%20available%20on%20medicines.%20It%20would%20be%20really%20helpful%20if%20you%20could%20guide%20me%20with%20the%20best%20prices%20or%20ongoing%20offers.%0A%0AThank%20you'
         }
       ];
     return(

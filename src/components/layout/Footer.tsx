@@ -43,25 +43,25 @@ const Footer = () => {
 										title: "Initiatives",
 										links: [
 											{ text: "SwasthyaSync", href: "https://swasthyasync.vercel.app/" },
-											{ text: "Health Bootcamps", href: "#initiatives" },
-											{ text: "Affordable Medicines", href: "#offers" },
-											{ text: "Wholesale Medicine", href: "#initiatives" },
+											{ text: "Health Bootcamps", href: "https://wa.me/919812080390?text=Hello%20Hope%20Medicos%20team%2C%0A%0AI%E2%80%99d%20like%20to%20confirm%20the%20details%20about%20your%20upcoming%20Health%20Bootcamp.%20Could%20you%20please%20share%20the%20date%2C%20location%2C%20and%20how%20I%20can%20participate%20or%20register%3F%0A%0AThank%20you!" },
+											{ text: "Affordable Medicines", href: "https://wa.me/919812080390?text=Hello%20Hope%20Medicos%20team%2C%0A%0AI%20wanted%20to%20ask%20if%20there%20are%20any%20current%20discounts%20or%20affordable%20options%20available%20on%20medicines.%20It%20would%20be%20really%20helpful%20if%20you%20could%20guide%20me%20with%20the%20best%20prices%20or%20ongoing%20offers.%0A%0AThank%20you" },
+											{ text: "Wholesale Medicine", href: "https://wa.me/919812080390?text=Hello%20Hope%20Medicos%20team%2C%0A%0AI%E2%80%99m%20interested%20in%20purchasing%20medicines%20in%20wholesale.%20Could%20you%20please%20share%20the%20available%20products%2C%20pricing%2C%20and%20the%20process%20for%20placing%20a%20bulk%20order%3F%0A%0ALooking%20forward%20to%20your%20response.%20Thank%20you!" },
 										],
 									},
 									{
 										title: "Company",
 										links: [
-											{ text: "What We Do", href: "#hope" },
-											{ text: "Case Studies", href: "#initiatives" },
-											{ text: "Our Work", href: "#shopnow" },
-											{ text: "Career", href: "#footer" },
+											{ text: "What We Do", href: "#hope", facebookHref: "https://www.facebook.com/profile.php?id=61556652516460" },
+											{ text: "Case Studies", href: "#initiatives", facebookHref: "https://www.facebook.com/profile.php?id=61556652516460" },
+											{ text: "Our Work", href: "#shopnow", facebookHref: "https://www.facebook.com/profile.php?id=61556652516460" },
+											{ text: "Career", href: "https://wa.me/919812080390?text=Hello%20Hope%20Medicos%20team%2C%0A%0AI%E2%80%99m%20interested%20in%20working%20with%20your%20pharmacy.%20Please%20let%20me%20know%20if%20there%20are%20any%20job%20openings%20or%20opportunities%20available.%20I%E2%80%99d%20be%20happy%20to%20share%20my%20details%20and%20resume.%0A%0ALooking%20forward%20to%20hearing%20from%20you.%0A%0AThank%20you!" },
 										],
 									},
 									{
 										title: "Contact",
 										links: [
-											{ text: "Book a Call", href: "#footer" },
-											{ text: "Contact Support", href: "#footer" },
+											{ text: "Book a Call", href: "tel:+919812080390" },
+											{ text: "Contact Support", href: "https://wa.me/919812080390?text=Hi%2C%20I%20need%20some%20help%20regarding%20your%20service.%20Could%20you%20please%20assist%20me%3F%20Thanks!" },
 										],
 									},
 								].map((col, i) => (
@@ -80,6 +80,9 @@ const Footer = () => {
 															}
 														} else if (link.href) {
 															window.open(link.href, "_blank", "noopener,noreferrer");
+														}
+														if (link.facebookHref) {
+															window.open(link.facebookHref, "_blank", "noopener,noreferrer");
 														}
 													}}
 													className="block text-black/70 text-base sm:text-[18px] hover:text-[#1AAB86] transition-colors cursor-pointer"

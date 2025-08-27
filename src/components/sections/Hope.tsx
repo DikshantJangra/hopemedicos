@@ -49,7 +49,7 @@ export default function Hope() {
                     className="w-full h-auto rounded-lg"
                     > */}
                     {/* True fallback for very old browsers */}            
-                    <Image src={'/hopemedicosshopgraphic.svg'} alt="Hope Medicos" height={500} width={500} priority={true} className="w-full max-w-sm md:max-w-md lg:max-w-md xl:max-w-lg 2xl:max-w-xl" />
+                    <Image src={'/hopemedicosshopgraphic.svg'} alt="Hope Medicos" height={500} width={500} className="w-full max-w-sm md:max-w-md lg:max-w-md xl:max-w-lg 2xl:max-w-xl" />
                 {/* </video> */}
 
             </div>
