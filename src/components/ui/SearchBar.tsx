@@ -39,8 +39,8 @@ export default function SearchBar() {
         if (supaError) throw supaError;
         setResults(data ?? []);
         setHasSearched(true);
-      } catch (err:any) {
-        setError(err.message ?? "Failed to fetch medicines");
+      } catch (err:unknown) {
+        setError(err instanceof Error ? err.message : "Failed to fetch medicines");
         setResults([]);
         setHasSearched(true);
       } finally {

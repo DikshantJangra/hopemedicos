@@ -1,4 +1,5 @@
-import Image from "next/image";
+// production error tahts why commented!
+// import Image from "next/image";
 import { AiOutlineShop, AiOutlineMedicineBox, AiOutlineTeam, AiOutlineHeart } from "react-icons/ai";
 import { MdOutlineLocalPharmacy, MdOutlineHealthAndSafety } from "react-icons/md";
 import { BiSupport } from "react-icons/bi";

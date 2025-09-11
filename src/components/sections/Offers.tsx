@@ -6,7 +6,7 @@ import { MdOutlineDiscount } from "react-icons/md";
 import LocateUs from "../ui/LocateUs";
 import { BsTwitterX } from "react-icons/bs";
 import { AiOutlineInstagram, AiOutlineLink, AiOutlineLinkedin, AiOutlineWhatsApp } from "react-icons/ai";
-import html2canvas from 'html2canvas';
+// import html2canvas from 'html2canvas';
 import { useRef, useCallback, useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase'; // Adjust path if necessary
 
@@ -55,7 +55,8 @@ export default function Offers() {
         }
 
         try {
-            const canvas = await html2canvas(offerContentRef.current);
+            // production error tahts why commented!
+            // const canvas = await html2canvas(offerContentRef.current);
             const offerText = "Check out this exclusive offer from Hopemedicos!"; // Customize this text
 
             switch (platform) {
