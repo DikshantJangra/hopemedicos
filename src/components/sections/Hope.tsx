@@ -55,6 +55,7 @@ export default function Hope() {
                         height={500} 
                         width={500} 
                         priority
+                        unoptimized={true}
                         className="w-full max-w-sm md:max-w-md lg:max-w-md xl:max-w-lg 2xl:max-w-lg" 
                     />
                 {/* </video> */}

@@ -6,9 +6,9 @@ import Footer from "@/components/layout/Footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Hope Medicos - Your Trusted Pharmacy Store in Hisar",
-  description: "Hope Medicos is a leading pharmacy store in Hisar, Haryana. We provide quality medicines, healthcare products, and professional pharmaceutical services. Visit us for all your healthcare needs.",
-  keywords: "hope,pharmacy, medicines, healthcare, Hisar, Haryana, Hope Medicos, pharmaceutical store, medical supplies",
+  title: "Hope Medicos - फ़िक्र आपकी",
+  description: "Hope medicos - Your Trusted Pharmacy Store in Hisar. We provide quality medicines, healthcare products, and professional pharmaceutical services. Visit us for all your healthcare needs",
+  keywords: "hope,pharmacy, medicines, healthcare, Hisar, Haryana, Hope Medicos, pharmaceutical store, medical supplies, hindi pharmacy, local pharmacy",
   authors: [{ name: "Hope Medicos" }],
   creator: "Hope Medicos",
   publisher: "Hope Medicos",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://hopemedicos.com'),
+  metadataBase: new URL('https://hopemedicos.org'),
   alternates: {
     canonical: '/',
   },
@@ -40,13 +40,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://hopemedicos.com',
+    url: 'https://hopemedicos.org',
     siteName: 'Hope Medicos',
-    title: "Hope Medicos - Your Trusted Pharmacy Store in Hisar",
-    description: "Hope Medicos is a leading pharmacy store in Hisar, Haryana. We provide quality medicines, healthcare products, and professional pharmaceutical services.",
+    title: "Hope Medicos - फ़िक्र आपकी",
+    description: "Hope medicos - Your Trusted Pharmacy Store in Hisar. We provide quality medicines, healthcare products, and professional pharmaceutical services. Visit us for all your healthcare needs",
     images: [
       {
-        url: "/hmLogo.svg",
+        url: "https://hopemedicos.org/hmLogo.svg",
         width: 1200,
         height: 630,
         alt: "Hope Medicos - Pharmacy Store",
@@ -55,15 +55,21 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Hope Medicos - Your Trusted Pharmacy Store in Hisar",
-    description: "Hope Medicos is a leading pharmacy store in Hisar, Haryana. We provide quality medicines, healthcare products, and professional pharmaceutical services.",
-    images: ['/hmLogo.svg'],
+    title: "Hope Medicos - फ़िक्र आपकी",
+    description: "Hope medicos - Your Trusted Pharmacy Store in Hisar. We provide quality medicines, healthcare products, and professional pharmaceutical services. Visit us for all your healthcare needs",
+    images: ['https://hopemedicos.org/hmLogo.svg'],
     creator: '@hopemedicos',
   },
   verification: {
     google: 'your-google-verification-code',
     yandex: 'your-yandex-verification-code',
     yahoo: 'your-yahoo-verification-code',
+  },
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Hope Medicos',
   },
 };
 
@@ -83,9 +89,9 @@ export default function RootLayout({
     "@type": "Pharmacy",
     "name": "Hope Medicos",
     "description": "Leading pharmacy store in Hisar, Haryana providing quality medicines and healthcare products",
-    "url": "https://hopemedicos.com",
-    "logo": "https://hopemedicos.com/hmLogo.svg",
-    "image": "https://hopemedicos.com/hmLogo.svg",
+    "url": "https://hopemedicos.org",
+    "logo": "https://hopemedicos.org/hmLogo.svg",
+    "image": "https://hopemedicos.org/hmLogo.svg",
     "telephone": "+91-XXXXXXXXXX",
     "address": {
       "@type": "PostalAddress",
@@ -131,23 +137,11 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <head>
+      <body className={`${poppins.variable} antialiased`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#1AAB86" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Hope Medicos" />
-        <meta name="msapplication-TileColor" content="#1AAB86" />
-        <meta name="msapplication-config" content="/browserconfig.xml" />
-        <link rel="apple-touch-icon" href="/hmLogo.svg" />
-        <link rel="icon" type="image/svg+xml" href="/hmLogo.svg" />
-        <link rel="canonical" href="https://hopemedicos.com" />
-      </head>
-      <body className={`${poppins.variable} antialiased`}>
         <Navbar />
         <main>
           {children}
