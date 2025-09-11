@@ -28,7 +28,7 @@ export default function Hope() {
             </div>
             <div className="relative z-0 flex flex-col justify-end items-center lg:items-end mt-10 sm:mt-12 lg:mt-15">
                 {/* Radiating green circle | bg-[#0C101D]/90 */}
-                <div className="bg-white/40 px-4 sm:px-6 py-2 rounded-xl flex items-center space-x-3 relative pointer-events-auto lg:mr-50 mt-2 sm:mt-4">
+                <div className="bg-white/40 px-4 sm:px-6 py-2 rounded-xl flex items-center space-x-3 relative pointer-events-auto lg:mr-50 mt-2 sm:mt-4 mr-18">
                     <div className="ripple-container mr-3 sm:mr-5">
                     {[...Array(4)].map((_, i) => (
                         <div key={i} className="ripple-circle" />
