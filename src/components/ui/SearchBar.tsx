@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { BiSearch, BiBadgeCheck } from "react-icons/bi";
 import Link from "next/link";
-import { supabase } from "@/utils/supabase";
+import { collection, query as firestoreQuery, where, limit, getDocs } from 'firebase/firestore';
+import { db } from '@/utils/firebase';
 
 type Medicine = {
   id: string;
@@ -13,13 +14,13 @@ type Medicine = {
 };
 
 export default function SearchBar() {
-  const [query, setQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState<Medicine[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
 
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(searchQuery, 300);
 
   useEffect(() => {
     const run = async () => {
@@ -31,13 +32,25 @@ export default function SearchBar() {
       }
       setIsLoading(true);
       try {
-        const { data, error: supaError } = await supabase
-          .from("medicines")
-          .select("id,name,manufacturer,strength,dosage_form")
-          .ilike("name", `%${debouncedQuery}%`)
-          .limit(10);
-        if (supaError) throw supaError;
-        setResults(data ?? []);
+        const medicinesRef = collection(db, 'medicines');
+        const medicinesQuery = firestoreQuery(
+          medicinesRef,
+          where('name', '>=', debouncedQuery),
+          where('name', '<=', debouncedQuery + '\uf8ff'),
+          limit(10)
+        );
+        const querySnapshot = await getDocs(medicinesQuery);
+        const data: Medicine[] = querySnapshot.docs.map(doc => {
+          const docData = doc.data() as Record<string, any>;
+          return {
+            id: doc.id,
+            name: docData.name || '',
+            manufacturer: docData.manufacturer || null,
+            strength: docData.strength || null,
+            dosage_form: docData.dosage_form || null,
+          };
+        });
+        setResults(data);
         setHasSearched(true);
       } catch (err:unknown) {
         setError(err instanceof Error ? err.message : "Failed to fetch medicines");
@@ -52,7 +65,7 @@ export default function SearchBar() {
 
   const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setQuery(value);
+    setSearchQuery(value);
     if (!value.trim()) {
       setResults([]);
       setHasSearched(false);
@@ -60,7 +73,7 @@ export default function SearchBar() {
   };
 
   const getBorderColor = () => {
-    if (!query) return "border-gray-200";
+    if (!searchQuery) return "border-gray-200";
     if (isLoading) return "border-[#1BAB85]";
     if (results.length > 0) return "border-[#1BAB85]";
     return "border-[#637887]";
@@ -73,14 +86,14 @@ export default function SearchBar() {
           <BiSearch className="text-xl sm:text-2xl" />
           <input
             type="search"
-            value={query}
+            value={searchQuery}
             onChange={handleChange}
             className="w-full h-10 pr-3 sm:pr-4 focus:outline-none text-black placeholder:text-black/30 text-sm sm:text-base"
             placeholder="Search medicine availability right from your home"
           />
         </div>
         
-        {query && (
+        {searchQuery && (
           <div className="border-t border-gray-100">
             {isLoading && (
               <div className="p-3 sm:p-4 lg:p-5 text-sm text-gray-600">Searching…</div>
@@ -128,7 +141,7 @@ export default function SearchBar() {
                     <p className="text-gray-800 text-base sm:text-lg">
                       We may have it,{" "}
                       <Link 
-                        href={`https://wa.me/919812080390?text=Hello%20Hope%20Medicos%20team%2C%0A%0AI%20was%20searching%20for%20${encodeURIComponent(query)}%20on%20your%20website%20but%20couldn%27t%20find%20it.%20Could%20you%20please%20check%20if%20you%20have%20it%20available%3F%0A%0AThank%20you!`}
+                        href={`https://wa.me/919812080390?text=Hello%20Hope%20Medicos%20team%2C%0A%0AI%20was%20searching%20for%20${encodeURIComponent(searchQuery)}%20on%20your%20website%20but%20couldn%27t%20find%20it.%20Could%20you%20please%20check%20if%20you%20have%20it%20available%3F%0A%0AThank%20you!`}
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="text-[#1AAB85] underline font-semibold"

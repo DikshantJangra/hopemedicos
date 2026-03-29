@@ -41,6 +41,18 @@ export default function ShopNow() {
 				</a>
 				<div className="hidden sm:block h-10 w-px bg-[#1AAB86]/50"></div>
 				<a 
+					href="https://shop.hopemedicos.org" 
+					target="_blank" 
+					rel="noopener noreferrer"
+					className="inline-flex items-center gap-1 bg-[#1AAB86] text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-base sm:text-[18px] font-semibold shadow w-full sm:w-auto justify-center hover:bg-[#169a75] transition-colors"
+				>
+					<span className="text-white rounded-md p-1 sm:p-1.5">
+						<CgShoppingBag className="text-lg sm:text-xl" />
+					</span>
+					Shop Online
+				</a>
+				<div className="hidden sm:block h-10 w-px bg-[#1AAB86]/50"></div>
+				<a 
 					href="https://maps.google.com/?q=Hope+Medicos+Hisar+Haryana" 
 					target="_blank" 
 					rel="noopener noreferrer"

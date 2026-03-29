@@ -8,7 +8,8 @@ import { BsTwitterX } from "react-icons/bs";
 import { AiOutlineInstagram, AiOutlineLink, AiOutlineLinkedin, AiOutlineWhatsApp } from "react-icons/ai";
 // import html2canvas from 'html2canvas';
 import { useRef, useCallback, useState, useEffect } from 'react';
-import { supabase } from '@/utils/supabase'; // Adjust path if necessary
+import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
+import { db } from '@/utils/firebase';
 
 interface Offer {
     id: string;
@@ -30,19 +31,36 @@ export default function Offers() {
         const fetchOffers = async () => {
             setLoading(true);
             setError(null);
-            const { data, error } = await supabase
-                .from('offers')
-                .select('*')
-                .order('created_at', { ascending: false }) // Fetch latest offer
-                .limit(1); // Get only the latest one
-
-            if (error) {
+            
+            try {
+                const offersRef = collection(db, 'offers');
+                const offersQuery = query(
+                    offersRef,
+                    orderBy('created_at', 'desc'),
+                    limit(1)
+                );
+                
+                const querySnapshot = await getDocs(offersQuery);
+                const data: Offer[] = querySnapshot.docs.map(doc => {
+                    const docData = doc.data() as Record<string, any>;
+                    return {
+                        id: doc.id,
+                        title: docData.title || '',
+                        description: docData.description || '',
+                        image_url: docData.image_url || '',
+                        created_at: docData.created_at || '',
+                        price: docData.price,
+                        discounted_price: docData.discounted_price,
+                    };
+                });
+                
+                setOffers(data);
+            } catch (error: any) {
                 console.error("Error fetching offers:", error);
-                setError(error.message);
-            } else {
-                setOffers(data || []);
+                setError(error.message || "Failed to fetch offers");
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         };
 
         fetchOffers();
