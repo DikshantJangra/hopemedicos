@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useWebsiteData } from "@/context/WebsiteDataContext";
 
 export default function Initiatives() {
-    const { initiatives, texts, loading } = useWebsiteData();
+    const { texts, loading } = useWebsiteData();
 
     // Mapping string icon names to React components
     const getIconComponent = (iconName: string) => {
@@ -25,8 +25,42 @@ export default function Initiatives() {
 
     if (loading) return null;
 
-    // Use fetched initiatives or fallback to empty array
-    const displayedInitiatives = initiatives && initiatives.length > 0 ? initiatives : [];
+    // Default hardcoded initiatives
+    const defaultInitiatives = [
+        {
+            id: '1',
+            title: 'Health Camps',
+            tagline: 'Free health checkups for all',
+            initiativeType: 'Community Service',
+            description: 'Regular health camps providing free checkups, consultations, and basic medicines to underserved communities.',
+            ctaText: 'Learn More',
+            ctaLink: '#initiatives',
+            iconType: 'icon',
+            iconValue: 'MdHealthAndSafety'
+        },
+        {
+            id: '2',
+            title: 'Medicine Donation',
+            tagline: 'Supporting those in need',
+            initiativeType: 'Social Welfare',
+            description: 'Providing essential medicines to economically disadvantaged patients and supporting healthcare accessibility.',
+            ctaText: 'Contribute',
+            ctaLink: '#initiatives',
+            iconType: 'icon',
+            iconValue: 'GiMedicines'
+        },
+        {
+            id: '3',
+            title: 'Awareness Programs',
+            tagline: 'Educating for better health',
+            initiativeType: 'Health Education',
+            description: 'Conducting awareness sessions on preventive healthcare, disease management, and healthy lifestyle practices.',
+            ctaText: 'Join Us',
+            ctaLink: '#initiatives',
+            iconType: 'icon',
+            iconValue: 'MdCampaign'
+        }
+    ];
 
     return(
         <section id="initiatives" className="min-h-screen bg-white px-4 sm:px-6 pt-4">
@@ -37,7 +71,7 @@ export default function Initiatives() {
             {/* Cards container */}
             <div className="flex flex-col lg:flex-row justify-center items-center lg:items-start h-full gap-8 lg:gap-4 pt-10 md:pt-12 lg:pt-8">
                 {
-                    displayedInitiatives.map((initiative, idx)=>(
+                    defaultInitiatives.map((initiative, idx)=>(
                         <SpotlightCard key={idx} spotlightColor = "rgba(245, 133, 24, 0.75)" className="bg-white w-full max-w-sm lg:w-80 xl:w-110 h-[32rem]">
                             <div className="flex flex-col justify-between h-full">
                                 <div>
@@ -79,13 +113,6 @@ export default function Initiatives() {
                 }
             </div>
             
-            {/* Fallback if no initiatives are found in DB yet */}
-            {displayedInitiatives.length === 0 && (
-                <div className="text-center py-20 text-gray-400">
-                    <p>Add initiatives in the admin panel to display them here.</p>
-                </div>
-            )}
-
             {/* Bottom tagline */}
             <p className="text-center text-gray-600 mt-15 px-4 max-w-5xl mx-auto">
                 We go beyond the counter — building awareness, supporting wellness, and making healthcare more accessible to all.

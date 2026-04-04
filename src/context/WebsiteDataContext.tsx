@@ -45,7 +45,15 @@ export const WebsiteDataProvider = ({ children }: { children: React.ReactNode })
   useEffect(() => {
     const loadData = async () => {
       try {
+        console.log('🔄 WebsiteDataContext - Starting to fetch data...');
         const websiteData = await fetchWebsiteData();
+        console.log('✅ WebsiteDataContext - Data fetched:', websiteData);
+        console.log('📦 offerProducts:', websiteData.offerProducts);
+        console.log('📰 blogs:', websiteData.blogs);
+        console.log('🎯 initiatives:', websiteData.initiatives);
+        console.log('🎨 theme:', websiteData.theme);
+        console.log('📝 texts:', websiteData.texts);
+        
         setData({
           ...websiteData,
           loading: false,
@@ -67,7 +75,7 @@ export const WebsiteDataProvider = ({ children }: { children: React.ReactNode })
           if (websiteData.theme.backgroundColor) root.style.setProperty('--brand-light', websiteData.theme.backgroundColor);
         }
       } catch (error) {
-        console.error('Failed to load website data:', error);
+        console.error('❌ Failed to load website data:', error);
         setData(prev => ({ ...prev, loading: false }));
       }
     };

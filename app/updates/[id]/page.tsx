@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Blog, fetchBlogById } from "@/utils/websiteData";
 import { useParams } from "next/navigation";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 export default function UpdateDetailPage() {
     const params = useParams();
@@ -132,12 +134,23 @@ export default function UpdateDetailPage() {
                 <div 
                     className="prose prose-lg max-w-none
                         prose-headings:text-gray-900 prose-headings:font-black prose-headings:tracking-tight
-                        prose-p:text-gray-600 prose-p:leading-[1.8] prose-p:mb-8
-                        prose-li:text-gray-600
+                        prose-h1:text-4xl prose-h1:mb-6
+                        prose-h2:text-3xl prose-h2:mb-4 prose-h2:mt-12
+                        prose-h3:text-2xl prose-h3:mb-3 prose-h3:mt-8
+                        prose-p:text-gray-600 prose-p:leading-[1.8] prose-p:mb-6
+                        prose-ul:my-6 prose-ul:list-disc prose-ul:pl-6
+                        prose-ol:my-6 prose-ol:list-decimal prose-ol:pl-6
+                        prose-li:text-gray-600 prose-li:mb-2
                         prose-strong:text-gray-900 prose-strong:font-bold
-                        prose-img:rounded-2xl"
-                    dangerouslySetInnerHTML={{ __html: blog.content }}
-                />
+                        prose-a:text-brand prose-a:font-semibold prose-a:no-underline hover:prose-a:underline
+                        prose-blockquote:border-l-4 prose-blockquote:border-brand prose-blockquote:pl-4 prose-blockquote:italic
+                        prose-code:text-brand prose-code:bg-brand-soft prose-code:px-1 prose-code:py-0.5 prose-code:rounded
+                        prose-img:rounded-2xl prose-img:shadow-lg"
+                >
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {blog.content}
+                    </ReactMarkdown>
+                </div>
 
                 {/* Tags */}
                 {blog.tags && blog.tags.length > 0 && (

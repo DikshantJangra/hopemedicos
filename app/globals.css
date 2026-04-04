@@ -168,6 +168,22 @@ html {
     }
   }
 
+  /* Subtle pulse animation for special offer badge */
+  .animate-pulse-subtle {
+    animation: pulseSubtle 2s ease-in-out infinite;
+  }
+
+  @keyframes pulseSubtle {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+      transform: scale(1.02);
+      box-shadow: 0 20px 25px -5px rgba(245, 133, 24, 0.2);
+    }
+  }
+
   /* Custom scrollbar for chat and sections */
   .custom-scrollbar::-webkit-scrollbar {
     width: 5px;

@@ -15,7 +15,13 @@ export default function ChatButton({ onClick, isOpen, unreadCount = 0 }: ChatBut
   const [isHovered, setIsHovered] = useState(false);
   const { aiSettings, shopSettings, loading } = useWebsiteData();
 
-  if (loading || aiSettings.enabled === false) return null;
+  if (loading) {
+    return (
+      <div className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gray-200 rounded-full animate-pulse shadow-md" />
+    );
+  }
+
+  if (aiSettings.enabled === false) return null;
 
   return (
     <button

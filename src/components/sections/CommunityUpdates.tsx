@@ -5,10 +5,6 @@ import { HiOutlineUser, HiOutlineCalendar } from "react-icons/hi";
 import SpotlightCard from "../layout/SpotlightCard/SpotlightCard";
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from 'react';
-import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
-import { db } from '@/utils/firebase';
-
 import { useWebsiteData } from "@/context/WebsiteDataContext";
 
 export default function CommunityUpdates() {
@@ -31,8 +27,29 @@ export default function CommunityUpdates() {
                     <FaNewspaper className="text-brand" />
                     <span>Community Updates</span>
                 </div>
-                <div className="text-center py-20">
-                    <p className="text-gray-500">Loading updates...</p>
+                <div className="mb-10">
+                    <div className="h-10 w-64 bg-gray-200 rounded-lg animate-pulse mb-3" />
+                    <div className="h-6 w-96 bg-gray-200 rounded-lg animate-pulse" />
+                </div>
+                {/* Shimmer Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+                            <div className="aspect-video bg-gray-200 animate-pulse" />
+                            <div className="p-5 space-y-3">
+                                <div className="h-4 w-32 bg-gray-200 rounded animate-pulse" />
+                                <div className="h-6 w-full bg-gray-200 rounded animate-pulse" />
+                                <div className="h-4 w-3/4 bg-gray-200 rounded animate-pulse" />
+                                <div className="h-4 w-full bg-gray-200 rounded animate-pulse" />
+                                {/* Shimmer tags */}
+                                <div className="flex gap-2">
+                                    <div className="h-6 w-16 bg-gray-200 rounded-full animate-pulse" />
+                                    <div className="h-6 w-20 bg-gray-200 rounded-full animate-pulse" />
+                                    <div className="h-6 w-14 bg-gray-200 rounded-full animate-pulse" />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </section>
         );
@@ -64,7 +81,7 @@ export default function CommunityUpdates() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {blogs.map((blog, idx) => (
                             <SpotlightCard 
-                                key={idx} 
+                                key={blog.id} 
                                 spotlightColor="rgba(245, 133, 24, 0.1)" 
                                 className="bg-white border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200 rounded-2xl p-0 flex flex-col h-full overflow-hidden"
                             >
@@ -79,7 +96,7 @@ export default function CommunityUpdates() {
                                                 className="object-cover"
                                             />
                                             <div className="absolute top-3 left-3 px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-[10px] font-bold text-brand uppercase border border-gray-100">
-                                                {blog.category.replace('-', ' ')}
+                                                {blog.category}
                                             </div>
                                         </div>
                                     )}
@@ -101,9 +118,20 @@ export default function CommunityUpdates() {
                                             {blog.title}
                                         </h3>
 
-                                        <p className="text-gray-500 text-sm leading-relaxed mb-6 flex-grow line-clamp-3">
+                        <p className="text-gray-500 text-sm leading-relaxed mb-4 flex-grow line-clamp-3">
                                             {blog.excerpt}
                                         </p>
+
+                                        {/* Tags */}
+                                        {blog.tags && blog.tags.length > 0 && (
+                                            <div className="flex flex-wrap gap-2 mb-4">
+                                                {blog.tags.slice(0, 3).map((tag, i) => (
+                                                    <span key={i} className="text-[10px] bg-brand/10 text-brand px-2 py-1 rounded-full font-medium">
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
 
                                         <Link 
                                             href={`/updates/${blog.id}`}

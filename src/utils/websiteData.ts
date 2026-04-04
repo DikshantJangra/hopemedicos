@@ -111,6 +111,15 @@ export interface Blog {
   createdAt: string;
 }
 
+export interface Offer {
+  id: string;
+  productId: string;
+  offerPrice: number;
+  deadline: string;
+  created_at: string;
+  active: boolean;
+}
+
 export interface ShopSettings {
   siteName: string;
   tagline: string;
@@ -173,10 +182,16 @@ export async function fetchWebsiteData() {
       })
     ).then(res => res.filter(p => p !== null));
 
-    // 4. Products on Offer
+    // 4. Products on Offer - Filter and normalize the array first
+    const normalizedOfferIds = featuredOfferIds.filter((offer: any) => {
+      // Filter out invalid entries (strings or objects without productId)
+      return offer && typeof offer === 'object' && offer.productId;
+    });
+    
+    console.log('Normalized Offer IDs:', normalizedOfferIds);
+    
     const offerProducts = await Promise.all(
-      featuredOfferIds.map(async (offer: any) => {
-        if (!offer || !offer.productId) return null;
+      normalizedOfferIds.map(async (offer: any) => {
         try {
           const productDoc = await getDoc(doc(db, 'products', offer.productId));
           if (productDoc.exists()) {
@@ -189,6 +204,11 @@ export async function fetchWebsiteData() {
             return { 
               ...productData, 
               id: productDoc.id,
+              name: productData.name,
+              description: productData.description,
+              price: productData.price,
+              images: productData.images || [],
+              imageUrl: productData.images?.[0] || '',
               offerPrice: offer.offerPrice,
               deadline: offer.deadline,
               savings,
@@ -206,30 +226,26 @@ export async function fetchWebsiteData() {
     
     console.log('Offer Products:', offerProducts);
 
-    // 5. Published Blogs
+    // 5. Published Blogs - Fetch all and filter client-side to avoid index requirement
     const blogsRef = collection(db, 'blogs');
-    const blogsQuery = query(
-      blogsRef,
-      where('published', '==', true),
-      orderBy('createdAt', 'desc'),
-      limit(10) // Fetch more for updates page
-    );
-    const blogsSnap = await getDocs(blogsQuery);
-    let blogs = blogsSnap.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    })) as Blog[];
-    
-    if (blogs.length === 0) {
-      console.log('Filtered blogs count is 0. Fetching all documents from "blogs" to debug...');
-      const allBlogsSnap = await getDocs(collection(db, 'blogs'));
-      console.log('Total documents in "blogs" collection:', allBlogsSnap.size);
-      if (allBlogsSnap.size > 0) {
-        console.log('Sample document data:', allBlogsSnap.docs[0].data());
-      }
-    }
+    const blogsSnap = await getDocs(blogsRef);
+    let blogs = blogsSnap.docs
+      .map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      .filter((blog: any) => blog.isPublished === true || blog.published === true)
+      .sort((a: any, b: any) => {
+        const dateA = new Date(a.createdAt || a.publishedAt || 0).getTime();
+        const dateB = new Date(b.createdAt || b.publishedAt || 0).getTime();
+        return dateB - dateA;
+      })
+      .slice(0, 10) as Blog[];
     
     console.log('Fetched Blogs count:', blogs.length);
+    if (blogs.length > 0) {
+      console.log('Sample blog:', blogs[0]);
+    }
 
     // 6. Initiatives
     const initiativesRef = collection(db, 'initiatives');

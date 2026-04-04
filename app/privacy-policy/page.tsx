@@ -65,22 +65,28 @@ export default async function PrivacyPolicyPage() {
   const privacyContent = await getPrivacyPolicy();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <section className="bg-gradient-to-r from-brand to-brand-dark text-white py-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Privacy Policy</h1>
-          <p className="text-lg opacity-90">
-            Last Updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+      <section className="bg-gradient-to-r from-brand to-brand-dark text-white py-24 px-4 pt-40">
+        <div className="max-w-4xl mx-auto text-center sm:text-left">
+          <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">Privacy Policy</h1>
+          <p className="text-xl opacity-90 font-medium">
+            Effective Date: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="py-16 px-4">
+      <section className="py-20 px-4 -mt-10">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
-            <div dangerouslySetInnerHTML={{ __html: privacyContent }} />
+          <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-16 border border-brand/10">
+            <div 
+              className="prose prose-lg max-w-none 
+                prose-headings:text-brand prose-headings:font-black
+                prose-p:text-gray-600 prose-p:leading-relaxed
+                prose-strong:text-brand prose-strong:font-bold"
+              dangerouslySetInnerHTML={{ __html: privacyContent }} 
+            />
           </div>
         </div>
       </section>

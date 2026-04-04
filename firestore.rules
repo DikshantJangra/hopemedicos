@@ -28,6 +28,12 @@ service cloud.firestore {
       allow write: if request.auth != null;
     }
     
+    // Public read for initiatives
+    match /initiatives/{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
     // Public read for shop settings (excluding admin whitelist)
     match /config/portal_settings {
       allow read: if true;
