@@ -55,7 +55,7 @@ export default function UpdateDetailPage() {
             <main className="min-h-screen bg-white flex items-center justify-center px-4">
                 <div className="text-center">
                     <h1 className="text-3xl font-bold text-gray-900 mb-4">Post Not Found</h1>
-                    <p className="text-gray-500 mb-6 font-medium">The update you're looking for doesn't exist.</p>
+                    <p className="text-gray-500 mb-6 font-medium">The update you&apos;re looking for doesn&apos;t exist.</p>
                     <Link href="/updates" className="text-brand font-bold">
                         ← Back to Updates
                     </Link>

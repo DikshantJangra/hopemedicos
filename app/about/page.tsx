@@ -122,7 +122,7 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold mb-6 text-center">Our Vision</h2>
             <p className="text-lg leading-relaxed text-center max-w-3xl mx-auto">
               To become a reliable and accessible healthcare partner for every family in Hisar and beyond, 
-              ensuring quality healthcare is within everyone's reach.
+              ensuring quality healthcare is within everyone&apos;s reach.
             </p>
           </div>
 

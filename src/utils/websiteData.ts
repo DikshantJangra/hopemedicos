@@ -155,7 +155,7 @@ export async function fetchWebsiteData() {
 
     // 3. Featured Products
     const featuredProducts = await Promise.all(
-      featuredProductIds.map(async (fp: any) => {
+      featuredProductIds.map(async (fp: { productId: string; displayOrder: number }) => {
         if (!fp || !fp.productId) return null;
         try {
           const productDoc = await getDoc(doc(db, 'products', fp.productId));
@@ -269,7 +269,7 @@ export async function fetchWebsiteData() {
 /**
  * Fetches latest offers directly (used in WeeklyOffer)
  */
-export async function fetchLatestOffers(count: number = 1) {
+export async function fetchLatestOffers(count: number = 1): Promise<Offer[]> {
   try {
     const offersRef = collection(db, 'offers');
     const q = query(offersRef, orderBy('created_at', 'desc'), limit(count));
@@ -277,7 +277,7 @@ export async function fetchLatestOffers(count: number = 1) {
     const offers = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
-    })) as any[];
+    })) as Offer[];
     console.log('Latest Offers from "offers" collection:', offers);
     return offers;
   } catch (error) {
@@ -289,7 +289,7 @@ export async function fetchLatestOffers(count: number = 1) {
 /**
  * Fetches latest blogs
  */
-export async function fetchLatestBlogs(count: number = 3) {
+export async function fetchLatestBlogs(count: number = 3): Promise<Blog[]> {
   try {
     const blogsRef = collection(db, 'blogs');
     const q = query(

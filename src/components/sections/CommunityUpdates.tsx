@@ -6,7 +6,7 @@ import SpotlightCard from "../layout/SpotlightCard/SpotlightCard";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from 'react';
-import { collection, query, orderBy, limit, getDocs, where } from 'firebase/firestore';
+import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
 import { db } from '@/utils/firebase';
 
 import { useWebsiteData } from "@/context/WebsiteDataContext";

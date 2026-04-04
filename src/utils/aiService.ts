@@ -6,8 +6,24 @@ import type { Message, AIResponse } from '@/types/chat';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
+interface Offer {
+  id: string;
+  title: string;
+  description: string;
+  image_url: string;
+  created_at: string;
+  price?: number;
+  discounted_price?: number;
+}
+
 // Cache for AI config to avoid repeated Firebase calls
-let cachedAIConfig: any = null;
+let cachedAIConfig: {
+  enabled: boolean;
+  systemPrompt: string;
+  maxTokens: number;
+  temperature: number;
+  fallbackMessage?: string;
+} | null = null;
 let lastFetchTime = 0;
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
