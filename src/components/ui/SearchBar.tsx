@@ -52,7 +52,7 @@ export default function SearchBar() {
         });
         setResults(data);
         setHasSearched(true);
-      } catch (err:unknown) {
+      } catch (err: unknown) {
         setError(err instanceof Error ? err.message : "Failed to fetch medicines");
         setResults([]);
         setHasSearched(true);
@@ -63,7 +63,7 @@ export default function SearchBar() {
     run();
   }, [debouncedQuery]);
 
-  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
     if (!value.trim()) {
@@ -74,8 +74,8 @@ export default function SearchBar() {
 
   const getBorderColor = () => {
     if (!searchQuery) return "border-gray-200";
-    if (isLoading) return "border-[#1BAB85]";
-    if (results.length > 0) return "border-[#1BAB85]";
+    if (isLoading) return "border-brand";
+    if (results.length > 0) return "border-brand";
     return "border-[#637887]";
   };
 
@@ -89,10 +89,10 @@ export default function SearchBar() {
             value={searchQuery}
             onChange={handleChange}
             className="w-full h-10 pr-3 sm:pr-4 focus:outline-none text-black placeholder:text-black/30 text-sm sm:text-base"
-            placeholder="Search medicine availability right from your home"
+            placeholder="Search wellness, baby care or surgical products..."
           />
         </div>
-        
+
         {searchQuery && (
           <div className="border-t border-gray-100">
             {isLoading && (
@@ -104,18 +104,18 @@ export default function SearchBar() {
             {!isLoading && !error && results.length > 0 && (
               <div className="p-3 sm:p-4 lg:p-5">
                 <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                  <BiBadgeCheck className="text-xl sm:text-2xl lg:text-3xl text-[#1BAB85]" />
-                  <span className="text-lg sm:text-xl font-bold text-[#1BAB85]">Found {results.length} result{results.length > 1 ? 's' : ''}</span>
+                  <BiBadgeCheck className="text-xl sm:text-2xl lg:text-3xl text-brand" />
+                  <span className="text-lg sm:text-xl font-bold text-brand">Found {results.length} result{results.length > 1 ? 's' : ''}</span>
                 </div>
                 <div className="space-y-3 sm:space-y-4">
                   {results.slice(0, 3).map((med) => (
-                    <div key={med.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 bg-white rounded-lg border-2 border-[#1BAB85] shadow-sm gap-3 sm:gap-4">
+                    <div key={med.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 bg-white rounded-lg border-2 border-brand shadow-sm gap-3 sm:gap-4">
                       <div className="flex items-center gap-3 sm:gap-4">
-                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#1BAB85] rounded-full flex items-center justify-center flex-shrink-0">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-brand rounded-full flex items-center justify-center flex-shrink-0">
                           <BiBadgeCheck className="text-white text-lg sm:text-xl" />
                         </div>
                         <div>
-                          <h3 className="text-lg sm:text-xl font-bold text-[#1BAB85]">{med.name}</h3>
+                          <h3 className="text-lg sm:text-xl font-bold text-brand">{med.name}</h3>
                           <p className="text-sm sm:text-base text-gray-600">
                             {[med.manufacturer, med.strength, med.dosage_form].filter(Boolean).join(" • ") || "Available"}
                           </p>
@@ -140,11 +140,11 @@ export default function SearchBar() {
                   <div className="flex-1 text-center sm:text-left">
                     <p className="text-gray-800 text-base sm:text-lg">
                       We may have it,{" "}
-                      <Link 
+                      <Link
                         href={`https://wa.me/919812080390?text=Hello%20Hope%20Medicos%20team%2C%0A%0AI%20was%20searching%20for%20${encodeURIComponent(searchQuery)}%20on%20your%20website%20but%20couldn%27t%20find%20it.%20Could%20you%20please%20check%20if%20you%20have%20it%20available%3F%0A%0AThank%20you!`}
-                        target="_blank" 
+                        target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#1AAB85] underline font-semibold"
+                        className="text-brand underline font-semibold"
                       >
                         try contacting us on WhatsApp.
                       </Link>

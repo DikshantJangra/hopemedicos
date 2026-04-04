@@ -17,7 +17,7 @@ export default function SEOHead({
   title = "Hope Medicos - Your Trusted Pharmacy Store in Hisar",
   description = "Hope Medicos is a leading pharmacy store in Hisar, Haryana. We provide quality medicines, healthcare products, and professional pharmaceutical services.",
   keywords = "pharmacy, medicines, healthcare, Hisar, Haryana, Hope Medicos",
-  image = "/hmLogo.svg",
+  image = "/hope_logo.png",
   url = "https://hopemedicos.com",
   type = "website",
   publishedAt,
@@ -68,8 +68,8 @@ export default function SEOHead({
       ))}
       
       {/* Additional SEO Meta Tags */}
-      <meta name="theme-color" content="#1AAB86" />
-      <meta name="msapplication-TileColor" content="#1AAB86" />
+      <meta name="theme-color" content="var(--brand)" />
+      <meta name="msapplication-TileColor" content="var(--brand)" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="apple-mobile-web-app-title" content="Hope Medicos" />

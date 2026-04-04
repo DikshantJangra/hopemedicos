@@ -6,10 +6,9 @@ import { MdOutlineDiscount } from "react-icons/md";
 import LocateUs from "../ui/LocateUs";
 import { BsTwitterX } from "react-icons/bs";
 import { AiOutlineInstagram, AiOutlineLink, AiOutlineLinkedin, AiOutlineWhatsApp } from "react-icons/ai";
-// import html2canvas from 'html2canvas';
 import { useRef, useCallback, useState, useEffect } from 'react';
-import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
-import { db } from '@/utils/firebase';
+import { fetchLatestOffers } from '@/utils/websiteData';
+import { useWebsiteData } from "@/context/WebsiteDataContext";
 
 interface Offer {
     id: string;
@@ -24,37 +23,35 @@ interface Offer {
 export default function Offers() {
     const offerContentRef = useRef(null);
     const [offers, setOffers] = useState<Offer[]>([]);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const { texts, loading: contextLoading, offerProducts } = useWebsiteData();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchOffers = async () => {
+        const loadOffers = async () => {
             setLoading(true);
             setError(null);
-            
+
             try {
-                const offersRef = collection(db, 'offers');
-                const offersQuery = query(
-                    offersRef,
-                    orderBy('created_at', 'desc'),
-                    limit(1)
-                );
+                const data = await fetchLatestOffers(1);
                 
-                const querySnapshot = await getDocs(offersQuery);
-                const data: Offer[] = querySnapshot.docs.map(doc => {
-                    const docData = doc.data() as Record<string, any>;
-                    return {
-                        id: doc.id,
-                        title: docData.title || '',
-                        description: docData.description || '',
-                        image_url: docData.image_url || '',
-                        created_at: docData.created_at || '',
-                        price: docData.price,
-                        discounted_price: docData.discounted_price,
-                    };
-                });
-                
-                setOffers(data);
+                // If we got data from "offers" collection, use it.
+                // Otherwise, check if we have products on offer from the context.
+                if (data && data.length > 0) {
+                    setOffers(data);
+                } else if (offerProducts && offerProducts.length > 0) {
+                    // Map product data to offer format if needed
+                    const mappedOffers = offerProducts.map(p => ({
+                        id: p.id,
+                        title: p.name,
+                        description: p.description,
+                        image_url: p.imageUrl || (p.images && p.images[0]) || "",
+                        created_at: p.created_at || new Date().toISOString(),
+                        price: p.price,
+                        discounted_price: p.offerPrice || p.discounted_price
+                    }));
+                    setOffers(mappedOffers);
+                }
             } catch (error: any) {
                 console.error("Error fetching offers:", error);
                 setError(error.message || "Failed to fetch offers");
@@ -63,8 +60,8 @@ export default function Offers() {
             }
         };
 
-        fetchOffers();
-    }, []);
+        loadOffers();
+    }, [offerProducts]);
 
     const handleShare = useCallback(async (platform: string) => {
         if (!offerContentRef.current) {
@@ -73,9 +70,7 @@ export default function Offers() {
         }
 
         try {
-            // production error tahts why commented!
-            // const canvas = await html2canvas(offerContentRef.current);
-            const offerText = "Check out this exclusive offer from Hopemedicos!"; // Customize this text
+            const offerText = "Check out this exclusive offer from Hopemedicos!";
 
             switch (platform) {
                 case 'twitter':
@@ -103,48 +98,59 @@ export default function Offers() {
         }
     }, []);
 
-    const latestOffer = offers[0]; // Get the latest offer
+    const latestOffer = offers[0];
 
-    return(
+    return (
         <section id="offers" className="min-h-screen bg-white relative pt-5">
-            <div className="absolute flex gap-2 items-center text-black/80 py-1 px-2 bg-[#E7E7E7] rounded-lg w-fit z-20 top-6 sm:top-10 left-4 sm:left-15 text-sm sm:text-base">
-                    <MdOutlineDiscount />
-                    <p>Offers</p>
+            <div className="absolute flex gap-2 items-center text-black/80 py-1 px-2 backdrop-blur-md rounded-lg w-fit z-20 top-6 sm:top-10 left-4 sm:left-15 text-sm sm:text-base bg-white/60 border border-white/40 shadow-sm">
+                <MdOutlineDiscount />
+                <p>{texts.offersTitle || "Offers"}</p>
             </div>
-            <Image 
-                src={"offerBoard.svg"} 
-                alt="Special offers and discounts banner" 
-                height={200} 
-                width={200} 
-                priority
-                className="absolute z-[1] top-0 w-32 sm:w-40 md:w-48 lg:w-52" 
-            />
 
-            {loading && <p className="text-center mt-20">Loading latest offer...</p>}
-            {error && <p className="text-center mt-20 text-red-500">Error: {error}</p>}
-            {!loading && !latestOffer && <p className="text-center mt-20">No offers found.</p>}
+            {(loading || contextLoading) && (
+                <div className="flex items-center justify-center min-h-[400px]">
+                    <p className="text-center text-gray-500">Loading latest offer...</p>
+                </div>
+            )}
+            
+            {error && (
+                <div className="flex items-center justify-center min-h-[400px]">
+                    <div className="text-center">
+                        <p className="text-red-500 mb-2">Unable to load offers</p>
+                        <p className="text-gray-500 text-sm">Please check Firebase configuration</p>
+                    </div>
+                </div>
+            )}
+            
+            {!loading && !contextLoading && !error && !latestOffer && (
+                <div className="flex items-center justify-center min-h-[400px]">
+                    <p className="text-center text-gray-500">No offers available at the moment.</p>
+                </div>
+            )}
 
             {latestOffer && (
                 <>
-                    <div className="flex items-center justify-center bg-[#BEE5DB] w-fit mx-auto px-3 sm:px-5 py-3 sm:py-4 rounded-tl-4xl rounded-br-4xl border-[#1AAB86] border-2 shadow-2xl mt-16 sm:mt-20">
+                    <div className="flex items-center justify-center bg-brand-light w-fit mx-auto px-3 sm:px-5 py-3 sm:py-4 rounded-tl-4xl rounded-br-4xl border-brand border-2 shadow-2xl mt-16 sm:mt-20">
                         <div className="px-4 sm:px-6 py-2 rounded-xl flex items-center space-x-3 relative pointer-events-auto">
                             <div className="ripple-container mr-3 sm:mr-5">
                                 {[...Array(4)].map((_, i) => (
                                     <div key={i} className="ripple-circle" />
                                 ))}
                                 <div
-                                className="w-3 h-3 rounded-full bg-[#1AAB86]"
+                                    className="w-3 h-3 rounded-full bg-brand"
                                 ></div>
                             </div>
                         </div>
                         <div className="text-center">
-                            <p className="text-2xl sm:text-3xl font-bold text-[#1AAB86] tracking-tight bg-clip-text [text-shadow:_0_3px_4px_rgba(0,0,0,0.9)]">18% Off</p>
-                            <p className="text-lg sm:text-xl text-black/70 -mt-1">on all medicine!</p>
+                            <p className="text-2xl sm:text-3xl font-bold text-brand tracking-tight bg-clip-text [text-shadow:_0_3px_4px_rgba(0,0,0,0.9)]">
+                                {texts.offersSubtitle || "Special Offer"}
+                            </p>
+                            <p className="text-lg sm:text-xl text-black/70 -mt-1">on wellness & more!</p>
                         </div>
                     </div>
 
 
-                    <div id="offer-content" ref={offerContentRef} className="relative mx-auto mt-8 sm:mt-12 w-[95%] sm:w-[92%] max-w-6xl rounded-2xl border border-[#1AAB86] bg-white shadow-2xl overflow-auto">
+                    <div id="offer-content" ref={offerContentRef} className="relative mx-auto mt-8 sm:mt-12 w-[95%] sm:w-[92%] max-w-6xl rounded-2xl border border-brand bg-white shadow-2xl overflow-auto">
                         <div className="flex items-center justify-center gap-3 shadow-2xl w-32 sm:w-40 pr-1 py-3 sm:py-4 rounded-b-2xl mx-auto">
                             <div className="ripple-container mr-3 sm:mr-5">
                                 {[...Array(4)].map((_, i) => (
@@ -157,7 +163,9 @@ export default function Offers() {
 
                         {/* Title */}
                         <div className="pt-4 sm:pt-5 pb-4 sm:pb-6 px-4 sm:px-0">
-                            <h2 className="text-center text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-[#1AAB86] font-extrabold tracking-wide px-4">THIS WEEK&apos;S EXCLUSIVE OFFER!</h2>
+                            <h2 className="text-center text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-brand font-extrabold tracking-wide px-4 uppercase">
+                                {texts.offersTitle || "THIS WEEK'S EXCLUSIVE OFFER!"}
+                            </h2>
                         </div>
 
                         {/* Content grid */}
@@ -189,7 +197,7 @@ export default function Offers() {
                                 </div>
                                 <div className="flex items-end justify-center md:justify-start gap-4 pt-1">
                                     {latestOffer.price && <span className="text-black/40 line-through text-lg sm:text-xl">₹{latestOffer.price}</span>}
-                                    {latestOffer.discounted_price && <span className="text-[#1AAB86] font-extrabold text-xl sm:text-2xl">₹{latestOffer.discounted_price}</span>}
+                                    {latestOffer.discounted_price && <span className="text-brand font-extrabold text-xl sm:text-2xl">₹{latestOffer.discounted_price}</span>}
                                 </div>
                                 <div className="pt-4 flex justify-center md:justify-start">
                                     <LocateUs />

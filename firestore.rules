@@ -4,27 +4,38 @@ service cloud.firestore {
   match /databases/{database}/documents {
     
     // Allow public read access to offers collection
-    match /offers/{offerId} {
+    // Public read for website config
+    match /websiteConfig/{document=**} {
       allow read: if true;
-      allow write: if false; // Only allow writes through admin SDK or Firebase Console
+      allow write: if request.auth != null;
     }
     
-    // Allow public read access to medicines collection
-    match /medicines/{medicineId} {
+    // Public read for products
+    match /products/{document=**} {
       allow read: if true;
-      allow write: if false; // Only allow writes through admin SDK or Firebase Console
+      allow write: if request.auth != null;
     }
     
-    // Allow public read access to initiatives collection
-    match /initiatives/{initiativeId} {
+    // Public read for blogs
+    match /blogs/{document=**} {
       allow read: if true;
-      allow write: if false; // Only allow writes through admin SDK or Firebase Console
+      allow write: if request.auth != null;
     }
     
-    // Allow public read access to products collection
-    match /products/{productId} {
+    // Public read for offers
+    match /offers/{document=**} {
       allow read: if true;
-      allow write: if false; // Only allow writes through admin SDK or Firebase Console
+      allow write: if request.auth != null;
+    }
+    
+    // Public read for shop settings (excluding admin whitelist)
+    match /config/portal_settings {
+      allow read: if true;
+    }
+    
+    // Public read for AI settings
+    match /config/ai_settings {
+      allow read: if true;
     }
     
     // Deny all other collections by default

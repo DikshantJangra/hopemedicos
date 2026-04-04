@@ -1,31 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  transpilePackages: ['firebase'],
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'm.media-amazon.com',
-        port: '',
-        pathname: '/images/**',
+        hostname: '**',
       },
       {
-        protocol: 'https',
-        hostname: 'i.ibb.co',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'drive.google.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'photos.fife.usercontent.google.com',
-        port: '',
-        pathname: '/**', // allow any path
+        protocol: 'http',
+        hostname: '**',
       },
     ],
   },

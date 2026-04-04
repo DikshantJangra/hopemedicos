@@ -3,6 +3,8 @@ import { Poppins } from 'next/font/google';
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import ChatWidget from "@/components/chat/ChatWidget";
+import { WebsiteDataProvider } from "@/context/WebsiteDataContext";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -33,9 +35,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/hmLogo.svg",
-    shortcut: "/hmLogo.svg",
-    apple: "/hmLogo.svg",
+    icon: "/hope_logo.png",
+    shortcut: "/hope_logo.png",
+    apple: "/hope_logo.png",
   },
   openGraph: {
     type: 'website',
@@ -46,7 +48,7 @@ export const metadata: Metadata = {
     description: "Hope medicos - Your Trusted Pharmacy Store in Hisar. We provide quality medicines, healthcare products, and professional pharmaceutical services. Visit us for all your healthcare needs",
     images: [
       {
-        url: "https://hopemedicos.org/hmLogo.svg",
+        url: "https://hopemedicos.org/hope_logo.png",
         width: 1200,
         height: 630,
         alt: "Hope Medicos - Pharmacy Store",
@@ -57,7 +59,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Hope Medicos - फ़िक्र आपकी",
     description: "Hope medicos - Your Trusted Pharmacy Store in Hisar. We provide quality medicines, healthcare products, and professional pharmaceutical services. Visit us for all your healthcare needs",
-    images: ['https://hopemedicos.org/hmLogo.svg'],
+    images: ['https://hopemedicos.org/hope_logo.png'],
     creator: '@hopemedicos',
   },
   verification: {
@@ -90,8 +92,8 @@ export default function RootLayout({
     "name": "Hope Medicos",
     "description": "Leading pharmacy store in Hisar, Haryana providing quality medicines and healthcare products",
     "url": "https://hopemedicos.org",
-    "logo": "https://hopemedicos.org/hmLogo.svg",
-    "image": "https://hopemedicos.org/hmLogo.svg",
+    "logo": "https://hopemedicos.org/hope_logo.png",
+    "image": "https://hopemedicos.org/hope_logo.png",
     "telephone": "+91-XXXXXXXXXX",
     "address": {
       "@type": "PostalAddress",
@@ -136,17 +138,20 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.variable} antialiased`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-        <Navbar />
-        <main>
-          {children}
-        </main>
-        <Footer />
+        <WebsiteDataProvider>
+          <Navbar />
+          <main>
+            {children}
+          </main>
+          <Footer />
+          <ChatWidget />
+        </WebsiteDataProvider>
       </body>
     </html>
   );
