@@ -3,50 +3,111 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Allow public read access to offers collection
-    // Public read for website config
-    match /websiteConfig/{document=**} {
-      allow read: if true;
-      allow write: if request.auth != null;
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.email == 'hope.medicos@gmail.com' ||
+        request.auth.token.phone_number == '+919812080390'
+      );
     }
-    
-    // Public read for products
+
+    // PUBLIC READ COLLECTIONS (for main website & app)
     match /products/{document=**} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write, delete: if isAdmin();
     }
-    
-    // Public read for blogs
+
+    match /medicines/{document=**} {
+      allow read: if true;
+      allow write, delete: if isAdmin();
+    }
+
+    match /categories/{document=**} {
+      allow read: if true;
+      allow write, delete: if isAdmin();
+    }
+
     match /blogs/{document=**} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write, delete: if isAdmin();
     }
-    
-    // Public read for offers
+
     match /offers/{document=**} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write, delete: if isAdmin();
     }
-    
-    // Public read for initiatives
+
+    match /productOffers/{document=**} {
+      allow read: if true;
+      allow write, delete: if isAdmin();
+    }
+
+    match /storeStatus/{document=**} {
+      allow read: if true;
+      allow write, delete: if isAdmin();
+    }
+
+    match /websiteConfig/{document=**} {
+      allow read: if true;
+      allow write, delete: if isAdmin();
+    }
+
+    match /websiteData/{document=**} {
+      allow read: if true;
+      allow write, delete: if isAdmin();
+    }
+
+    match /website/{document=**} {
+      allow read: if true;
+      allow write, delete: if isAdmin();
+    }
+
+    match /config/{document=**} {
+      allow read: if true;
+      allow write, delete: if isAdmin();
+    }
+
     match /initiatives/{document=**} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write, delete: if isAdmin();
     }
-    
-    // Public read for shop settings (excluding admin whitelist)
-    match /config/portal_settings {
+
+    // PUBLIC WRITE COLLECTIONS (for website functionality)
+    match /hooks/{document=**} {
       allow read: if true;
+      allow create: if true;
+      allow update, delete: if isAdmin();
     }
-    
-    // Public read for AI settings
-    match /config/ai_settings {
-      allow read: if true;
+
+    match /contactForms/{document=**} {
+      allow read: if isAdmin();
+      allow create: if true;
     }
-    
-    // Deny all other collections by default
+
+    match /newsletter/{document=**} {
+      allow read: if isAdmin();
+      allow create: if true;
+    }
+
+    match /analytics/{document=**} {
+      allow read: if isAdmin();
+      allow create: if true;
+    }
+
+    // USER COLLECTIONS
+    match /users/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if isAdmin();
+    }
+
+    match /orders/{oId} {
+      allow read: if request.auth != null;
+      allow write, delete: if isAdmin();
+    }
+
+    // FALLBACK - deny everything else
     match /{document=**} {
-      allow read, write: if false;
+      allow read, write: if isAdmin();
     }
   }
 }

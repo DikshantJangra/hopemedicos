@@ -6,8 +6,7 @@ import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
 
 export default function Hope() {
-  const { shopSettings, loading, offerProducts } = useWebsiteData();
-  const featuredProduct = offerProducts?.[0];
+  const { shopSettings, loading, featuredProduct } = useWebsiteData();
 
   return (
     <section id="about" className="relative min-h-screen pt-24 pb-20 px-6 bg-white overflow-hidden">
@@ -42,8 +41,8 @@ export default function Hope() {
               Shop now
             </Link>
             <Link 
-              href="#initiatives"
-              className="px-6 py-3 border-2 border-[#f58518] text-black text-xs uppercase tracking-[0.12em] font-normal hover:bg-[#f58518] hover:text-white transition-all"
+              href="/about"
+              className="px-6 py-3 border-2 border-[#f58518] text-black text-xs uppercase tracking-[0.12em] font-normal hover:bg-[#f58518] hover:text-white transition-all text-center"
             >
               Learn more
             </Link>

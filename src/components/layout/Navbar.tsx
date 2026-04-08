@@ -14,7 +14,7 @@ export default function Navbar() {
     const pathname = usePathname();
     
     // Pages where the logo text should stay even on scroll
-    const keepTitlePages = ['/privacy-policy', '/terms-and-conditions'];
+    const keepTitlePages = ['/privacy-policy', '/terms-and-conditions', '/about'];
     const keepTitle = keepTitlePages.includes(pathname);
     const sections = [
         { name: "Offers", path: "/" },

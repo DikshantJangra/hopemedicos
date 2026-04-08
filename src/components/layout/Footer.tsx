@@ -37,9 +37,9 @@ const Footer = () => {
                             </span>
                         </Link>
                         <div className="space-y-2">
-                            <a href="#about" className="block text-sm text-black/60 hover:text-black transition-colors">
+                            <Link href="/about" className="block text-sm text-black/60 hover:text-black transition-colors">
                                 About
-                            </a>
+                            </Link>
                             <a href="/updates" className="block text-sm text-black/60 hover:text-black transition-colors">
                                 Updates
                             </a>

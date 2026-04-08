@@ -3,55 +3,13 @@
 import Image from "next/image";
 import { useState, useEffect, useRef } from 'react';
 import { useWebsiteData } from "@/context/WebsiteDataContext";
-
-interface OfferDisplay {
-  id: string;
-  title: string;
-  description: string;
-  image_url: string;
-  created_at: string;
-  price?: number;
-  discounted_price?: number;
-}
+import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
 
 export default function Offers() {
-  const [offers, setOffers] = useState<OfferDisplay[]>([]);
   const { offerProducts, loading: contextLoading, shopSettings } = useWebsiteData();
-  const [loading, setLoading] = useState(true);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
-
-  useEffect(() => {
-    const loadOffers = async () => {
-      setLoading(true);
-
-      try {
-        if (offerProducts && offerProducts.length > 0) {
-          const mappedOffers = offerProducts.map(p => ({
-            id: p.id,
-            title: p.name,
-            description: p.description,
-            image_url: p.imageUrl || (p.images && p.images[0]) || "",
-            created_at: p.created_at || new Date().toISOString(),
-            price: p.price,
-            discounted_price: p.offerPrice || p.discounted_price
-          }));
-          setOffers(mappedOffers);
-        } else {
-          setOffers([]);
-        }
-      } catch (error: any) {
-        console.error("Error fetching offers:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (!contextLoading) {
-      loadOffers();
-    }
-  }, [offerProducts, contextLoading]);
 
   const checkScrollButtons = () => {
     if (scrollContainerRef.current) {
@@ -67,166 +25,154 @@ export default function Offers() {
     if (container) {
       container.addEventListener('scroll', checkScrollButtons);
       window.addEventListener('resize', checkScrollButtons);
-      return () => {
-        container.removeEventListener('scroll', checkScrollButtons);
-        window.removeEventListener('resize', checkScrollButtons);
-      };
     }
-  }, [offers]);
+    return () => {
+      if (container) container.removeEventListener('scroll', checkScrollButtons);
+      window.removeEventListener('resize', checkScrollButtons);
+    };
+  }, [offerProducts]);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 400;
-      const newScrollLeft = direction === 'left'
-        ? scrollContainerRef.current.scrollLeft - scrollAmount
-        : scrollContainerRef.current.scrollLeft + scrollAmount;
-      
-      scrollContainerRef.current.scrollTo({
-        left: newScrollLeft,
-        behavior: 'smooth'
-      });
+      const scrollAmount = direction === 'left' ? -600 : 600;
+      scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
 
-  if (!loading && !contextLoading && offers.length === 0) return null;
+  if (!contextLoading && (!offerProducts || offerProducts.length === 0)) {
+    return null;
+  }
 
   return (
-    <section className="bg-[#faf9f7] py-12 px-6 border-y border-black/5">
-      <div className="max-w-7xl mx-auto">
-        {/* Header with navigation */}
-        <div className="flex items-center justify-between mb-8">
+    <section className="bg-white py-8 px-6 border-t border-black/5">
+      <div className="max-w-[1500px] mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-2xl font-medium tracking-[-0.02em] text-black mb-1">
-              Today's <span className="font-serif italic font-light">Offers</span>
+              Featured <span className="font-serif italic font-light opacity-40">Today</span>
             </h2>
             <p className="text-xs uppercase tracking-[0.12em] text-black/40">
-              {(loading || contextLoading) ? (
+              {contextLoading ? (
                 <span className="inline-block h-3 w-24 bg-[#f58518]/10 animate-pulse rounded" />
               ) : (
-                `${offers.length} Special Deals`
+                `${offerProducts.length} Special Deals`
               )}
             </p>
           </div>
 
-          {/* Scroll Navigation Buttons */}
-          {(!loading && !contextLoading && offers.length > 3) && (
+          {/* Navigation Arrows - Always visible if more than 5 products */}
+          {!contextLoading && offerProducts.length > 5 && (
             <div className="flex gap-2">
               <button
                 onClick={() => scroll('left')}
                 disabled={!canScrollLeft}
-                className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all ${
-                  canScrollLeft
-                    ? 'border-[#f58518] text-[#f58518] hover:bg-[#f58518] hover:text-white'
-                    : 'border-black/10 text-black/20 cursor-not-allowed'
-                }`}
+                className="w-10 h-10 rounded-full bg-white border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow"
                 aria-label="Scroll left"
               >
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 4l-8 6 8 6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <HiChevronLeft size={20} />
               </button>
               <button
                 onClick={() => scroll('right')}
                 disabled={!canScrollRight}
-                className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all ${
-                  canScrollRight
-                    ? 'border-[#f58518] text-[#f58518] hover:bg-[#f58518] hover:text-white'
-                    : 'border-black/10 text-black/20 cursor-not-allowed'
-                }`}
+                className="w-10 h-10 rounded-full bg-white border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow"
                 aria-label="Scroll right"
               >
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M8 4l8 6-8 6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <HiChevronRight size={20} />
               </button>
             </div>
           )}
         </div>
 
-        {/* Horizontal Scroll Container */}
+        {/* Products Carousel */}
         <div className="relative">
           <div
             ref={scrollContainerRef}
-            className="flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
+            className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth pb-2"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {(loading || contextLoading) ? (
-              [1, 2, 3, 4].map((i) => (
-                <div key={i} className="flex-shrink-0 w-[280px] snap-start mb-4">
-                  {/* Product Image Skeleton */}
-                  <div className="relative aspect-square bg-[#f58518]/5 mb-4 rounded-lg animate-pulse border border-black/5" />
-                  
-                  {/* Label Skeleton */}
-                  <div className="h-2 w-16 bg-[#f58518]/10 rounded animate-pulse mb-3" />
-                  
-                  {/* Title Skeleton */}
-                  <div className="h-4 w-48 bg-[#f58518]/10 rounded animate-pulse mb-2" />
-                  <div className="h-4 w-32 bg-[#f58518]/10 rounded animate-pulse mb-4" />
-                  
-                  {/* Price Skeleton */}
-                  <div className="h-6 w-24 bg-[#f58518]/10 rounded animate-pulse mb-5" />
-                  
-                  {/* Button Skeleton */}
-                  <div className="h-[38px] w-full bg-[#f58518]/10 rounded-full animate-pulse" />
+            {contextLoading ? (
+              // Skeletons
+              [...Array(6)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="flex-shrink-0 w-[240px] bg-white border border-gray-200 rounded-lg p-4 animate-pulse"
+                >
+                  <div className="w-full h-[200px] bg-gray-100 rounded mb-3" />
+                  <div className="h-3 w-full bg-gray-100 rounded mb-2" />
+                  <div className="h-3 w-2/3 bg-gray-100 rounded mb-3" />
+                  <div className="h-4 w-1/2 bg-gray-100 rounded mb-3" />
+                  <div className="h-9 w-full bg-gray-100 rounded" />
                 </div>
               ))
             ) : (
-              offers.map((offer) => {
-                const discount = offer.price && offer.discounted_price
-                  ? Math.round(((offer.price - offer.discounted_price) / offer.price) * 100)
-                  : null;
+              offerProducts.map((product: any) => {
+                const productId = product.id;
+                const savings = product.savings || (product.price - (product.offerPrice || product.discounted_price || product.price));
+                const savingsPercent = product.savingsPercent || (product.price ? ((savings / product.price) * 100).toFixed(0) : "0");
+                const hasOffer = product.offerPrice || product.discounted_price;
 
                 return (
                   <div
-                    key={offer.id}
-                    className="flex-shrink-0 w-[280px] snap-start group"
+                    key={productId}
+                    className="flex-shrink-0 w-[240px] bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-all duration-200 hover:border-gray-300 group relative flex flex-col"
                   >
-                    {/* Product Image */}
-                    <div className="relative aspect-square bg-white mb-4 overflow-hidden border border-black/5 rounded-lg">
-                      {offer.image_url && (
-                        <Image
-                          src={offer.image_url}
-                          alt={offer.title}
-                          fill
-                          className="object-contain p-6 group-hover:scale-105 transition-transform duration-500"
-                        />
-                      )}
-                      {/* Discount Badge */}
-                      {discount && (
-                        <div className="absolute top-3 right-3 bg-[#f58518] text-white text-xs font-medium px-2 py-1 rounded-full">
-                          {discount}% OFF
+                    {/* Discount Badge */}
+                    {hasOffer && (
+                      <div className="absolute top-2 left-2 z-10">
+                        <div className="bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">
+                          {savingsPercent}% off
                         </div>
-                      )}
+                      </div>
+                    )}
+
+                    {/* Image */}
+                    <div className="relative w-full h-[200px] mb-3 flex items-center justify-center bg-white">
+                      <Image
+                        src={product.imageUrl || (product.images && product.images[0]) || "/placeholder-medicine.png"}
+                        alt={product.name}
+                        fill
+                        className="object-contain p-2 group-hover:scale-105 transition-transform duration-200"
+                      />
                     </div>
 
-                    {/* Muted label */}
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-black/40 mb-2">
-                      {discount ? 'Flash deal' : 'Special offer'}
-                    </p>
-
-                    {/* Product name */}
-                    <h3 className="text-sm font-medium text-black mb-3 line-clamp-2 min-h-[2.5rem]">
-                      {offer.title}
+                    {/* Product Name */}
+                    <h3 className="text-sm text-gray-900 line-clamp-2 mb-2 min-h-[40px] leading-tight">
+                      {product.name}
                     </h3>
 
                     {/* Price */}
-                    <div className="flex items-baseline gap-2 mb-4">
-                      <span className="text-lg font-medium text-black">
-                        ₹{offer.discounted_price}
-                      </span>
-                      {offer.price && (
-                        <span className="text-sm text-black/40 line-through">
-                          ₹{offer.price}
+                    <div className="flex items-baseline gap-2 mb-2">
+                      {hasOffer ? (
+                        <>
+                          <span className="text-lg font-semibold text-gray-900">
+                            ₹{product.offerPrice || product.discounted_price}
+                          </span>
+                          <span className="text-xs text-gray-500 line-through">
+                            ₹{product.price}
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-lg font-semibold text-gray-900">
+                          ₹{product.price}
                         </span>
                       )}
                     </div>
 
+                    {/* Rating placeholder (optional) */}
+                    <div className="flex items-center gap-1 mb-3">
+                      <div className="flex text-yellow-400 text-xs">
+                        ★★★★☆
+                      </div>
+                      <span className="text-xs text-gray-500">(4.0)</span>
+                    </div>
+
                     {/* Buy Now Button */}
                     <a
-                      href={`${shopSettings.shopUrl || "https://shop.hopemedicos.org"}/products/${offer.id}`}
+                      href={`${shopSettings.shopUrl || "https://shop.hopemedicos.org"}/products/${productId}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block w-full text-center px-4 py-2.5 bg-[#f58518] text-white text-xs uppercase tracking-[0.12em] font-medium hover:bg-[#e07615] transition-all rounded-full shadow-md hover:shadow-lg"
+                      className="mt-auto w-full text-center px-4 py-2.5 bg-[#f58518] text-white text-xs font-semibold hover:bg-[#e07615] transition-all rounded-md shadow-sm hover:shadow active:scale-95"
                     >
                       Buy Now
                     </a>
@@ -236,28 +182,28 @@ export default function Offers() {
             )}
           </div>
 
-          {/* Scroll Indicators (optional gradient fade) */}
-          {offers.length > 3 && (
+          {/* Gradient Overlays for scroll indication */}
+          {!contextLoading && offerProducts.length > 5 && (
             <>
               {canScrollLeft && (
-                <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#faf9f7] to-transparent pointer-events-none" />
+                <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
               )}
               {canScrollRight && (
-                <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#faf9f7] to-transparent pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
               )}
             </>
           )}
         </div>
 
         {/* View All Link */}
-        <div className="mt-8 text-center">
+        <div className="mt-4 text-center">
           <a
             href={shopSettings.shopUrl || "https://shop.hopemedicos.org"}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block text-sm uppercase tracking-[0.12em] text-[#f58518] hover:text-[#e07615] underline hover:no-underline font-medium transition-colors"
+            className="text-sm text-[#f58518] hover:text-[#e07615] hover:underline"
           >
-            View All Products →
+            See more
           </a>
         </div>
       </div>

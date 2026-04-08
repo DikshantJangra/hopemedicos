@@ -9,6 +9,7 @@ interface WebsiteData {
   theme: Partial<ThemeConfig>;
   texts: Partial<TextContent>;
   featuredProducts: any[];
+  featuredProduct: any | null; // Single featured product for Hope section
   offerProducts: any[];
   blogs: Blog[];
   initiatives: Initiative[];
@@ -21,6 +22,7 @@ const WebsiteDataContext = createContext<WebsiteData>({
   theme: {},
   texts: FIXED_TEXTS,
   featuredProducts: [],
+  featuredProduct: null,
   offerProducts: [],
   blogs: [],
   initiatives: [],
@@ -36,6 +38,7 @@ export const WebsiteDataProvider = ({ children }: { children: React.ReactNode })
     theme: {},
     texts: FIXED_TEXTS,
     featuredProducts: [],
+    featuredProduct: null,
     offerProducts: [],
     blogs: [],
     initiatives: [],
@@ -50,15 +53,20 @@ export const WebsiteDataProvider = ({ children }: { children: React.ReactNode })
         console.log('🔄 WebsiteDataContext - Starting to fetch data...');
         const websiteData = await fetchWebsiteData();
         console.log('✅ WebsiteDataContext - Data fetched:', websiteData);
+        console.log('📦 featuredProducts:', websiteData.featuredProducts);
         console.log('📦 offerProducts:', websiteData.offerProducts);
         console.log('📰 blogs:', websiteData.blogs);
         console.log('🎯 initiatives:', websiteData.initiatives);
         console.log('🎨 theme:', websiteData.theme);
         console.log('📝 texts:', websiteData.texts);
         
+        // Find the single featured product (isFeatured: true)
+        const featuredProduct = websiteData.featuredProducts.find((p: any) => p.isFeatured) || websiteData.offerProducts[0] || null;
+        
         setData(prev => ({
           ...prev,
           ...websiteData,
+          featuredProduct,
           texts: { ...prev.texts, ...websiteData.texts },
           shopSettings: { ...prev.shopSettings, ...websiteData.shopSettings },
           loading: false,

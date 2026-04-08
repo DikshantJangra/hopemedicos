@@ -160,67 +160,106 @@ export async function fetchWebsiteData() {
     const shopSettings = settingsSnap.data() as ShopSettings || {};
     console.log('Shop Settings:', shopSettings);
 
-    // 3. Featured Products
+    // 3. Featured Products - Try both medicines and products collections
     const featuredProducts = await Promise.all(
-      featuredProductIds.map(async (fp: { productId: string; displayOrder: number }) => {
+      featuredProductIds.map(async (fp: { productId: string; displayOrder: number; isFeatured?: boolean }) => {
         if (!fp || !fp.productId) return null;
         try {
-          const productDoc = await getDoc(doc(db, 'products', fp.productId));
-          if (productDoc.exists()) {
-            return { 
-              ...productDoc.data(), 
-              id: productDoc.id, 
-              displayOrder: fp.displayOrder 
-            };
+          console.log(`🔍 Fetching product: ${fp.productId}, isFeatured: ${fp.isFeatured}`);
+          
+          // Try medicines collection first
+          let productDoc = await getDoc(doc(db, 'medicines', fp.productId));
+          
+          // If not found, try products collection
+          if (!productDoc.exists()) {
+            productDoc = await getDoc(doc(db, 'products', fp.productId));
           }
-        } catch (e) {
-          console.error(`Error fetching featured product ${fp.productId}:`, e);
-        }
-        return null;
-      })
-    ).then(res => res.filter(p => p !== null));
-
-    // 4. Products on Offer - Filter and normalize the array first
-    const normalizedOfferIds = featuredOfferIds.filter((offer: any) => {
-      // Filter out invalid entries (strings or objects without productId)
-      return offer && typeof offer === 'object' && offer.productId;
-    });
-    
-    console.log('Normalized Offer IDs:', normalizedOfferIds);
-    
-    const offerProducts = await Promise.all(
-      normalizedOfferIds.map(async (offer: any) => {
-        try {
-          const productDoc = await getDoc(doc(db, 'products', offer.productId));
+          
           if (productDoc.exists()) {
-            const productData = productDoc.data() as any;
-            const savings = productData.price - (offer.offerPrice || 0);
-            const savingsPercent = productData.price ? ((savings / productData.price) * 100).toFixed(0) : "0";
-            const deadlineDate = offer.deadline ? new Date(offer.deadline) : new Date();
-            const daysLeft = Math.ceil((deadlineDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+            const productData = productDoc.data();
+            console.log(`✅ Found product: ${productData.name || 'Unknown'}`);
             
-            return { 
-              ...productData, 
+            // Check for active offer in productOffers collection
+            const offersRef = collection(db, 'productOffers');
+            const offerQuery = query(
+              offersRef,
+              where('productId', '==', fp.productId),
+              where('isActive', '==', true)
+            );
+            const offerSnap = await getDocs(offerQuery);
+            
+            let offerData = null;
+            if (!offerSnap.empty) {
+              const offer = offerSnap.docs[0].data();
+              const deadline = offer.deadline?.toDate?.() || new Date(offer.deadline);
+              console.log(`💰 Found offer for ${fp.productId}: ${offer.offerPrice}, deadline: ${deadline}`);
+              
+              if (deadline > new Date()) {
+                const originalPrice = productData.price || productData.unitPrice || 0;
+                offerData = {
+                  offerPrice: offer.offerPrice,
+                  deadline: deadline.toISOString(),
+                  savings: originalPrice - offer.offerPrice,
+                  savingsPercent: Math.round(((originalPrice - offer.offerPrice) / originalPrice) * 100)
+                };
+                console.log(`✅ Offer is active! Savings: ${offerData.savings} (${offerData.savingsPercent}%)`);
+              } else {
+                console.log(`❌ Offer expired for ${fp.productId}`);
+              }
+            } else {
+              console.log(`ℹ️ No active offer found for ${fp.productId}`);
+            }
+            
+            const result = { 
+              ...productData,
               id: productDoc.id,
-              name: productData.name,
-              description: productData.description,
-              price: productData.price,
+              displayOrder: fp.displayOrder,
+              isFeatured: fp.isFeatured || false,
+              price: productData.price || productData.unitPrice || 0,
               images: productData.images || [],
-              imageUrl: productData.images?.[0] || '',
-              offerPrice: offer.offerPrice,
-              deadline: offer.deadline,
-              savings,
-              savingsPercent,
-              daysLeft,
-              isExpired: daysLeft < 0
+              imageUrl: productData.images?.[0] || productData.imageUrl || '',
+              ...offerData
             };
+            
+            // console.log(`📦 Product result:`, {
+            //   id: result.id,
+            //   name: result.name,
+            //   isFeatured: result.isFeatured,
+            //   price: result.price,
+            //   offerPrice: result.offerPrice,
+            //   hasOffer: !!result.offerPrice
+            // });
+            
+            return result;
+          } else {
+            console.log(`❌ Product not found: ${fp.productId}`);
           }
         } catch (e) {
-          console.error(`Error fetching offer product ${offer.productId}:`, e);
+          console.error(`❌ Error fetching featured product ${fp.productId}:`, e);
         }
         return null;
       })
-    ).then(res => res.filter(o => o !== null));
+    ).then(res => res.filter(p => p !== null).sort((a: any, b: any) => a.displayOrder - b.displayOrder));
+
+    console.log(`📊 Total featured products fetched: ${featuredProducts.length}`);
+    console.log('Featured products:', featuredProducts.map((p: any) => ({ 
+      id: p.id, 
+      name: p.name, 
+      isFeatured: p.isFeatured,
+      hasOffer: !!p.offerPrice 
+    })));
+
+    // 4. Products on Offer - Get all promotional products (not marked as featured)
+    // These are for the Offers carousel section
+    const offerProducts = featuredProducts.filter((p: any) => !p.isFeatured);
+    
+    console.log(`🎯 Offer products (promotional): ${offerProducts.length}`);
+    console.log('Offer products:', offerProducts.map((p: any) => ({ 
+      id: p.id, 
+      name: p.name, 
+      price: p.price,
+      offerPrice: p.offerPrice 
+    })));
     
     console.log('Offer Products:', offerProducts);
 
