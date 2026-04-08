@@ -3,6 +3,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { fetchWebsiteData, ThemeConfig, TextContent, ShopSettings, Product, Blog, Initiative, AISettings } from '@/utils/websiteData';
 
+import { FIXED_SHOP_SETTINGS, FIXED_TEXTS } from '@/constants/shopSettings';
+
 interface WebsiteData {
   theme: Partial<ThemeConfig>;
   texts: Partial<TextContent>;
@@ -17,12 +19,12 @@ interface WebsiteData {
 
 const WebsiteDataContext = createContext<WebsiteData>({
   theme: {},
-  texts: {},
+  texts: FIXED_TEXTS,
   featuredProducts: [],
   offerProducts: [],
   blogs: [],
   initiatives: [],
-  shopSettings: {},
+  shopSettings: FIXED_SHOP_SETTINGS,
   aiSettings: {},
   loading: true,
 });
@@ -32,12 +34,12 @@ export const useWebsiteData = () => useContext(WebsiteDataContext);
 export const WebsiteDataProvider = ({ children }: { children: React.ReactNode }) => {
   const [data, setData] = useState<WebsiteData>({
     theme: {},
-    texts: {},
+    texts: FIXED_TEXTS,
     featuredProducts: [],
     offerProducts: [],
     blogs: [],
     initiatives: [],
-    shopSettings: {},
+    shopSettings: FIXED_SHOP_SETTINGS,
     aiSettings: {},
     loading: true,
   });
@@ -54,10 +56,13 @@ export const WebsiteDataProvider = ({ children }: { children: React.ReactNode })
         console.log('🎨 theme:', websiteData.theme);
         console.log('📝 texts:', websiteData.texts);
         
-        setData({
+        setData(prev => ({
+          ...prev,
           ...websiteData,
+          texts: { ...prev.texts, ...websiteData.texts },
+          shopSettings: { ...prev.shopSettings, ...websiteData.shopSettings },
           loading: false,
-        });
+        }));
 
         // Apply theme colors to CSS variables
         if (websiteData.theme) {

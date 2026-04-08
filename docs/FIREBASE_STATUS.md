@@ -61,14 +61,12 @@ All Firebase configurations have been successfully deployed to the `hope-medicos
    - Links to individual update pages
 
 4. **Privacy Policy** (`app/privacy-policy/page.tsx`)
-   - Fetches from `config/portal_settings.privacyPolicy`
-   - Renders HTML content
-   - Fallback to default content
+   - ✅ Purely Static (Bot Friendly)
+   - Managed directly in code for SEO reliability
 
 5. **Terms & Conditions** (`app/terms-and-conditions/page.tsx`)
-   - Fetches from `config/portal_settings.termsAndConditions`
-   - Renders HTML content
-   - Fallback to default content
+   - ✅ Purely Static (Bot Friendly)
+   - Managed directly in code for SEO reliability
 
 ## Data Fetching Utilities
 

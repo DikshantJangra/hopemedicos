@@ -8,9 +8,7 @@ import LocateUs from "../ui/LocateUs";
 import { useWebsiteData } from "@/context/WebsiteDataContext";
 
 const Footer = () => {
-    const { shopSettings, texts, initiatives, loading } = useWebsiteData();
-
-    if (loading) return null;
+    const { shopSettings = {}, texts = {}, initiatives = [], loading } = useWebsiteData();
 
     const footerInitiatives = initiatives && initiatives.length > 0
         ? initiatives.slice(0, 4).map(ini => ({ text: ini.title, href: ini.ctaLink }))
@@ -109,7 +107,7 @@ const Footer = () => {
                                 Privacy Policy
                             </a>
                             <a href="/terms-and-conditions" className="block text-sm text-black/60 hover:text-black transition-colors">
-                                Terms & Conditions
+                                Terms and Conditions
                             </a>
                         </div>
                     </div>

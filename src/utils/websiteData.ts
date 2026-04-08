@@ -132,8 +132,6 @@ export interface ShopSettings {
   maintenanceMode: boolean;
   todayStatus: 'auto' | 'open' | 'closed';
   storeHours: Record<string, { open: string; close: string; isClosed: boolean }>;
-  privacyPolicy: string;
-  termsAndConditions: string;
 }
 
 /**
