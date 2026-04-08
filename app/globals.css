@@ -2,240 +2,174 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-  --brand: #f58518;
-  --brand-dark: #d97706;
-  --brand-light: #ffedd5;
-  --brand-soft: #fff7ed;
+  --foreground: #000000;
+  --off-white: #faf9f7;
+  --muted: rgba(0, 0, 0, 0.4);
+  --brand-accent: #f58518;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-brand: var(--brand);
-  --color-brand-dark: var(--brand-dark);
-  --color-brand-light: var(--brand-light);
-  --color-brand-soft: var(--brand-soft);
+  --color-off-white: var(--off-white);
+  --color-muted: var(--muted);
+  --color-brand-accent: var(--brand-accent);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-instrument);
 }
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
 
 body {
   background: var(--background);
-  background-color: var(--brand-soft);
   color: var(--foreground);
-  font-family: var(--font-poppins);
+  font-family: var(--font-inter), system-ui, sans-serif;
   margin: 0;
   padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html {
   scroll-behavior: smooth;
 }
 
+/* Trust Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
 
-@keyframes gradient {
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+/* Fade in on scroll */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Shimmer effect for AI widget */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Animated border light for Locate Us button */
+@keyframes borderLight {
   0% {
     background-position: 0% 50%;
   }
-
   50% {
     background-position: 100% 50%;
   }
-
   100% {
     background-position: 0% 50%;
   }
 }
 
-.animate-gradient {
-  animation: gradient 3s ease infinite;
+.animate-border-light {
+  background: linear-gradient(
+    90deg,
+    #f58518 0%,
+    #ffa500 25%,
+    #ffb84d 50%,
+    #ffa500 75%,
+    #f58518 100%
+  );
+  background-size: 200% 100%;
+  animation: borderLight 3s ease-in-out infinite;
 }
 
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
 
-/* Shop Open */
-@keyframes ripple-ring {
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Hide scrollbar for horizontal scroll */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Animated dashed border movement */
+@keyframes dashMove {
   0% {
-    transform: scale(1);
-    opacity: 0.6;
+    stroke-dashoffset: 0;
   }
-
   100% {
-    transform: scale(4);
-    opacity: 0;
+    stroke-dashoffset: 20;
   }
 }
 
-.ripple-container {
-  position: relative;
-  width: 12px;
-  height: 12px;
+.animate-dash-move {
+  border: 2px dashed #f58518;
+  animation: dashMove 20s linear infinite;
+  background-size: 20px 20px;
 }
 
-.ripple-circle {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 12px;
-  height: 12px;
-  border-radius: 9999px;
-  background-color: var(--brand);
-  animation: ripple-ring 2s ease-out infinite;
-  pointer-events: none;
-}
-
-.ripple-circle:nth-child(1) {
-  animation-delay: 0s;
-}
-
-.ripple-circle:nth-child(2) {
-  animation-delay: 0.5s;
-}
-
-.ripple-circle:nth-child(3) {
-  animation-delay: 1s;
-}
-
-.ripple-circle:nth-child(4) {
-  animation-delay: 1.5s;
-}
-
-.red-ripple-circle {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 12px;
-  height: 12px;
-  border-radius: 9999px;
-  background-color: #de0c0c;
-  animation: ripple-ring 2s ease-out infinite;
-  pointer-events: none;
-}
-
-.red-ripple-circle:nth-child(1) {
-  animation-delay: 0s;
-}
-
-.red-ripple-circle:nth-child(2) {
-  animation-delay: 0.5s;
-}
-
-.red-ripple-circle:nth-child(3) {
-  animation-delay: 1s;
-}
-
-.red-ripple-circle:nth-child(4) {
-  animation-delay: 1.5s;
-}
-
-/* Search bar animation */
-@layer utilities {
-  .animate-fade-in {
-    animation: fadeIn 0.4s ease-out forwards;
+@keyframes dashMove {
+  0% {
+    border-image-source: repeating-linear-gradient(
+      90deg,
+      #f58518 0,
+      #f58518 10px,
+      transparent 10px,
+      transparent 20px
+    );
   }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-5px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Chat widget animations */
-  .animate-slide-up {
-    animation: slideUp 0.3s ease-out forwards;
-  }
-
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px) scale(0.95);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-  /* Subtle pulse animation for special offer badge */
-  .animate-pulse-subtle {
-    animation: pulseSubtle 2s ease-in-out infinite;
-  }
-
-  @keyframes pulseSubtle {
-    0%, 100% {
-      transform: scale(1);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
-    50% {
-      transform: scale(1.02);
-      box-shadow: 0 20px 25px -5px rgba(245, 133, 24, 0.2);
-    }
-  }
-
-  /* Custom scrollbar for chat and sections */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: var(--brand);
-    border-radius: 10px;
-    opacity: 0.5;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: var(--brand-dark);
-  }
-
-  /* Update detail page prose styles */
-  .prose {
-    color: #374151;
-  }
-
-  .prose h3 {
-    color: #111827;
-    font-weight: 700;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-  }
-
-  .prose p {
-    margin-bottom: 1rem;
-    line-height: 1.75;
-  }
-
-  .prose ul {
-    margin: 1rem 0;
-    padding-left: 1.5rem;
-    list-style-type: disc;
-  }
-
-  .prose li {
-    margin-bottom: 0.5rem;
-  }
-
-  .prose strong {
-    color: #111827;
-    font-weight: 600;
-  }
-
-  .prose em {
-    color: #6b7280;
+  100% {
+    border-image-source: repeating-linear-gradient(
+      90deg,
+      #f58518 20px,
+      #f58518 30px,
+      transparent 30px,
+      transparent 40px
+    );
   }
 }

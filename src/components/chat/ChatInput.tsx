@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, KeyboardEvent } from 'react';
-import { FaPaperPlane } from 'react-icons/fa';
 
 interface ChatInputProps {
   onSend: (message: string) => void;
@@ -12,7 +11,7 @@ interface ChatInputProps {
 export default function ChatInput({ 
   onSend, 
   disabled = false,
-  placeholder = 'Message Hope AI...'
+  placeholder = 'Message...'
 }: ChatInputProps) {
   const [input, setInput] = useState('');
 
@@ -32,7 +31,7 @@ export default function ChatInput({
   };
 
   return (
-    <div className="flex gap-2.5 items-end bg-[#f2f2f2] p-2.5 rounded-[1.5rem] border border-gray-200/50 shadow-inner group focus-within:bg-white focus-within:shadow-md transition-all duration-300">
+    <div className="flex gap-2 items-end bg-black/5 p-2 rounded-full border border-black/5 focus-within:bg-white focus-within:border-black/10 transition-all duration-300">
       <textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
@@ -40,16 +39,18 @@ export default function ChatInput({
         placeholder={placeholder}
         disabled={disabled}
         rows={1}
-        className="flex-1 px-4 py-3 bg-transparent resize-none focus:outline-none disabled:cursor-not-allowed text-[15px] font-medium text-gray-700 placeholder:text-gray-400"
+        className="flex-1 px-4 py-2 bg-transparent resize-none focus:outline-none disabled:cursor-not-allowed text-sm text-black placeholder:text-black/40"
         style={{ maxHeight: '120px' }}
       />
       <button
         onClick={handleSend}
         disabled={disabled || !input.trim()}
-        className="flex-shrink-0 w-11 h-11 bg-brand text-white rounded-[1rem] flex items-center justify-center transition-all duration-300 shadow-brand/20 hover:shadow-brand/40 disabled:opacity-30 disabled:grayscale disabled:scale-95 group-focus-within:bg-brand active:scale-90"
+        className="flex-shrink-0 w-8 h-8 bg-[#f58518] text-white rounded-full flex items-center justify-center transition-all duration-300 hover:bg-[#e07615] hover:scale-105 disabled:opacity-30 disabled:scale-95 active:scale-90 shadow-md hover:shadow-lg"
         aria-label="Send message"
       >
-        <FaPaperPlane className="w-5 h-5" />
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M3 10l14-7-7 14-2-7-5-0z" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </button>
     </div>
   );

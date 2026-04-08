@@ -17,19 +17,51 @@ interface ChatWindowProps {
 export default function ChatWindow({ onClose }: ChatWindowProps) {
   const { aiSettings, shopSettings } = useWebsiteData();
   const [messages, setMessages] = useState<MessageType[]>([]);
-  
+  const [hasInitialized, setHasInitialized] = useState(false);
+
   // Set initial message from aiSettings if available, or fallback
   useEffect(() => {
-    setMessages([
-      {
-        id: '1',
-        role: 'assistant',
-        content: aiSettings.welcomeMessage || `Hello there! 👋 I'm ${shopSettings.siteName || 'Hope Medicos'} AI, your personal healthcare assistant. How can I help you today?`,
-        timestamp: Date.now(),
-        provider: 'system',
-      },
-    ]);
-  }, [aiSettings.welcomeMessage, shopSettings.siteName]);
+    // Only initialize once
+    if (!hasInitialized) {
+      const savedMessages = sessionStorage.getItem('chatMessages');
+      
+      if (savedMessages) {
+        try {
+          setMessages(JSON.parse(savedMessages));
+        } catch (e) {
+          // If parsing fails, set default message
+          setMessages([
+            {
+              id: '1',
+              role: 'assistant',
+              content: aiSettings.welcomeMessage || `Hello there! 👋 I'm ${shopSettings.siteName || 'Hope Medicos'} AI, your personal healthcare assistant. How can I help you today?`,
+              timestamp: Date.now(),
+              provider: 'system',
+            },
+          ]);
+        }
+      } else {
+        setMessages([
+          {
+            id: '1',
+            role: 'assistant',
+            content: aiSettings.welcomeMessage || `Hello there! 👋 I'm ${shopSettings.siteName || 'Hope Medicos'} AI, your personal healthcare assistant. How can I help you today?`,
+            timestamp: Date.now(),
+            provider: 'system',
+          },
+        ]);
+      }
+      
+      setHasInitialized(true);
+    }
+  }, [aiSettings.welcomeMessage, shopSettings.siteName, hasInitialized]);
+
+  // Save messages to sessionStorage whenever they change
+  useEffect(() => {
+    if (hasInitialized && messages.length > 0) {
+      sessionStorage.setItem('chatMessages', JSON.stringify(messages));
+    }
+  }, [messages, hasInitialized]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
@@ -65,6 +97,12 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
         }),
       });
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Chat API Error:', errorText);
+        throw new Error(`Server error: ${response.status}`);
+      }
+
       const data = await response.json();
 
       const assistantMessage: MessageType = {
@@ -98,7 +136,7 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
   };
 
   const handleClearChat = () => {
-    setMessages([
+    const newMessages: MessageType[] = [
       {
         id: '1',
         role: 'assistant',
@@ -106,28 +144,43 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
         timestamp: Date.now(),
         provider: 'system',
       },
-    ]);
+    ];
+    setMessages(newMessages);
+    sessionStorage.setItem('chatMessages', JSON.stringify(newMessages));
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 w-[380px] h-[580px] max-w-[calc(100vw-2rem)] max-h-[calc(100vh-2rem)] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-100">
+    <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 w-[380px] h-[500px] max-w-[calc(100vw-2rem)] max-h-[calc(100vh-8rem)] bg-white/95 backdrop-blur-md rounded-3xl shadow-[0_8px_48px_rgba(0,0,0,0.12)] flex flex-col overflow-hidden border border-black/5 animate-slide-up">
       {/* Header */}
-      <div className="bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between">
+      <div className="bg-white/50 backdrop-blur-sm border-b border-black/5 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-gray-50 rounded-lg flex items-center justify-center border border-gray-100">
-            <AiOutlineRobot className="text-xl text-brand" />
+          <div className="w-8 h-8 bg-black/5 rounded-full flex items-center justify-center">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 20 20"
+              fill="none"
+              className="text-black"
+            >
+              <path
+                d="M3 10h2M7 7v6M11 5v10M15 7v6M17 10h2"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+            </svg>
           </div>
           <div>
-            <h3 className="font-bold text-base text-gray-900 leading-none">
-                {shopSettings.siteName || "Hope Medicos"} AI
+            <h3 className="font-medium text-sm text-black leading-none">
+              {shopSettings.siteName || "Hope Medicos"} AI
             </h3>
-            <p className="text-[10px] text-gray-400 font-medium uppercase tracking-tight mt-1">Pharmacy Assistant</p>
+            <p className="text-[10px] text-black/40 uppercase tracking-[0.12em] mt-1">Assistant</p>
           </div>
         </div>
         <div className="flex items-center gap-1">
           <button
             onClick={handleClearChat}
-            className="p-2 hover:bg-gray-50 rounded-lg text-gray-400 transition-colors"
+            className="p-2 hover:bg-black/5 rounded-full text-black/40 hover:text-black transition-colors"
             aria-label="Clear chat"
             title="Clear chat"
           >
@@ -135,7 +188,7 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
           </button>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-50 rounded-lg text-gray-400 transition-colors"
+            className="p-2 hover:bg-black/5 rounded-full text-black/40 hover:text-black transition-colors"
             aria-label="Close chat"
           >
             <FaTimes className="w-4 h-4" />
@@ -147,25 +200,38 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
       <QuickActions onActionClick={handleQuickAction} disabled={isLoading} />
 
       {/* Messages */}
-      <div 
+      <div
         ref={messagesContainerRef}
-        className="flex-1 overflow-y-auto p-4 bg-white"
+        className="flex-1 overflow-y-auto p-4 bg-transparent custom-scrollbar"
       >
         <div className="space-y-4">
           {messages.map((message) => (
             <Message key={message.id} message={message} />
           ))}
-          
+
           {isLoading && (
             <div className="flex gap-2.5 items-end opacity-70">
-              <div className="flex-shrink-0 w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center border border-gray-100">
-                <AiOutlineRobot className="text-brand text-sm" />
+              <div className="flex-shrink-0 w-7 h-7 rounded-full bg-black/5 flex items-center justify-center">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  className="text-black"
+                >
+                  <path
+                    d="M3 10h2M7 7v6M11 5v10M15 7v6M17 10h2"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
               </div>
-              <div className="bg-gray-50 px-3 py-2 rounded-xl rounded-bl-none border border-gray-100">
+              <div className="bg-black/5 px-3 py-2 rounded-xl rounded-bl-none">
                 <div className="flex gap-1">
-                  <div className="w-1 h-1 bg-gray-300 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                  <div className="w-1 h-1 bg-gray-300 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                  <div className="w-1 h-1 bg-gray-300 rounded-full animate-bounce"></div>
+                  <div className="w-1 h-1 bg-black/30 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                  <div className="w-1 h-1 bg-black/30 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                  <div className="w-1 h-1 bg-black/30 rounded-full animate-bounce"></div>
                 </div>
               </div>
             </div>
@@ -175,14 +241,14 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
       </div>
 
       {/* Input */}
-      <div className="p-4 bg-white border-t border-gray-50">
-        <ChatInput 
-          onSend={handleSend} 
+      <div className="p-4 bg-white/50 backdrop-blur-sm border-t border-black/5">
+        <ChatInput
+          onSend={handleSend}
           disabled={isLoading}
           placeholder={isLoading ? 'Thinking...' : 'How can I help you?'}
         />
-        <p className="text-[10px] text-gray-300 mt-2 text-center">
-          AI Assistant • Hope Medicos
+        <p className="text-[10px] text-black/30 mt-2 text-center uppercase tracking-[0.12em]">
+          AI Assistant
         </p>
       </div>
     </div>

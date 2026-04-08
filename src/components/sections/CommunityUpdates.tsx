@@ -1,161 +1,102 @@
 'use client';
 
-import { FaNewspaper } from "react-icons/fa";
-import { HiOutlineUser, HiOutlineCalendar } from "react-icons/hi";
-import SpotlightCard from "../layout/SpotlightCard/SpotlightCard";
 import Link from "next/link";
 import Image from "next/image";
 import { useWebsiteData } from "@/context/WebsiteDataContext";
 
 export default function CommunityUpdates() {
-    const { blogs, loading, texts } = useWebsiteData();
+    const { blogs, loading } = useWebsiteData();
 
     const formatDate = (dateString: string) => {
         if (!dateString) return '';
         const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', { 
-            month: 'short', 
-            day: 'numeric', 
-            year: 'numeric' 
-        });
+        return date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+        }).toUpperCase();
     };
 
     if (loading) {
         return (
-            <section id="community-updates" className="min-h-screen bg-white px-4 sm:px-6 py-16">
-                <div className="flex gap-2 items-center text-gray-500 mb-4 text-sm font-medium backdrop-blur-md py-1 px-2 rounded-lg w-fit bg-white/60 border border-white/40 shadow-sm">
-                    <FaNewspaper className="text-brand" />
-                    <span>Community Updates</span>
-                </div>
-                <div className="mb-10">
-                    <div className="h-10 w-64 bg-gray-200 rounded-lg animate-pulse mb-3" />
-                    <div className="h-6 w-96 bg-gray-200 rounded-lg animate-pulse" />
-                </div>
-                {/* Shimmer Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {[1, 2, 3].map((i) => (
-                        <div key={i} className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
-                            <div className="aspect-video bg-gray-200 animate-pulse" />
-                            <div className="p-5 space-y-3">
-                                <div className="h-4 w-32 bg-gray-200 rounded animate-pulse" />
-                                <div className="h-6 w-full bg-gray-200 rounded animate-pulse" />
-                                <div className="h-4 w-3/4 bg-gray-200 rounded animate-pulse" />
-                                <div className="h-4 w-full bg-gray-200 rounded animate-pulse" />
-                                {/* Shimmer tags */}
-                                <div className="flex gap-2">
-                                    <div className="h-6 w-16 bg-gray-200 rounded-full animate-pulse" />
-                                    <div className="h-6 w-20 bg-gray-200 rounded-full animate-pulse" />
-                                    <div className="h-6 w-14 bg-gray-200 rounded-full animate-pulse" />
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+            <section id="community-updates" className="bg-white px-6 py-20">
+                <div className="max-w-5xl mx-auto">
+                    <div className="h-10 w-48 bg-black/5 rounded animate-pulse mb-12" />
+                    <div className="space-y-6">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="h-24 bg-black/5 rounded animate-pulse" />
+                        ))}
+                    </div>
                 </div>
             </section>
         );
     }
 
-    return(
-        <section id="community-updates" className="min-h-screen bg-white px-4 sm:px-6 py-16">
-            <div className="flex gap-2 items-center text-gray-500 mb-4 text-sm font-medium backdrop-blur-md py-1 px-2 rounded-lg w-fit bg-white/60 border border-white/40 shadow-sm">
-                <FaNewspaper className="text-brand" />
-                <span>Community Updates</span>
-            </div>
+    if (blogs.length === 0) return null;
 
-            <div className="mb-10">
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
-                    {texts.aboutTitle || "Latest Updates"}
-                </h2>
-                <p className="text-gray-500 text-base max-w-2xl">
-                    {texts.aboutDescription || "Stay connected with our community celebrations, health insights, and announcements."}
-                </p>
-            </div>
-
-            {blogs.length === 0 ? (
-                <div className="text-center py-20">
-                    <p className="text-gray-500">No updates available at the moment.</p>
+    return (
+        <section id="community-updates" className="bg-white px-6 py-20">
+            <div className="max-w-5xl mx-auto">
+                {/* Header */}
+                <div className="flex items-end justify-between mb-12">
+                    <h2 className="text-3xl md:text-4xl font-normal tracking-[-0.02em] text-black">
+                        Latest from Hope
+                    </h2>
+                    <Link
+                        href="/updates"
+                        className="text-xs uppercase tracking-[0.12em] text-[#f58518] hover:text-[#e07615] transition-colors font-medium"
+                    >
+                        View all →
+                    </Link>
                 </div>
-            ) : (
-                <>
-                    {/* Featured Updates Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {blogs.map((blog, idx) => (
-                            <SpotlightCard 
-                                key={blog.id} 
-                                spotlightColor="rgba(245, 133, 24, 0.1)" 
-                                className="bg-white border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200 rounded-2xl p-0 flex flex-col h-full overflow-hidden"
-                            >
-                                <div className="flex flex-col h-full">
-                                    {/* Image Container */}
-                                    {blog.featuredImage && (
-                                        <div className="relative aspect-video overflow-hidden">
-                                            <Image 
-                                                src={blog.featuredImage} 
-                                                alt={blog.title}
-                                                fill
-                                                className="object-cover"
-                                            />
-                                            <div className="absolute top-3 left-3 px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-[10px] font-bold text-brand uppercase border border-gray-100">
-                                                {blog.category}
-                                            </div>
-                                        </div>
-                                    )}
 
-                                    <div className="p-5 flex flex-col flex-1">
-                                        <div className="flex items-center gap-3 mb-3 text-[11px] text-gray-400 font-medium">
-                                            <div className="flex items-center gap-1">
-                                                <HiOutlineCalendar className="text-sm" />
-                                                <span>{formatDate(blog.createdAt)}</span>
-                                            </div>
-                                            <span>•</span>
-                                            <div className="flex items-center gap-1">
-                                                <HiOutlineUser className="text-sm" />
-                                                <span>{blog.author}</span>
-                                            </div>
-                                        </div>
-
-                                        <h3 className="text-lg font-bold text-gray-900 mb-3 leading-snug">
-                                            {blog.title}
-                                        </h3>
-
-                        <p className="text-gray-500 text-sm leading-relaxed mb-4 flex-grow line-clamp-3">
-                                            {blog.excerpt}
-                                        </p>
-
-                                        {/* Tags */}
-                                        {blog.tags && blog.tags.length > 0 && (
-                                            <div className="flex flex-wrap gap-2 mb-4">
-                                                {blog.tags.slice(0, 3).map((tag, i) => (
-                                                    <span key={i} className="text-[10px] bg-brand/10 text-brand px-2 py-1 rounded-full font-medium">
-                                                        {tag}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        )}
-
-                                        <Link 
-                                            href={`/updates/${blog.id}`}
-                                            className="text-brand font-bold text-sm hover:underline inline-flex items-center gap-1"
-                                        >
-                                            Read More
-                                        </Link>
-                                    </div>
-                                </div>
-                            </SpotlightCard>
-                        ))}
-                    </div>
-
-                    {/* View All Button */}
-                    <div className="mt-12">
-                        <Link 
-                            href="/updates"
-                            className="inline-flex items-center justify-center px-6 py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-700 font-semibold rounded-lg text-sm transition-colors border border-gray-200"
+                {/* Editorial Row List */}
+                <div className="space-y-0">
+                    {blogs.slice(0, 5).map((blog, idx) => (
+                        <Link
+                            key={blog.id}
+                            href={`/updates/${blog.id}`}
+                            className="group flex gap-6 py-6 border-t border-black/5 hover:bg-[#faf9f7] transition-colors -mx-6 px-6"
                         >
-                            View All Community Updates
+                            {/* Small square thumbnail */}
+                            {blog.featuredImage && (
+                                <div className="relative w-20 h-20 shrink-0 bg-[#faf9f7] overflow-hidden">
+                                    <Image
+                                        src={blog.featuredImage}
+                                        alt={blog.title}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </div>
+                            )}
+
+                            {/* Text content */}
+                            <div className="flex-1 min-w-0">
+                                {/* Date + category in 10px uppercase muted */}
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="text-[10px] uppercase tracking-[0.15em] text-black/40">
+                                        {blog.category}
+                                    </span>
+                                    <span className="text-black/20">·</span>
+                                    <span className="text-[10px] uppercase tracking-[0.15em] text-black/40">
+                                        {formatDate(blog.createdAt)}
+                                    </span>
+                                </div>
+
+                                {/* Title in 13px medium */}
+                                <h3 className="text-[13px] font-medium text-black mb-1 group-hover:underline leading-snug">
+                                    {blog.title}
+                                </h3>
+
+                                {/* One-line excerpt */}
+                                <p className="text-xs text-black/60 line-clamp-1">
+                                    {blog.excerpt}
+                                </p>
+                            </div>
                         </Link>
-                    </div>
-                </>
-            )}
+                    ))}
+                </div>
+            </div>
         </section>
     )
 }

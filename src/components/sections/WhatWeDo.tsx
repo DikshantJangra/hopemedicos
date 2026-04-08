@@ -40,7 +40,6 @@ export default function WhatWeDo() {
         }
     ];
 
-    if (loading) return null;
 
     return (
         <section id="whatwedo" className="min-h-screen bg-white relative pt-32">

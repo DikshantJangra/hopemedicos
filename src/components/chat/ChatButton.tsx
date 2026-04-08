@@ -43,7 +43,7 @@ export default function ChatButton({ onClick, isOpen, unreadCount = 0 }: ChatBut
           )}
         </>
       )}
-      
+
       {!isOpen && isHovered && (
         <div className="absolute bottom-full right-0 mb-3 px-3 py-1.5 bg-gray-800 text-white text-xs font-medium rounded-lg whitespace-nowrap shadow-md">
           Ask {shopSettings.siteName || "Hope Medicos"} AI

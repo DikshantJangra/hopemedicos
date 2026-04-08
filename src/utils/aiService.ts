@@ -3,7 +3,7 @@
 import { AI_PROVIDERS } from '@/config/aiProviders';
 import { rateLimiter } from './rateLimiter';
 import type { Message, AIResponse } from '@/types/chat';
-import { doc, getDoc } from 'firebase/firestore';
+import { adminDb } from './firebase-admin';
 import { db } from './firebase';
 
 interface Offer {
@@ -27,34 +27,56 @@ let cachedAIConfig: {
 let lastFetchTime = 0;
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
-async function getAIConfig() {
+async function getAIConfig(): Promise<{
+  enabled: boolean;
+  systemPrompt: string;
+  maxTokens: number;
+  temperature: number;
+  fallbackMessage?: string;
+}> {
   const now = Date.now();
   
-  // Return cached config if still valid
   if (cachedAIConfig && (now - lastFetchTime) < CACHE_DURATION) {
     return cachedAIConfig;
   }
 
-  try {
-    const aiConfigRef = doc(db, 'config', 'ai_settings');
-    const aiConfigSnap = await getDoc(aiConfigRef);
-    
-    if (aiConfigSnap.exists()) {
-      cachedAIConfig = aiConfigSnap.data();
-      lastFetchTime = now;
-      return cachedAIConfig;
-    }
-  } catch (error) {
-    console.error('Error fetching AI config:', error);
-  }
-
-  // Return default config if fetch fails
-  return {
+  const defaultConfig = {
     enabled: true,
     systemPrompt: getDefaultSystemPrompt(),
     maxTokens: 500,
     temperature: 0.7,
   };
+
+  try {
+    const isServer = typeof window === 'undefined';
+    
+    if (isServer) {
+        // Only attempt Firestore call if project ID is properly set (not 'place-holder-id')
+        const projectId = process.env.FIREBASE_PROJECT_ID;
+        if (projectId && projectId !== 'place-holder-id' && process.env.FIREBASE_PRIVATE_KEY) {
+            const aiConfigSnap = await adminDb.collection('config').doc('ai_settings').get();
+            if (aiConfigSnap.exists) {
+                cachedAIConfig = aiConfigSnap.data() as any;
+                lastFetchTime = now;
+                return cachedAIConfig || defaultConfig;
+            }
+        }
+    } else {
+        const { doc, getDoc } = await import('firebase/firestore');
+        const aiConfigRef = doc(db, 'config', 'ai_settings');
+        const aiConfigSnap = await getDoc(aiConfigRef);
+        
+        if (aiConfigSnap.exists()) {
+            cachedAIConfig = aiConfigSnap.data() as any;
+            lastFetchTime = now;
+            return cachedAIConfig || defaultConfig;
+        }
+    }
+  } catch (error) {
+    console.error('Error fetching AI config:', error);
+  }
+
+  return defaultConfig;
 }
 
 function getDefaultSystemPrompt() {
@@ -80,9 +102,10 @@ RESPONSE RULES:
 
 2. Keep responses SHORT and TO THE POINT (2-3 sentences max)
 3. Be professional, friendly, and empathetic
-4. Support both English and Hindi
-5. Never diagnose conditions or prescribe medications
-6. Always recommend consulting a doctor for medical advice
+4. Use HEAVY PUNCTUATION for natural voice pauses. Use full stops (.) and question marks (?) clearly.
+5. STRICT LANGUAGE MATCHING: Respond in the user's language. If they speak Hindi, respond EXCLUSIVELY in Hindi. If they speak English, respond EXCLUSIVELY in English. Never mix languages (Hinglish).
+6. Never diagnose conditions or prescribe medications
+7. Always recommend consulting a doctor for medical advice
 
 Store Information:
 - Name: Hope Medicos
@@ -268,71 +291,62 @@ export class AIService {
   }
 
   async chat(messages: Message[]): Promise<AIResponse> {
-    // Fetch AI configuration from Firebase
-    const aiConfig = await getAIConfig();
-    
-    // Check if chatbot is enabled
-    if (!aiConfig.enabled) {
+    try {
+      // Fetch AI configuration from Firebase
+      const aiConfig = await getAIConfig();
+      
+      // Check if chatbot is enabled
+      if (!aiConfig.enabled) {
+        return {
+          content: aiConfig.fallbackMessage || 'The chatbot is currently unavailable. Please contact us directly for assistance.',
+          provider: 'disabled',
+          success: false,
+        };
+      }
+
+      const systemPrompt = aiConfig.systemPrompt || getDefaultSystemPrompt();
+      const maxTokens = aiConfig.maxTokens || 500;
+
+      const providers = AI_PROVIDERS.filter(p => p.enabled).sort((a, b) => a.priority - b.priority);
+
+      for (const provider of providers) {
+        if (!rateLimiter.canMakeRequest(provider.name, provider.rateLimit.requests, provider.rateLimit.window)) {
+          continue;
+        }
+
+        try {
+          console.log(`[AI] Attempting ${provider.name}...`);
+          let response: AIResponse;
+          
+          switch (provider.name) {
+            case 'gemini': response = await this.callGemini(messages, systemPrompt, maxTokens); break;
+            case 'groq': response = await this.callGroq(messages, systemPrompt, maxTokens); break;
+            case 'openrouter': response = await this.callOpenRouter(messages, systemPrompt, maxTokens); break;
+            case 'huggingface': response = await this.callHuggingFace(messages, systemPrompt, maxTokens); break;
+            default: continue;
+          }
+
+          rateLimiter.recordRequest(provider.name, provider.rateLimit.window);
+          return response;
+        } catch (error) {
+          console.error(`[AI] ${provider.name} failed:`, error);
+        }
+      }
+
       return {
-        content: aiConfig.fallbackMessage || 'The chatbot is currently unavailable. Please contact us directly for assistance.',
-        provider: 'disabled',
+        content: aiConfig.fallbackMessage || 'I apologize, but I\'m currently experiencing technical difficulties. Please try again soon.',
+        provider: 'fallback',
+        success: false,
+        error: 'All AI providers failed',
+      };
+    } catch (criticalError) {
+      console.error('[AI CRITICAL ERROR]:', criticalError);
+      return {
+        content: 'I apologize, but my core service is having trouble. Please try again later.',
+        provider: 'error',
         success: false,
       };
     }
-
-    const systemPrompt = aiConfig.systemPrompt || getDefaultSystemPrompt();
-    const maxTokens = aiConfig.maxTokens || 500;
-
-    const providers = AI_PROVIDERS.filter(p => p.enabled).sort((a, b) => a.priority - b.priority);
-
-    for (const provider of providers) {
-      // Check rate limit
-      if (!rateLimiter.canMakeRequest(provider.name, provider.rateLimit.requests, provider.rateLimit.window)) {
-        console.log(`Rate limit exceeded for ${provider.name}, trying next provider...`);
-        continue;
-      }
-
-      try {
-        console.log(`Attempting to use ${provider.name}...`);
-        
-        let response: AIResponse;
-        
-        switch (provider.name) {
-          case 'gemini':
-            response = await this.callGemini(messages, systemPrompt, maxTokens);
-            break;
-          case 'groq':
-            response = await this.callGroq(messages, systemPrompt, maxTokens);
-            break;
-          case 'openrouter':
-            response = await this.callOpenRouter(messages, systemPrompt, maxTokens);
-            break;
-          case 'huggingface':
-            response = await this.callHuggingFace(messages, systemPrompt, maxTokens);
-            break;
-          default:
-            continue;
-        }
-
-        // Record successful request
-        rateLimiter.recordRequest(provider.name, provider.rateLimit.window);
-        
-        console.log(`Successfully used ${provider.name}`);
-        return response;
-        
-      } catch (error) {
-        console.error(`${provider.name} failed:`, error);
-        // Continue to next provider
-      }
-    }
-
-    // All providers failed
-    return {
-      content: aiConfig.fallbackMessage || 'I apologize, but I\'m currently experiencing technical difficulties. Please try again in a moment or contact Hope Medicos directly for assistance.',
-      provider: 'fallback',
-      success: false,
-      error: 'All AI providers failed',
-    };
   }
 }
 

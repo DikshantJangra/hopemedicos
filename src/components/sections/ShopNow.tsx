@@ -1,78 +1,62 @@
 'use client';
 
-import Image from "next/image";
-import { AiFillShop } from "react-icons/ai";
-import { CgShoppingBag } from "react-icons/cg";
 import { useWebsiteData } from "@/context/WebsiteDataContext";
 
 export default function ShopNow() {
-    const { texts, shopSettings, loading } = useWebsiteData();
+    const { shopSettings, loading } = useWebsiteData();
 
-    if (loading) return null;
 
     return (
-        <section id="shopnow" className="min-h-screen relative bg-[linear-gradient(to_bottom,_#ffffff,_var(--brand-light))] px-4 sm:px-6 py-12 sm:py-16 flex flex-col items-center justify-center">
-            <div className="absolute top-4 sm:top-8 left-1/2 -translate-x-1/2 w-full max-w-6xl flex items-center justify-between opacity-90 px-4">
-                {Array.from({ length: 8 }).map((_, idx) => (
-                    <div key={idx} className="relative">
-                        {/* Light image */}
-                        <Image 
-                            src="/light.svg" 
-                            alt="decorative light" 
-                            width={70} 
-                            height={70} 
-                            className="select-none relative z-20 w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28" 
-                            loading="lazy"
-                        />
-                    </div>
-                ))}
-            </div>
+        <section id="shopnow" className="bg-white px-6 py-32">
+            <div className="max-w-4xl mx-auto text-center">
+                {/* Editorial heading */}
+                <div className="mb-4">
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-black/40 mb-8">
+                        Our mission
+                    </p>
+                </div>
 
-            {/* Heading */}
-            <h2 className="text-center text-brand text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight relative z-10 px-4 max-w-6xl">
-                {texts.shopNowTitle || "Healthcare for Everyone, Everywhere"}
-            </h2>
+                {/* Quote-style centered headline with italic */}
+                <h2 className="text-5xl md:text-6xl lg:text-7xl font-normal tracking-[-0.02em] text-black leading-[1.05] mb-6">
+                    Healthcare for{' '}
+                    <span className="font-serif italic font-light">everyone</span>,{' '}
+                    everywhere.
+                </h2>
 
-            {/* Subheading */}
-            <p className="mt-4 sm:mt-6 max-w-5xl text-center text-black/70 text-lg sm:text-xl lg:text-2xl leading-relaxed relative z-10 px-4">
-                {texts.shopNowSubtitle || "Whether you're a customer seeking trusted over-the-counter medicines or a business in need of reliable wholesale supply, Hope Medicos is here to serve. Quality, affordability, and care — all under one roof."}
-            </p>
+                <p className="text-base text-black/60 mb-12 max-w-2xl mx-auto">
+                    Whether you're a customer or a business — quality, affordability, and care. All under one roof.
+                </p>
 
-            {/* CTAs */}
-            <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 relative z-10 px-4 w-full sm:w-auto">
-                <a
-                    href="https://wa.me/919812080390"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex items-center gap-3 bg-brand text-white px-8 py-4 rounded-2xl text-lg sm:text-xl font-bold shadow-2xl w-full sm:w-auto justify-center hover:bg-brand-dark hover:scale-105 transition-all duration-300"
-                >
-                    <AiFillShop className="text-2xl" />
-                    <span>{texts.wholesaleCtaText || "Wholesale Enquiries"}</span>
-                </a>
-                
-                <div className="hidden sm:block h-12 w-px bg-brand/30"></div>
-                
-                <a
-                    href={shopSettings.shopUrl || "https://shop.hopemedicos.org"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex items-center gap-3 bg-brand text-white px-8 py-4 rounded-2xl text-lg sm:text-xl font-bold shadow-2xl w-full sm:w-auto justify-center hover:bg-brand-dark hover:scale-105 transition-all duration-300"
-                >
-                    <CgShoppingBag className="text-2xl" />
-                    <span>{texts.shopOnlineCtaText || "Shop Online"}</span>
-                </a>
-
-                <div className="hidden sm:block h-12 w-px bg-brand/30"></div>
-
-                <a
-                    href="https://maps.google.com/?q=Hope+Medicos+Hisar+Haryana"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex items-center gap-3 bg-brand text-white px-8 py-4 rounded-2xl text-lg sm:text-xl font-bold shadow-2xl w-full sm:w-auto justify-center hover:bg-brand-dark hover:scale-105 transition-all duration-300"
-                >
-                    <CgShoppingBag className="text-2xl" />
-                    <span>{texts.shopOtcCtaText || "Visit Store (OTC)"}</span>
-                </a>
+                {/* Three buttons - two ghost, one solid */}
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a
+                        href="https://wa.me/919812080390"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-8 py-4 border-2 border-[#f58518] text-black text-xs uppercase tracking-[0.12em] font-normal hover:bg-[#f58518] hover:text-white transition-all w-full sm:w-auto text-center"
+                    >
+                        Wholesale enquiries
+                    </a>
+                    
+                    <a
+                        href={shopSettings.shopUrl || "https://shop.hopemedicos.org"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-8 py-4 bg-[#f58518] text-white text-xs uppercase tracking-[0.12em] font-normal hover:bg-[#e07615] transition-all w-full sm:w-auto text-center shadow-lg hover:shadow-xl"
+                    >
+                        Shop online
+                    </a>
+                    
+                    <a
+                        href="https://www.google.com/maps/dir//Hope+Medicos+(A+Unit+of+GlobalHope+Biotech+OPC+Private+Limited),+near+Sarvodya+Hospital,+opp.+Red+Cross+Delhi+Road,+Bank+Colony,+Urban+Estate+II,+Hisar,+Haryana+125001/@29.1409169,75.5271844,61152m/data=!3m1!1e3!4m16!1m7!3m6!1s0x3912333e978e712d:0x40b39f644e6f74c9!2sHope+Medicos+(A+Unit+of+GlobalHope+Biotech+OPC+Private+Limited)!8m2!3d29.1409796!4d75.733467!16s%2Fg%2F11f_0vryzn!4m7!1m0!1m5!1m1!1s0x3912333e978e712d:0x40b39f644e6f74c9!2m2!1d75.733467!2d29.1409796?entry=ttu&g_ep=EgoyMDI2MDQwNS4wIKXMDSoASAFQAw%3D%3D"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-8 py-4 border-2 border-[#f58518] text-black text-xs uppercase tracking-[0.12em] font-normal hover:bg-[#f58518] hover:text-white transition-all w-full sm:w-auto text-center"
+                        title="Your Location is auto set!"
+                    >
+                        Visit store
+                    </a>
+                </div>
             </div>
         </section>
     )

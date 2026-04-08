@@ -1,11 +1,32 @@
 
-import { Poppins } from 'next/font/google';
+import { Inter, Instrument_Serif, Poppins } from 'next/font/google';
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ChatWidget from "@/components/chat/ChatWidget";
 import { WebsiteDataProvider } from "@/context/WebsiteDataContext";
 import type { Metadata } from "next";
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ['latin'],
+  weight: ['400'],
+  style: ['normal', 'italic'],
+  variable: '--font-instrument',
+  display: 'swap',
+})
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "Hope Medicos - फ़िक्र आपकी",
@@ -75,11 +96,6 @@ export const metadata: Metadata = {
   },
 };
 
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'], // choose only what you need
-  variable: '--font-poppins',
-})
 
 export default function RootLayout({
   children,
@@ -139,7 +155,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${poppins.variable} antialiased`} suppressHydrationWarning>
+      <body className={`${inter.variable} ${instrumentSerif.variable} ${poppins.variable} antialiased`} suppressHydrationWarning>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
