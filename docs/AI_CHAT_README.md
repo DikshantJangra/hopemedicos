@@ -419,7 +419,7 @@ This project is part of Hope Medicos website.
 
 **Built with ❤️ for Hope Medicos**
 
-*Your Care, Our Concern - फ़िक्र आपकी*
+*Your Care, Our Concern - Trusted Healthcare Partner*
 
 ## 🚀 Get Started Now!
 

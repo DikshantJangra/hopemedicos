@@ -29,7 +29,7 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: "Hope Medicos - फ़िक्र आपकी",
+  title: "Hope Medicos - Trusted Pharmacy",
   description: "Hope medicos - Your Trusted Pharmacy Store in Hisar. We provide quality medicines, healthcare products, and professional pharmaceutical services. Visit us for all your healthcare needs",
   keywords: "hope,pharmacy, medicines, healthcare, Hisar, Haryana, Hope Medicos, pharmaceutical store, medical supplies, hindi pharmacy, local pharmacy",
   authors: [{ name: "Hope Medicos" }],
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://hopemedicos.org',
     siteName: 'Hope Medicos',
-    title: "Hope Medicos - फ़िक्र आपकी",
+    title: "Hope Medicos - Trusted Pharmacy",
     description: "Hope medicos - Your Trusted Pharmacy Store in Hisar. We provide quality medicines, healthcare products, and professional pharmaceutical services. Visit us for all your healthcare needs",
     images: [
       {
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Hope Medicos - फ़िक्र आपकी",
+    title: "Hope Medicos - Trusted Pharmacy",
     description: "Hope medicos - Your Trusted Pharmacy Store in Hisar. We provide quality medicines, healthcare products, and professional pharmaceutical services. Visit us for all your healthcare needs",
     images: ['https://hopemedicos.org/hope_logo.png'],
     creator: '@hopemedicos',

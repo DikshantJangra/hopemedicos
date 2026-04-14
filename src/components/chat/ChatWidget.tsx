@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import ChatWindow from './ChatWindow';
 import TalkWindow from './TalkWindow';
+import { VoiceProvider } from './VoiceProvider';
 import { useWebsiteData } from '@/context/WebsiteDataContext';
 
 type Mode = 'chat' | 'talk' | null;
@@ -60,7 +61,7 @@ export default function ChatWidget() {
   };
 
   return (
-    <>
+    <VoiceProvider>
       {/* Floating AI Button - Center Bottom - Always Visible */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
         <div
@@ -180,6 +181,6 @@ export default function ChatWidget() {
       
       {/* Talk Window */}
       {isOpen && mode === 'talk' && <TalkWindow onClose={handleClose} />}
-    </>
+    </VoiceProvider>
   );
 }

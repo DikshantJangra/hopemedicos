@@ -2,7 +2,7 @@ import { ShopSettings } from '@/utils/websiteData';
 
 export const FIXED_SHOP_SETTINGS: ShopSettings = {
   siteName: "Hope Medicos",
-  tagline: "फ़िक्र आपकी",
+  tagline: "Trusted Healthcare Partner",
   supportEmail: "admin@hopemedicos.org",
   supportPhone: "+91 98120 80390",
   hopemedicosUrl: "https://www.hopemedicos.org",

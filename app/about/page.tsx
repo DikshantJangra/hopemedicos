@@ -56,9 +56,8 @@ export default function AboutUs() {
 
                     {/* Mission Section */}
                     <section className="bg-white p-8 md:p-12 border border-black/5 rounded-sm shadow-sm italic font-serif text-2xl text-black leading-snug">
-                       <p className="mb-4">"फ़िक्र आपकी"</p>
                        <p className="text-lg font-inter not-italic text-black/60 leading-relaxed">
-                          At Hope Medicos, we believe in "We care for you". Our mission is to provide high-quality, effective, and affordable medicines to every patient who walks through our doors. We strive to bridge the gap between world-class pharmaceutical products and the people who need them most.
+                          At Hope Medicos, we believe in exceptional care and quality. Our mission is to provide high-quality, effective, and affordable medicines to every patient who walks through our doors. We strive to bridge the gap between world-class pharmaceutical products and the people who need them most.
                        </p>
                     </section>
 
@@ -137,7 +136,7 @@ export default function AboutUs() {
                             {[
                                 { l: "Full Business Name", v: "Hope Medicos" },
                                 { l: "Proprietor", v: "Mr. Krishan Kumar Jangra" },
-                                { l: "Tagline", v: " फ़िक्र आपकी (Your Care)" },
+                                { l: "Tagline", v: "Trusted Healthcare Partner" },
                                 { l: "Operating Hours", v: "7:00 AM – 10:30 PM (Mon-Sun)" },
                                 { l: "Core Services", v: "Retail Pharmacy & Pharmaceutical Manufacturing" },
                                 { l: "GST Number", v: "06AQMPK0456A2Z7" },

@@ -109,7 +109,7 @@ RESPONSE RULES:
 
 Store Information:
 - Name: Hope Medicos
-- Tagline: फ़िक्र आपकी (Your Care, Our Concern)
+- Tagline: Trusted Healthcare Partner
 - Location: Hisar, Haryana, India
 - Phone: +91 9812080390
 - Services: Quality medicines, healthcare products, professional pharmaceutical services
