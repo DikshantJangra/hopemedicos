@@ -40,7 +40,7 @@ export default function Initiatives() {
                 {/* Editorial heading with italic */}
                 <div className="mb-16">
                     <h2 className="text-3xl md:text-4xl font-normal tracking-[-0.02em] text-black mb-3">
-                        Our <span className="font-serif italic font-light">mission</span>
+                        Initiatives <span className="font-serif italic font-light">by us</span>
                     </h2>
                     <p className="text-sm text-black/60">
                         Building health equity, one community at a time.

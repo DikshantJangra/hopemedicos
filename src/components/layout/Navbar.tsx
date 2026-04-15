@@ -18,10 +18,10 @@ export default function Navbar() {
     const keepTitlePages = ['/privacy-policy', '/terms-and-conditions', '/about', '/updates'];
     const keepTitle = keepTitlePages.includes(pathname);
     const sections = useMemo(() => [
-        { name: "Shop", path: shopSettings.shopUrl || "https://shop.hopemedicos.org" },
-        { name: "Business", path: "/#business" },
-        { name: "Mission", path: "/#mission" },
-    ], [shopSettings.shopUrl]);
+        { name: "Latest", path: "/#community-updates" },
+        { name: "Initiatives", path: "/#mission" },
+        { name: "Mission", path: "/#mission-statement" },
+    ], []);
     const [activeSection, setActiveSection] = useState("/");
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -50,8 +50,12 @@ export default function Navbar() {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         const id = `/#${entry.target.id}`;
-                        // Map sections to their respective IDs
-                        const mappedPath = id === '/#initiatives' ? '/#mission' : id;
+                        // Map section IDs to their respective paths
+                        let mappedPath = id;
+                        if (id === '/#community-updates') mappedPath = '/#community-updates';
+                        if (id === '/#mission') mappedPath = '/#mission';
+                        if (id === '/#mission-statement') mappedPath = '/#mission-statement';
+                        
                         if (sections.some(s => s.path === mappedPath)) {
                             setActiveSection(mappedPath);
                         }

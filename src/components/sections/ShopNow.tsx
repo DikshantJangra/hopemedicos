@@ -7,17 +7,13 @@ export default function ShopNow() {
     const { shopSettings, loading } = useWebsiteData();
 
     return (
-        <section id="shopnow" className="bg-white px-6 py-40 border-t border-black/5">
+        <section id="mission-statement" className="bg-white px-6 py-40 border-t border-black/5">
             <div className="max-w-4xl mx-auto text-center space-y-12">
                 {/* Editorial heading */}
                 <div className="flex flex-col items-center gap-4">
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-[1px] bg-[#f58518]" />
-                        <span className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#f58518]">
-                            Our mission
-                        </span>
-                        <div className="w-8 h-[1px] bg-[#f58518]" />
-                    </div>
+                    <h2 className="text-3xl md:text-4xl font-normal tracking-[-0.02em] text-black mb-3">
+                        Our <span className="font-serif italic font-light">mission</span>
+                    </h2>
                 </div>
 
                 {/* Quote-style centered headline with italic */}
