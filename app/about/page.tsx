@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import { FcGoogle } from 'react-icons/fc';
 
 export const metadata: Metadata = {
     title: 'About Us | Hope Medicos',
@@ -85,47 +86,52 @@ export default function AboutUs() {
                     </section>
 
                     {/* Why Choose Us */}
-                    <section className="bg-black text-white p-10 md:p-16">
-                        <div className="flex items-center gap-2 mb-6">
-                            {[1, 2, 3, 4, 5].map((s) => (
-                                <svg key={s} className="w-4 h-4 text-[#f58518] fill-current" viewBox="0 0 20 20">
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                            ))}
-                        </div>
-                        <h2 className="text-3xl font-normal leading-tight mb-6">Recognized for Excellence</h2>
-                        <p className="text-white/70 text-lg leading-relaxed mb-8">
-                            With a stellar 4.9-star rating from our loyal customers, we are recognized for our responsive service, reasonable pricing, and extensive product range. Whether it's life-saving medication or daily healthcare essentials, Hope Medicos is a name you can trust.
-                        </p>
-                        <div className="flex gap-10 border-t border-white/10 pt-8 mt-8">
-                            <div>
-                                <span className="block text-2xl font-medium">15+</span>
-                                <span className="text-[10px] uppercase tracking-widest text-white/40">Years Experience</span>
-                            </div>
-                            <div>
-                                <span className="block text-2xl font-medium">146+</span>
-                                <span className="text-[10px] uppercase tracking-widest text-white/40">Verified Reviews</span>
-                            </div>
-                        </div>
+                    <section className="relative rounded-2xl bg-white border border-[#f58518]/10 overflow-hidden">
+                        <div className="p-8 md:p-12 flex flex-col md:flex-row gap-12 items-center">
+                            <div className="flex-1 space-y-6">
+                                <div className="flex items-center gap-2">
+                                    <FcGoogle className="w-5 h-5" />
+                                    <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-black/40">Verified on Google</span>
+                                </div>
+                                
+                                <h2 className="text-3xl font-normal text-black leading-tight tracking-tight">
+                                    Recognized for <br /> <span className="font-serif italic text-[#f58518]">Excellence.</span>
+                                </h2>
+                                
+                                <p className="text-black/60 text-base leading-relaxed max-w-md">
+                                    Whether it&apos;s life-saving medication or daily essentials, we are a name you can trust.
+                                </p>
 
-                        {/* Review Actions */}
-                        <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-white/10 mt-12">
-                            <a 
-                                href="https://www.google.com/search?q=hope+medicos+google+reviews#lrd=0x3912333e978e712d:0x40b39f644e6f74c9,3" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="px-6 py-3 bg-[#f58518] text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-[#e07615] transition-all"
-                            >
-                                Write a Review
-                            </a>
-                            <a 
-                                href="https://www.google.com/search?q=hope+medicos+google+reviews#lrd=0x3912333e978e712d:0x40b39f644e6f74c9,1" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="px-6 py-3 border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white/10 transition-all"
-                            >
-                                View All Reviews
-                            </a>
+                                <div className="flex flex-wrap gap-4 pt-4">
+                                    <a 
+                                        href="https://www.google.com/search?q=hope+medicos+google+reviews#lrd=0x3912333e978e712d:0x40b39f644e6f74c9,3" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="px-6 py-3 bg-[#f58518] text-white text-[10px] uppercase tracking-[0.2em] font-bold rounded-sm transition-opacity hover:opacity-90"
+                                    >
+                                        Write a Review
+                                    </a>
+                                    <a 
+                                        href="https://www.google.com/search?q=hope+medicos+google+reviews#lrd=0x3912333e978e712d:0x40b39f644e6f74c9,1" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="px-6 py-3 border border-black/5 text-black text-[10px] uppercase tracking-[0.2em] font-bold rounded-sm hover:bg-black/[0.02]"
+                                    >
+                                        View All
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-3 w-full md:w-auto shrink-0">
+                                <div className="bg-[#faf9f7] p-6 rounded-xl border border-black/5 text-center">
+                                    <span className="block text-3xl font-medium text-black">15+</span>
+                                    <span className="text-[10px] uppercase tracking-widest text-black/40 mt-1 block">Years Experience</span>
+                                </div>
+                                <div className="bg-black p-6 rounded-xl text-center">
+                                    <span className="block text-3xl font-medium text-[#f58518]">146+</span>
+                                    <span className="text-[10px] uppercase tracking-widest text-white/40 mt-1 block">Verified Reviews</span>
+                                </div>
+                            </div>
                         </div>
                     </section>
 
@@ -153,7 +159,7 @@ export default function AboutUs() {
                     {/* Footer Note */}
                     <section className="pt-8 border-t border-black/5">
                         <p className="text-sm text-black/60 italic">
-                           "Bridging the gap between world-class pharmaceutical products and the people who need them most."
+                           &quot;Bridging the gap between world-class pharmaceutical products and the people who need them most.&quot;
                         </p>
                     </section>
                 </div>

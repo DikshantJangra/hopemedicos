@@ -34,7 +34,7 @@ export default function TermsAndConditions() {
                             1. Acceptance of Terms
                         </h2>
                         <p>
-                            By accessing and using the services provided by Hope Medicos ("Service"), you agree to be bound by these Terms and Conditions ("Terms"). If you do not agree with any part of these Terms, you must not use our Service. These Terms apply to all visitors, users, and others who access or use our Service.
+                            By accessing and using the services provided by Hope Medicos (&quot;Service&quot;), you agree to be bound by these Terms and Conditions (&quot;Terms&quot;). If you do not agree with any part of these Terms, you must not use our Service. These Terms apply to all visitors, users, and others who access or use our Service.
                         </p>
                     </section>
 

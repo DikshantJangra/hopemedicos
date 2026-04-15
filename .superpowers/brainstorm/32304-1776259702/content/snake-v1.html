@@ -1,0 +1,85 @@
+<h2>The Sinuous Navigator</h2>
+<p class="subtitle">Mockup of the snake-like, dashed curve navigation guide</p>
+
+<div class="mockup">
+  <div class="mockup-header">Snake Navigation Preview</div>
+  <div class="mockup-body" style="background: #ffffff; padding: 60px 40px; border-radius: 8px; position: relative; min-height: 200px; display: flex; align-items: center; justify-content: space-between;">
+    
+    <!-- Mock Logo -->
+    <div id="mock-logo" style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; z-index: 10; background: white; padding-right: 15px; transition: opacity 0.4s;">
+      <div style="width: 36px; height: 36px; background: #f58518; border-radius: 8px;"></div>
+      Hope <span style="color: #f58518;">Medicos</span>
+    </div>
+
+    <!-- The S-Curve Connection SVG -->
+    <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5;">
+      <defs>
+        <filter id="subtle-glow">
+          <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      
+      <!-- Snake Curve Path (The Trace) -->
+      <path 
+        id="snake-path"
+        d="M 150 100 C 220 100, 220 60, 300 100 S 380 140, 450 100" 
+        stroke="#f5851833" 
+        stroke-width="1.5" 
+        stroke-dasharray="4, 4"
+        fill="none" 
+        style="opacity: 0; transition: opacity 0.4s;"
+      >
+        <animate 
+          id="dash-anim"
+          attributeName="stroke-dashoffset" 
+          from="40" to="0" 
+          dur="1s" 
+          repeatCount="indefinite" 
+          begin="indefinite"
+        />
+      </path>
+
+      <!-- Active Glowing Tip (Optional) -->
+      <circle r="2" fill="#f58518" filter="url(#subtle-glow)" style="opacity: 0; transition: opacity 0.3s;">
+        <animateMotion 
+          id="tip-anim"
+          dur="1s" 
+          repeatCount="indefinite" 
+          path="M 150 100 C 220 100, 220 60, 300 100 S 380 140, 450 100" 
+          begin="indefinite"
+        />
+      </circle>
+    </svg>
+
+    <!-- Mock Menu Items (To be dimmed) -->
+    <div id="mock-menu" style="display: flex; gap: 30px; font-size: 12px; font-weight: 600; color: #64748b; transition: opacity 0.4s;">
+      <span>SHOP</span>
+      <span>BUSINESS</span>
+      <span>MISSION</span>
+    </div>
+
+    <!-- Mock Locate Us -->
+    <div 
+      id="mock-locate" 
+      onmouseenter="document.getElementById('snake-path').style.opacity = '1'; document.getElementById('dash-anim').beginElement(); document.getElementById('mock-menu').style.opacity = '0.3'; document.getElementById('mock-logo').style.opacity = '0.3';"
+      onmouseleave="document.getElementById('snake-path').style.opacity = '0'; document.getElementById('mock-menu').style.opacity = '1'; document.getElementById('mock-logo').style.opacity = '1';"
+      style="padding: 10px 20px; border: 1.5px solid #f58518; border-radius: 999px; color: #f58518; font-weight: 700; font-size: 13px; cursor: pointer; background: white; z-index: 10;"
+    >
+      LOCATE US
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>The Sinuous Path Details</h3>
+  <ul>
+    <li><strong>S-Curve:</strong> A smooth Bezier path that snake-moves between the Logo and the Icon.</li>
+    <li><strong>Dashed Animation:</strong> The dashes "crawl" forward toward the destination to guide the eye.</li>
+    <li><strong>Focus Mode:</strong> The Logo and Menu Items dim by 70% when hovered, making the path and the destination pop.</li>
+    <li><strong>Pixel-Perfect Arrival:</strong> I will ensure the path ends exactly at the left edge of the "LOCATE US" button.</li>
+  </ul>
+</div>

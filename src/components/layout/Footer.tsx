@@ -1,14 +1,12 @@
 "use client"
-import { BsTwitterX } from "react-icons/bs";
 import { AiOutlineLinkedin } from "react-icons/ai";
 import { FaInstagram, FaFacebook, FaYoutube } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
-import LocateUs from "../ui/LocateUs";
 import { useWebsiteData } from "@/context/WebsiteDataContext";
 
 const Footer = () => {
-    const { shopSettings = {}, texts = {}, initiatives = [], loading } = useWebsiteData();
+    const { shopSettings = {}, texts = {}, initiatives = [] } = useWebsiteData();
 
     const footerInitiatives = initiatives && initiatives.length > 0
         ? initiatives.slice(0, 4).map(ini => ({ text: ini.title, href: ini.ctaLink }))
@@ -40,9 +38,9 @@ const Footer = () => {
                             <Link href="/about" className="block text-sm text-black/60 hover:text-black transition-colors">
                                 About
                             </Link>
-                            <a href="/updates" className="block text-sm text-black/60 hover:text-black transition-colors">
+                            <Link href="/updates" className="block text-sm text-black/60 hover:text-black transition-colors">
                                 Updates
-                            </a>
+                            </Link>
                             <a href="#initiatives" className="block text-sm text-black/60 hover:text-black transition-colors">
                                 Initiatives
                             </a>
@@ -103,12 +101,12 @@ const Footer = () => {
                             Legal
                         </h4>
                         <div className="space-y-2">
-                            <a href="/privacy-policy" className="block text-sm text-black/60 hover:text-black transition-colors">
+                            <Link href="/privacy-policy" className="block text-sm text-black/60 hover:text-black transition-colors">
                                 Privacy Policy
-                            </a>
-                            <a href="/terms-and-conditions" className="block text-sm text-black/60 hover:text-black transition-colors">
+                            </Link>
+                            <Link href="/terms-and-conditions" className="block text-sm text-black/60 hover:text-black transition-colors">
                                 Terms and Conditions
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

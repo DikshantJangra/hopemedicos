@@ -35,12 +35,12 @@ export default function Initiatives() {
 
 
     return (
-        <section id="initiatives" className="bg-[#faf9f7] px-6 py-20">
+        <section id="mission" className="bg-[#faf9f7] px-6 py-20">
             <div className="max-w-6xl mx-auto">
                 {/* Editorial heading with italic */}
                 <div className="mb-16">
                     <h2 className="text-3xl md:text-4xl font-normal tracking-[-0.02em] text-black mb-3">
-                        Our <span className="font-serif italic font-light">initiatives</span>
+                        Our <span className="font-serif italic font-light">mission</span>
                     </h2>
                     <p className="text-sm text-black/60">
                         Building health equity, one community at a time.

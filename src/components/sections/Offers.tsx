@@ -44,7 +44,7 @@ export default function Offers() {
   }
 
   return (
-    <section className="bg-white py-8 px-6 border-t border-black/5">
+    <section id="offers" className="bg-white py-8 px-6 border-t border-black/5">
       <div className="max-w-[1500px] mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">

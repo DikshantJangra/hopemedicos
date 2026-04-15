@@ -25,24 +25,24 @@ export default function Hope() {
           {/* Large editorial heading */}
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-normal leading-[1.05] tracking-[-0.02em] text-black">
             Your everyday health,{' '}
-            <span className="font-serif italic font-light">simply</span> covered.
+            <span className="font-serif italic font-light text-[#f58518]">simply</span> covered.
           </h1>
           
           <p className="text-base text-black/60 max-w-lg leading-relaxed">
             Over-the-counter medicines, health products, and community care — all in one place.
           </p>
 
-          {/* Two buttons max */}
-          <div className="flex gap-3 pt-2">
+          {/* Simple Minimal Buttons - No shadows, no complex hover */}
+          <div className="flex flex-wrap gap-4 pt-4">
             <Link 
               href={shopSettings.shopUrl || "https://shop.hopemedicos.org"}
-              className="px-6 py-3 bg-[#f58518] text-white text-xs uppercase tracking-[0.12em] font-normal hover:bg-[#e07615] transition-all shadow-lg hover:shadow-xl"
+              className="px-8 py-3.5 bg-[#f58518] text-white text-[10px] uppercase tracking-[0.2em] font-bold rounded-sm transition-opacity duration-200 hover:opacity-90"
             >
               Shop now
             </Link>
             <Link 
               href="/about"
-              className="px-6 py-3 border-2 border-[#f58518] text-black text-xs uppercase tracking-[0.12em] font-normal hover:bg-[#f58518] hover:text-white transition-all text-center"
+              className="px-8 py-3.5 border border-black/10 text-black text-[10px] uppercase tracking-[0.2em] font-bold rounded-sm transition-colors duration-200 hover:bg-black/[0.02]"
             >
               Learn more
             </Link>
@@ -61,7 +61,7 @@ export default function Hope() {
                 <div className="absolute right-full top-1/2 -translate-y-1/2 w-20 h-[1px] bg-[#f58518]" />
                 
                 <span className="text-[9px] uppercase tracking-[0.15em] text-black/40 whitespace-nowrap">
-                  Today's Featured
+                  Today&apos;s Featured
                 </span>
                 
                 {/* Right extending line that connects to discount badge */}
@@ -134,7 +134,7 @@ export default function Hope() {
                   href={`${shopSettings.shopUrl || "https://shop.hopemedicos.org"}/products/${featuredProduct.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-5 py-2 bg-[#f58518] text-white text-[10px] uppercase tracking-[0.12em] font-medium hover:bg-[#e07615] hover:scale-105 transition-all duration-300 cursor-pointer"
+                  className="px-5 py-2 bg-[#f58518] text-white text-[10px] uppercase tracking-[0.12em] font-medium hover:bg-[#e07615] transition-all duration-300 cursor-pointer"
                 >
                   Buy Now
                 </Link>

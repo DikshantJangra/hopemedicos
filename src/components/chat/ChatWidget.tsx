@@ -48,18 +48,6 @@ export default function ChatWidget() {
     setTimeout(() => setMode(null), 300);
   };
 
-  const toggleMode = () => {
-    if (mode === 'chat') {
-      setMode('talk');
-      setIsOpen(false);
-      setTimeout(() => setIsOpen(true), 300);
-    } else if (mode === 'talk') {
-      setMode('chat');
-      setIsOpen(false);
-      setTimeout(() => setIsOpen(true), 300);
-    }
-  };
-
   return (
     <VoiceProvider>
       {/* Floating AI Button - Center Bottom - Always Visible */}

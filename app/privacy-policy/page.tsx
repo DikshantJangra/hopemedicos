@@ -32,7 +32,7 @@ export default function PrivacyPolicy() {
                     <section>
                         <h2 className="text-xl font-medium text-black mb-4">1. Introduction</h2>
                         <p>
-                            At Hope Medicos ("we," "our," or "us"), we are committed to protecting your privacy. This Privacy Policy explains how your personal information is collected, used, and disclosed by Hope Medicos. This Privacy Policy applies to our website, and its associated subdomains (collectively, our "Service"). By accessing or using our Service, you signify that you have read, understood, and agree to our collection, storage, use, and disclosure of your personal information as described in this Privacy Policy.
+                            At Hope Medicos (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;), we are committed to protecting your privacy. This Privacy Policy explains how your personal information is collected, used, and disclosed by Hope Medicos. This Privacy Policy applies to our website, and its associated subdomains (collectively, our &quot;Service&quot;). By accessing or using our Service, you signify that you have read, understood, and agree to our collection, storage, use, and disclosure of your personal information as described in this Privacy Policy.
                         </p>
                     </section>
 
@@ -72,7 +72,7 @@ export default function PrivacyPolicy() {
                     <section>
                         <h2 className="text-xl font-medium text-black mb-4">5. Third-Party Services</h2>
                         <p>
-                            We may employ third-party companies and individuals to facilitate our Service ("Service Providers"), to provide the Service on our behalf, to perform Service-related services or to assist us in analyzing how our Service is used. These third parties have access to your Personal Data only to perform these tasks on our behalf and are obligated not to disclose or use it for any other purpose.
+                            We may employ third-party companies and individuals to facilitate our Service (&quot;Service Providers&quot;), to provide the Service on our behalf, to perform Service-related services or to assist us in analyzing how our Service is used. These third parties have access to your Personal Data only to perform these tasks on our behalf and are obligated not to disclose or use it for any other purpose.
                         </p>
                     </section>
 
@@ -86,7 +86,7 @@ export default function PrivacyPolicy() {
                     <section>
                         <h2 className="text-xl font-medium text-black mb-4">7. Changes to This Policy</h2>
                         <p>
-                            We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "last updated" date at the top of this Privacy Policy.
+                            We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the &quot;last updated&quot; date at the top of this Privacy Policy.
                         </p>
                     </section>
 

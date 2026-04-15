@@ -2,34 +2,43 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TbLocation, TbSpeakerphone, TbNews, TbPhone, TbBolt } from "react-icons/tb";
+import { TbLocation, TbNews, TbPhone, TbBolt } from "react-icons/tb";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import LocateUs from "../ui/LocateUs";
 import { useWebsiteData } from "@/context/WebsiteDataContext";
-import { theme } from "@/config/theme";
+import { usePathCoordinates } from "@/hooks/usePathCoordinates";
 
 export default function Navbar() {
     const { shopSettings } = useWebsiteData();
     const pathname = usePathname();
-    
+
     // Pages where the logo text should stay even on scroll
     const keepTitlePages = ['/privacy-policy', '/terms-and-conditions', '/about', '/updates'];
     const keepTitle = keepTitlePages.includes(pathname);
-    const sections = [
+    const sections = useMemo(() => [
         { name: "Shop", path: shopSettings.shopUrl || "https://shop.hopemedicos.org" },
         { name: "Business", path: "/#business" },
         { name: "Mission", path: "/#mission" },
-    ]
+    ], [shopSettings.shopUrl]);
     const [activeSection, setActiveSection] = useState("/");
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 
     // Sinuous Navigator state & refs
+    const containerRef = useRef<HTMLDivElement>(null);
     const logoRef = useRef<HTMLAnchorElement>(null);
     const locateRef = useRef<HTMLElement>(null);
+    const svgRef = useRef<SVGSVGElement>(null);
     const [isLocateHovered, setIsLocateHovered] = useState(false);
+    const { path: snakePath, clipRect } = usePathCoordinates(svgRef, logoRef, locateRef, isScrolled, isLocateHovered);
+
+    // Stable callback ref — always points to whichever Locate button is in the DOM.
+    // This prevents the ref from going null mid-transition when AnimatePresence swaps elements.
+    const locateCallbackRef = (el: HTMLElement | null) => {
+        (locateRef as React.MutableRefObject<HTMLElement | null>).current = el;
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -65,7 +74,7 @@ export default function Navbar() {
             sectionEls.forEach((el) => observer.unobserve(el));
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [pathname]);
+    }, [pathname, sections]);
 
     // Update active section based on current path
     useEffect(() => {
@@ -79,18 +88,18 @@ export default function Navbar() {
     // Stagger variants for mobile menu items
     const menuContainerVariants = {
         hidden: { opacity: 0, y: -20 },
-        visible: { 
-            opacity: 1, 
+        visible: {
+            opacity: 1,
             y: 0,
-            transition: { 
+            transition: {
                 staggerChildren: 0.1,
                 delayChildren: 0.1
             }
         },
-        exit: { 
-            opacity: 0, 
+        exit: {
+            opacity: 0,
             y: -20,
-            transition: { 
+            transition: {
                 staggerChildren: 0.05,
                 staggerDirection: -1
             }
@@ -158,7 +167,27 @@ export default function Navbar() {
                         <div className="absolute -top-10 w-24 h-20 bg-gradient-to-b from-[#f58518]/30 to-transparent blur-xl animate-pulse" />
                     </div>
                 )}
+                <svg ref={svgRef} className="absolute inset-x-0 top-0 h-16 pointer-events-none z-10 w-full overflow-visible">
+                    <motion.path
+                        d={snakePath}
+                        stroke="#f58518"
+                        strokeWidth="2"
+                        strokeDasharray="4 4"
+                        fill="none"
+                        initial={{ opacity: 0, strokeDashoffset: 40 }}
+                        animate={{
+                            opacity: isLocateHovered ? 0.6 : 0,
+                            strokeDashoffset: isLocateHovered ? 0 : 40
+                        }}
+                        transition={{
+                            strokeDashoffset: { duration: 1, repeat: Infinity, ease: "linear" },
+                            opacity: { duration: 0.3 }
+                        }}
+                    />
+                </svg>
+
                 <motion.div 
+                    ref={containerRef}
                     layout
                     initial={false}
                     animate={{
@@ -175,7 +204,7 @@ export default function Navbar() {
                     }}
                     className="relative overflow-hidden border backdrop-blur-2xl shadow-[0_8px_32px_rgba(245,133,24,0.12)] pointer-events-auto"
                 >
-                    <div className={`flex items-center justify-between h-full max-w-7xl mx-auto px-6 ${
+                    <div className={`relative z-20 flex items-center justify-between h-full max-w-7xl mx-auto px-6 ${
                         isScrolled ? 'gap-8' : ''
                     }`}>
 
@@ -211,48 +240,53 @@ export default function Navbar() {
                             </Link>
 
                             {/* Desktop Menu Items */}
-                            <div className="hidden lg:flex items-center gap-10">
-                                {sections.map((section, idx) => (
-                                    <Link
-                                        key={idx}
-                                        href={section.path}
-                                        className={`relative text-[11px] uppercase tracking-[0.18em] font-bold transition-all py-1 ${
-                                            activeSection === section.path
-                                                ? "text-[#f58518]"
-                                                : "text-black/50 hover:text-[#f58518]"
+                        <motion.div
+                            animate={{ opacity: isLocateHovered ? 0.2 : 1 }}
+                            className="hidden lg:flex items-center gap-10"
+                        >
+                            {sections.map((section, idx) => (
+                                <Link
+                                    key={idx}
+                                    href={section.path}
+                                    className={`relative text-[11px] uppercase tracking-[0.18em] font-bold transition-all py-1 ${activeSection === section.path
+                                            ? "text-[#f58518]"
+                                            : "text-black/50 hover:text-[#f58518]"
                                         }`}
-                                    >
-                                        {section.name}
-                                        {activeSection === section.path && (
-                                            <motion.div 
-                                                layoutId="active-pill"
-                                                className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#f58518] rounded-full"
-                                                transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                                            />
-                                        )}
-                                    </Link>
-                                ))}
-                            </div>
+                                >
+                                    {section.name}
+                                    {activeSection === section.path && (
+                                        <motion.div
+                                            layoutId="active-pill"
+                                            className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#f58518] rounded-full"
+                                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                        />
+                                    )}
+                                </Link>
+                            ))}
+                        </motion.div>
 
-                            {/* Right side: Locate Us + Shop */}
-                            <div className="hidden lg:flex items-center">
-                                <motion.div layout className="flex items-center gap-4">
-                                    <AnimatePresence mode="popLayout">
-                                        {!isScrolled ? (
-                                            <motion.div 
-                                                key="desktop-links"
-                                                initial={{ opacity: 0, x: 10 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                exit={{ opacity: 0, x: 10 }}
-                                                className="flex items-center gap-4 whitespace-nowrap"
+                        {/* Right side: Locate Us + Shop */}
+                        <div className="hidden lg:flex items-center">
+                            <motion.div layout className="flex items-center gap-4">
+                                <AnimatePresence mode="popLayout">
+                                    {!isScrolled ? (
+                                        <motion.div
+                                            key="desktop-links"
+                                            initial={{ opacity: 0, x: 10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: 10 }}
+                                            className="flex items-center gap-4 whitespace-nowrap"
+                                        >
+                                            <div
+                                                ref={locateCallbackRef as any}
+                                                onMouseEnter={() => setIsLocateHovered(true)}
+                                                onMouseLeave={() => setIsLocateHovered(false)}
                                             >
-                                                <div 
-                                                    ref={locateRef}
-                                                    onMouseEnter={() => setIsLocateHovered(true)}
-                                                    onMouseLeave={() => setIsLocateHovered(false)}
-                                                >
-                                                    <LocateUs />
-                                                </div>
+                                                <LocateUs />
+                                            </div>
+                                            <motion.div
+                                                animate={{ opacity: isLocateHovered ? 0.2 : 1 }}
+                                            >
                                                 <Link
                                                     href={shopSettings.shopUrl || "https://shop.hopemedicos.org"}
                                                 >
@@ -261,7 +295,7 @@ export default function Navbar() {
                                                         initial="initial"
                                                         className="relative px-8 py-2.5 rounded-full bg-[#f58518] border border-[#f58518] text-[10px] uppercase tracking-[0.15em] font-bold text-white hover:bg-white hover:text-[#f58518] transition-all duration-300 overflow-hidden flex items-center justify-center min-w-[140px] cursor-pointer"
                                                     >
-                                                        <motion.span 
+                                                        <motion.span
                                                             variants={{
                                                                 initial: { x: 0 },
                                                                 hover: { x: -10 }
@@ -282,53 +316,58 @@ export default function Navbar() {
                                                     </motion.button>
                                                 </Link>
                                             </motion.div>
-                                        ) : (
-                                            <motion.div 
-                                                key="compact-icons"
-                                                initial={{ opacity: 0, scale: 0.8 }}
-                                                animate={{ opacity: 1, scale: 1 }}
-                                                exit={{ opacity: 0, scale: 0.8 }}
-                                                className="flex items-center gap-3"
+                                        </motion.div>
+                                    ) : (
+                                        <motion.div
+                                            key="compact-icons"
+                                            initial={{ opacity: 0, scale: 0.8 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            exit={{ opacity: 0, scale: 0.8 }}
+                                            className="flex items-center gap-3"
+                                        >
+                                            <button
+                                                ref={locateCallbackRef as any}
+                                                onMouseEnter={() => setIsLocateHovered(true)}
+                                                onMouseLeave={() => setIsLocateHovered(false)}
+                                                onClick={() => window.open(`https://www.google.com/maps/dir//Hope+Medicos+(A+Unit+of+GlobalHope+Biotech+OPC+Private+Limited),+near+Sarvodya+Hospital,+opp.+Red+Cross+Delhi+Road,+Bank+Colony,+Urban+Estate+II,+Hisar,+Haryana+125001/@29.1409169,75.5271844,61152m/data=!3m1!1e3!4m16!1m7!3m6!1s0x3912333e978e712d:0x40b39f644e6f74c9!2sHope+Medicos+(A+Unit+of+GlobalHope+Biotech+OPC+Private+Limited)!8m2!3d29.1409796!4d75.733467!16s%2Fg%2F11f_0vryzn!4m7!1m0!1m5!1m1!1s0x3912333e978e712d:0x40b39f644e6f74c9!2m2!1d75.733467!2d29.1409796?entry=ttu&g_ep=EgoyMDI2MDQwNS4wIKXMDSoASAFQAw%3D%3D`, "_blank")}
+                                                className="p-2.5 bg-black/5 hover:bg-[#f58518] hover:text-white rounded-full transition-all duration-300 group"
+                                                title="Locate Us"
                                             >
-                                                <button 
-                                                    ref={locateRef}
-                                                    onMouseEnter={() => setIsLocateHovered(true)}
-                                                    onMouseLeave={() => setIsLocateHovered(false)}
-                                                    onClick={() => window.open(`https://www.google.com/maps/dir//Hope+Medicos+(A+Unit+of+GlobalHope+Biotech+OPC+Private+Limited),+near+Sarvodya+Hospital,+opp.+Red+Cross+Delhi+Road,+Bank+Colony,+Urban+Estate+II,+Hisar,+Haryana+125001/@29.1409169,75.5271844,61152m/data=!3m1!1e3!4m16!1m7!3m6!1s0x3912333e978e712d:0x40b39f644e6f74c9!2sHope+Medicos+(A+Unit+of+GlobalHope+Biotech+OPC+Private+Limited)!8m2!3d29.1409796!4d75.733467!16s%2Fg%2F11f_0vryzn!4m7!1m0!1m5!1m1!1s0x3912333e978e712d:0x40b39f644e6f74c9!2m2!1d75.733467!2d29.1409796?entry=ttu&g_ep=EgoyMDI2MDQwNS4wIKXMDSoASAFQAw%3D%3D`, "_blank")}
-                                                    className="p-2.5 bg-black/5 hover:bg-[#f58518] hover:text-white rounded-full transition-all duration-300 group"
-                                                    title="Locate Us"
-                                                >
-                                                    <TbLocation className="text-xl group-hover:scale-110 transition-transform" />
-                                                </button>
+                                                <TbLocation className="text-xl group-hover:scale-110 transition-transform" />
+                                            </button>
+                                            <motion.div
+                                                animate={{ opacity: isLocateHovered ? 0.2 : 1 }}
+                                            >
                                                 <Link
                                                     href={shopSettings.shopUrl || "https://shop.hopemedicos.org"}
-                                                    className="p-2.5 bg-[#f58518] text-white rounded-full shadow-md shadow-[#f58518]/20 hover:scale-105 transition-all duration-300 group"
+                                                    className="p-2.5 bg-[#f58518] text-white rounded-full shadow-md shadow-[#f58518]/20 hover:scale-105 transition-all duration-300 group flex items-center justify-center"
                                                     title="Shop"
                                                 >
                                                     <HiOutlineShoppingBag className="text-xl group-hover:scale-110 transition-transform" />
                                                 </Link>
                                             </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </motion.div>
-                            </div>
-
-                            {/* Mobile Menu Button */}
-                            <button
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                                className="lg:hidden p-2 text-black transition-colors focus:outline-none"
-                            >
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-                                    {isMobileMenuOpen ? (
-                                        <path d="M18 6L6 18M6 6l12 12" />
-                                    ) : (
-                                        <>
-                                            <path d="M4 8h16" />
-                                            <path d="M4 16h16" />
-                                        </>
+                                        </motion.div>
                                     )}
-                                </svg>
-                            </button>
+                                </AnimatePresence>
+                            </motion.div>
+                        </div>
+
+                        {/* Mobile Menu Button */}
+                        <button
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            className="lg:hidden p-2 text-black transition-colors focus:outline-none"
+                        >
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                                {isMobileMenuOpen ? (
+                                    <path d="M18 6L6 18M6 6l12 12" />
+                                ) : (
+                                    <>
+                                        <path d="M4 8h16" />
+                                        <path d="M4 16h16" />
+                                    </>
+                                )}
+                            </svg>
+                        </button>
 
                     </div>
                 </motion.div>
@@ -337,7 +376,7 @@ export default function Navbar() {
             {/* Mobile Menu Overlay */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -347,7 +386,7 @@ export default function Navbar() {
                             className="absolute inset-0 bg-black/30 backdrop-blur-md"
                             onClick={() => setIsMobileMenuOpen(false)}
                         />
-                        <motion.div 
+                        <motion.div
                             variants={menuContainerVariants}
                             initial="hidden"
                             animate="visible"
@@ -360,15 +399,14 @@ export default function Navbar() {
                                         <Link
                                             href={section.path}
                                             onClick={() => setIsMobileMenuOpen(false)}
-                                            className={`flex items-center px-6 py-5 text-[11px] uppercase tracking-[0.2em] transition-all rounded-2xl font-bold ${
-                                                activeSection === section.path
+                                            className={`flex items-center px-6 py-5 text-[11px] uppercase tracking-[0.2em] transition-all rounded-2xl font-bold ${activeSection === section.path
                                                     ? "text-[#f58518] bg-[#f58518]/5"
                                                     : "text-black/60 hover:text-black hover:bg-black/5"
-                                            }`}
+                                                }`}
                                         >
                                             {section.name}
                                             {activeSection === section.path && (
-                                                <motion.div 
+                                                <motion.div
                                                     layoutId="mobile-active"
                                                     className="ml-auto w-1.5 h-1.5 bg-[#f58518] rounded-full"
                                                 />
@@ -376,7 +414,7 @@ export default function Navbar() {
                                         </Link>
                                     </motion.div>
                                 ))}
-                                <motion.div 
+                                <motion.div
                                     variants={menuItemVariants}
                                     className="mt-4 pt-4 border-t border-black/5 flex flex-col gap-3"
                                 >

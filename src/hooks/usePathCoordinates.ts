@@ -1,48 +1,74 @@
 import { useState, useEffect, RefObject } from 'react';
 
+/**
+ * Hook to calculate a sinuous SVG path between two elements.
+ * Uses advanced matrix transformation to remain accurate during Framer Motion layout scaling.
+ */
 export function usePathCoordinates(
-  containerRef: RefObject<HTMLElement | null>,
+  svgRef: RefObject<SVGSVGElement | null>,
   startRef: RefObject<HTMLElement | null>,
   endRef: RefObject<HTMLElement | null>,
-  isScrolled: boolean
+  isScrolled: boolean = false,
+  isLocateHovered: boolean = false
 ) {
   const [path, setPath] = useState("");
+  const [clipRect, setClipRect] = useState("");
 
   useEffect(() => {
+    let animationFrameId: number;
+
     const calculatePath = () => {
-      if (!containerRef.current || !startRef.current || !endRef.current) return;
+      animationFrameId = requestAnimationFrame(calculatePath);
 
-      const containerRect = containerRef.current.getBoundingClientRect();
-      const startRect = startRef.current.getBoundingClientRect();
-      const endRect = endRef.current.getBoundingClientRect();
+      if (!svgRef.current || !startRef.current || !endRef.current) return;
 
-      // Start at right edge of logo, center Y
-      const startX = startRect.right - containerRect.left;
-      const startY = startRect.top + startRect.height / 2 - containerRect.top;
+      const svg = svgRef.current;
+      const startEl = startRef.current;
+      const endEl = endRef.current;
 
-      // End at left edge of locate button, center Y
-      const endX = endRect.left - containerRect.left;
-      const endY = endRect.top + endRect.height / 2 - containerRect.top;
+      const svgRect = svg.getBoundingClientRect();
+      const startRect = startEl.getBoundingClientRect();
+      const endRect = endEl.getBoundingClientRect();
 
-      // Create a sinuous S-curve (Bezier)
-      const cp1X = startX + (endX - startX) * 0.3;
-      const cp1Y = startY - 20; // Upward wave
-      const cp2X = startX + (endX - startX) * 0.7;
-      const cp2Y = startY + 20; // Downward wave
+      // The SVG is fixed and un-scaled at the screen level.
+      // We directly map DOM screen coordinates into the SVG space.
+      const paddingX = 8; 
+      
+      const startX = startRect.right - svgRect.left + paddingX;
+      const startY = startRect.top + startRect.height / 2 - svgRect.top;
+      
+      const endX = endRect.left - svgRect.left - paddingX;
+      const endY = endRect.top + endRect.height / 2 - svgRect.top;
+
+      const distance = endX - startX;
+      
+      if (distance <= 20) {
+        setPath("");
+        return;
+      }
+
+      // Dynamic control points based on distance to maintain a consistent "snake" look
+      const sinHeight = Math.min(20, distance * 0.1); 
+      const cp1X = startX + distance * 0.3;
+      const cp1Y = startY - sinHeight;
+      const cp2X = startX + distance * 0.7;
+      const cp2Y = startY + sinHeight;
 
       setPath(`M ${startX} ${startY} C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${endX} ${endY}`);
+      setClipRect(`inset(-20px ${svgRect.width - endX}px -20px ${startX}px)`);
     };
 
     calculatePath();
-    window.addEventListener('resize', calculatePath);
-    // Also recalculate on a slight delay to ensure navbar layout transition finishes
-    const timer = setTimeout(calculatePath, 600); 
+
+    const timer = setTimeout(() => {
+        requestAnimationFrame(calculatePath);
+    }, 600);
 
     return () => {
-      window.removeEventListener('resize', calculatePath);
+      cancelAnimationFrame(animationFrameId);
       clearTimeout(timer);
     };
-  }, [isScrolled, startRef, endRef, containerRef]);
+  }, [svgRef, startRef, endRef, isScrolled, isLocateHovered]);
 
-  return path;
+  return { path, clipRect };
 }
